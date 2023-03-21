@@ -8,6 +8,7 @@
     Shell.FlyoutBehavior="Disabled">
 
     <ShellContent
+        Shell.NavBarIsVisible="False"
         ContentTemplate="{DataTemplate views:LoginPage}"
         Route="LoginPage" />
 

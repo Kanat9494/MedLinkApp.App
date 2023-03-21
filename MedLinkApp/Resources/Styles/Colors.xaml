@@ -41,4 +41,12 @@
     <Color x:Key="Blue200Accent">#72ACF1</Color>
     <Color x:Key="Blue300Accent">#A7CBF6</Color>
 
+    <!--Custom colors-->
+    <Color x:Key="Green45">#00e600</Color>
+    <Color x:Key="White95">#f2f2f2</Color>
+    <Color x:Key="White60">#999999</Color>
+    <Color x:Key="RedOrange60">#ff5c33</Color>
+    <Color x:Key="Red50">#ff0000</Color>
+    <Color x:Key="Green60">#66ff33</Color>
+
 </ResourceDictionary>
