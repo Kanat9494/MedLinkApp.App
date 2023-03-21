@@ -58,4 +58,8 @@
 	  </MauiXaml>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Models\DTOs\Requests\" />
+	</ItemGroup>
+
 </Project>
