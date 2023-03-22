@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace MedLinkApp.Services;
 
-namespace MedLinkApp.Services
+public interface IContentService
 {
-    internal class IContentService
-    {
-    }
 }

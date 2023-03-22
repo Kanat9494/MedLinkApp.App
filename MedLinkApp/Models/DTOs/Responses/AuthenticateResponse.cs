@@ -6,4 +6,5 @@ public class AuthenticateResponse : BaseResponse
     public string UserName { get; set; }
     public string UserEmail { get; set; }
     public string AccessToken { get; set; }
+    public double UserBalance { get; set; }
 }

@@ -54,12 +54,9 @@ internal class LoginViewModel : INotifyPropertyChanged
         }
         else
         {
-            CurrentUser = new AuthenticateResponse()
-            {
-                StatusCode = 200
-            };
+            CurrentUser = await LoginService.GetInstance().AuthenticateUser(userName: UserName, password: Password);
 
-            await Task.Delay(3000);
+            //await Task.Delay(3000);
 
             if (CurrentUser.StatusCode == 200)
             {
@@ -68,7 +65,7 @@ internal class LoginViewModel : INotifyPropertyChanged
             else
             {
                 await Shell.Current.DisplayAlert("Не удалось войти в систему",
-                    "У вас не получилось", "Ок");
+                    $"{CurrentUser.ResponseMessage}", "Ок");
                 IsLoading = false;
             }
         }
