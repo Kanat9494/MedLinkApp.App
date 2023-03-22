@@ -12,4 +12,32 @@
         ContentTemplate="{DataTemplate views:LoginPage}"
         Route="LoginPage" />
 
+    <TabBar
+        >
+        <Tab
+            Title="Главная"
+            Icon="home_icon.png">
+            <ShellContent
+                ContentTemplate="{DataTemplate views:HomePage}"
+                Route="HomePage"
+                Shell.NavBarIsVisible="False"/>
+        </Tab>
+
+        <Tab
+            Title="Чаты"
+            Icon="chats_icon.png">
+            <ShellContent
+                ContentTemplate="{DataTemplate views:ChatsPage}"
+                Shell.NavBarIsVisible="False"/>
+        </Tab>
+
+        <Tab
+            Title="Аккаунт"
+            Icon="account_icon.png">
+            <ShellContent
+                ContentTemplate="{DataTemplate views:AccountPage}"
+                Shell.NavBarIsVisible="False"/>
+        </Tab>
+    </TabBar>
+
 </Shell>

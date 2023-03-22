@@ -95,7 +95,7 @@
                            VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
             </StackLayout>
 
-            <Button Text="Войти" BackgroundColor="#58d68d" TextColor="White" FontAttributes="Bold" CornerRadius="10"
+            <Button Text="Войти" BackgroundColor="{x:StaticResource Green45}" TextColor="White" FontAttributes="Bold" CornerRadius="10"
                 WidthRequest="200" Margin="0,15,0,0" 
                 Command="{Binding LoginCommand}"/>
 

@@ -56,21 +56,19 @@ internal class LoginViewModel : INotifyPropertyChanged
         {
             CurrentUser = new AuthenticateResponse()
             {
-                StatusCode = 500
+                StatusCode = 200
             };
 
             await Task.Delay(3000);
 
-            if (CurrentUser.StatusCode != 200)
+            if (CurrentUser.StatusCode == 200)
             {
-                await Shell.Current.DisplayAlert("Не удалось войти в систему",
-                    "У вас не получилось", "Ок");
-                IsLoading = false;
+                await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
             }
             else
             {
-                await Shell.Current.DisplayAlert("Вы вошли",
-                    "У вас получилось", "Ок");
+                await Shell.Current.DisplayAlert("Не удалось войти в систему",
+                    "У вас не получилось", "Ок");
                 IsLoading = false;
             }
         }
