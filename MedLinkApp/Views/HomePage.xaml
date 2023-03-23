@@ -6,7 +6,8 @@
              Title="HomePage"
     xmlns:viewModels="clr-namespace:MedLinkApp.ViewModels"
     xmlns:models="clr-namespace:MedLinkApp.Models"
-             >
+    xmlns:DTOs="clr-namespace:MedLinkApp.Models.DTOs.Responses"
+    >
     <Grid
         Margin="15, 5"
         VerticalOptions="FillAndExpand">
@@ -109,27 +110,46 @@
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-        <!--<ListView
-            ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type viewModels:HomeViewModel}}, Path=Categories}">
-            <ListView.ItemTemplate>
+        <CollectionView
+            VerticalOptions="FillAndExpand">
+            <CollectionView.ItemTemplate>
                 <DataTemplate
-                    x:DataType="models:Category">
-                    <ViewCell>
-                        <StackLayout>
-                            <Border
-                            StrokeThickness="0"
-                            BackgroundColor="{x:StaticResource White95}"
-                            StrokeShape="RoundRectangle 10"
-                            Margin="5"
-                            Padding="10">
-                                <Label
-                                Text="{Binding CategoryName}"/>
-                            </Border>
-                        </StackLayout>
-                    </ViewCell>
+                    x:DataType="DTOs:DoctorResponse">
+                    <Grid
+                        Padding="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="20"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Image
+                            Grid.RowSpan="3"
+                            Source="{Binding DoctorProfileImg}"
+                            Aspect="AspectFill"
+                            HeightRequest="60"
+                            WidthRequest="60"/>
+
+                        <Label
+                            Text="{Binding DoctorFullName}"
+                            FontSize="17"
+                            FontAttributes="Bold"/>
+
+                        <Label
+                            Text="{Binding DoctorExperience,
+                            StringFormat='Стаж работы: {0:F2}'}"/>
+
+                        <Label 
+                            Text="{Binding IsBusy}"/>
+                    </Grid>
                 </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>-->
+            </CollectionView.ItemTemplate>
+        </CollectionView>
 
         <Label
             Text="Наши доктора"

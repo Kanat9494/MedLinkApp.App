@@ -35,4 +35,21 @@ public class ContentService
             }
         }
     }
+
+    public async Task<IEnumerable<DoctorResponse>> GetAllDoctors()
+    {
+        using (HttpClient httpClient = new HttpClient())
+        {
+            httpClient.BaseAddress = new Uri((MedLinkConstants.SERVER_ROOT_URL);
+
+            try
+            {
+
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+    }
 }
