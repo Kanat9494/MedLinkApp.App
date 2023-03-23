@@ -6,6 +6,7 @@ public class HomeViewModel : INotifyPropertyChanged
     public HomeViewModel()
     {
         IsLoading = true;
+        Categories = new ObservableCollection<Category>();
 
         Task.Run(async () =>
         {
@@ -35,7 +36,11 @@ public class HomeViewModel : INotifyPropertyChanged
 
             if (response != null)
             {
-                Categories = new ObservableCollection<Category>(response);
+                //Categories = new ObservableCollection<Category>(response);
+                foreach (var category in response)
+                {
+                    Categories.Add(category);
+                }
             }
         }
         catch(Exception ex) 
