@@ -40,7 +40,7 @@ public class ContentService
     {
         using (HttpClient httpClient = new HttpClient())
         {
-            httpClient.BaseAddress = new Uri((MedLinkConstants.SERVER_ROOT_URL);
+            httpClient.BaseAddress = new Uri(MedLinkConstants.SERVER_ROOT_URL);
 
             try
             {
