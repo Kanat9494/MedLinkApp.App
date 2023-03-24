@@ -135,7 +135,7 @@
             IsScrollBarVisible="False">
             <dxcv:DXCollectionView.ItemTemplate>
                 <DataTemplate
-                    x:DataType="DTOs:DoctorResponse">
+                    x:DataType="models:Doctor">
                     <Border
                         Stroke="Transparent"
                         StrokeShape="RoundRectangle 10"
@@ -177,7 +177,7 @@
                                     LineBreakMode="TailTruncation"/>
 
                                 <Label
-                                    Text="{Binding DoctorExperience,
+                                    Text="{Binding WorkExperience,
                                     StringFormat='Стаж работы: {0:F2}'}"
                                     Margin="0, 0, 0, 5"
                                     />
@@ -186,6 +186,14 @@
                                     Text="{Binding IsBusy}"
                                     TextColor="{x:StaticResource Red50}"/>
                             </StackLayout>
+
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer
+                                            NumberOfTapsRequired="1"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:HomeViewModel}}, Path=DoctorTapped}"
+                                            CommandParameter="{Binding DoctorId}">
+                                </TapGestureRecognizer>
+                            </StackLayout.GestureRecognizers>
                         </StackLayout>
                     </Border>
                 </DataTemplate>

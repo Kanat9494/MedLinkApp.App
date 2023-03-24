@@ -7,7 +7,8 @@ public class HomeViewModel : INotifyPropertyChanged
     {
         IsLoading = true;
         Categories = new ObservableCollection<Category>();
-        Doctors = new ObservableCollection<DoctorResponse>();
+        Doctors = new ObservableCollection<Doctor>();
+        DoctorTapped = new Command<int>(OnDoctorSelected);
 
         Task.Run(async () =>
         {
@@ -30,7 +31,10 @@ public class HomeViewModel : INotifyPropertyChanged
         }
     }
 
-    public ObservableCollection<DoctorResponse> Doctors { get; set; }
+    public ObservableCollection<Doctor> Doctors { get; set; }
+    public ObservableCollection<Category> Categories { get; set; }
+
+    public Command<int> DoctorTapped { get; set; }
 
     private async Task LoadCategories()
     {
@@ -69,7 +73,13 @@ public class HomeViewModel : INotifyPropertyChanged
         }
     }
 
-    public ObservableCollection<Category> Categories { get; set; }
+    private async void OnDoctorSelected(int doctorId)
+    {
+        if (doctorId == null)
+            return;
+
+        await Shell.Current.GoToAsync($"{nameof(DoctorDetailPage)}?{nameof(DoctorDetailViewModel.DoctorId)}={doctorId}");
+    }
 
     public event PropertyChangedEventHandler PropertyChanged;
     protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

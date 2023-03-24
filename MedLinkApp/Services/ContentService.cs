@@ -36,7 +36,7 @@ public class ContentService
         }
     }
 
-    public async Task<IEnumerable<DoctorResponse>> GetAllDoctors()
+    public async Task<IEnumerable<Doctor>> GetAllDoctors()
     {
         using (HttpClient httpClient = new HttpClient())
         {
@@ -45,7 +45,7 @@ public class ContentService
             try
             {
                 var response = await httpClient.GetStringAsync(httpClient.BaseAddress + "api/Doctors/GetAllDoctors");
-                var doctors = JsonConvert.DeserializeObject<IEnumerable<DoctorResponse>>(response);
+                var doctors = JsonConvert.DeserializeObject<IEnumerable<Doctor>>(response);
 
                 return doctors;
             }
