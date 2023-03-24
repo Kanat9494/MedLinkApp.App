@@ -7,10 +7,10 @@
     xmlns:views="clr-namespace:MedLinkApp.Views"
     Shell.FlyoutBehavior="Disabled">
 
-    <!--<ShellContent
+    <ShellContent
         Shell.NavBarIsVisible="False"
         ContentTemplate="{DataTemplate views:LoginPage}"
-        Route="LoginPage" />-->
+        Route="LoginPage" />
 
     <TabBar
         >

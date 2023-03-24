@@ -11,6 +11,7 @@ global using System.Text;
 global using MedLinkApp.Services;
 global using MedLinkApp.Models;
 global using System.Collections.ObjectModel;
+global using DevExpress.Maui;
 
 
 

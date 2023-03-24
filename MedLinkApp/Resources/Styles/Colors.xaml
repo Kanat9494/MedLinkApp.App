@@ -48,5 +48,11 @@
     <Color x:Key="RedOrange60">#ff5c33</Color>
     <Color x:Key="Red50">#ff0000</Color>
     <Color x:Key="Green60">#66ff33</Color>
+    <Color x:Key="Orange60">#ffad33</Color>
+    <Color x:Key="Yellow60">#ffd633</Color>
+    <Color x:Key="Pink65">#ff4dff</Color>
+    <Color x:Key="PinkPrimary">#F5E1E9</Color>
+    <Color x:Key="GreenPrimary">#b3ffb3</Color>
+    <Color x:Key="Yellow65">#ffff4d</Color>
 
 </ResourceDictionary>

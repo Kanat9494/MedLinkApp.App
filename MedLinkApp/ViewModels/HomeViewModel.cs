@@ -7,10 +7,12 @@ public class HomeViewModel : INotifyPropertyChanged
     {
         IsLoading = true;
         Categories = new ObservableCollection<Category>();
+        Doctors = new ObservableCollection<DoctorResponse>();
 
         Task.Run(async () =>
         {
             await LoadCategories();
+            await GetAllDoctors();
         }).GetAwaiter().OnCompleted(() =>
         {
             IsLoading = false;
@@ -28,6 +30,8 @@ public class HomeViewModel : INotifyPropertyChanged
         }
     }
 
+    public ObservableCollection<DoctorResponse> Doctors { get; set; }
+
     private async Task LoadCategories()
     {
         try
@@ -38,12 +42,28 @@ public class HomeViewModel : INotifyPropertyChanged
             {
                 //Categories = new ObservableCollection<Category>(response);
                 foreach (var category in response)
-                {
                     Categories.Add(category);
-                }
             }
         }
         catch(Exception ex) 
+        {
+
+        }
+    }
+
+    private async Task GetAllDoctors()
+    {
+        try
+        {
+            var response = await ContentService.Instance().GetAllDoctors();
+
+            if (response != null )
+            {
+                foreach (var doctor in response)
+                    Doctors.Add(doctor);
+            }
+        }
+        catch (Exception ex)
         {
 
         }
