@@ -1,6 +1,6 @@
 ﻿namespace MedLinkApp.Models.DTOs.Responses;
 
-public class DoctorResponse
+public class DoctorInfo : BaseResponse
 {
     public int DoctorId { get; set; }
     public string DoctorFullName { get; set; }
