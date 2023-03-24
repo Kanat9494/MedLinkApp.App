@@ -128,19 +128,6 @@
             Margin="0, 10, 0, 0"
             Grid.Row="3"/>
 
-        <!--<CollectionView
-            VerticalOptions="FillAndExpand"
-            ItemsSource="{Binding Doctors}"
-            Margin="0"
-            HorizontalOptions="Start">
-            <CollectionView.ItemTemplate>
-                <DataTemplate
-                    x:DataType="DTOs:DoctorResponse">
-                    
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>-->
-
         <dxcv:DXCollectionView
             ItemsSource="{Binding Doctors}"
             VerticalOptions="FillAndExpand"
@@ -187,7 +174,7 @@
                                     FontSize="17"
                                     FontAttributes="Bold"
                                     Margin="0, 0, 0, 5"
-                                    />
+                                    LineBreakMode="TailTruncation"/>
 
                                 <Label
                                     Text="{Binding DoctorExperience,
