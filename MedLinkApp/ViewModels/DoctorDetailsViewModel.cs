@@ -35,7 +35,7 @@ class DoctorDetailsViewModel : IQueryAttributable, INotifyPropertyChanged
     async Task GetDoctorInfo()
     {
         //var response = await ContentService.Instance().GetDoctorInfo(DoctorId);
-        var response = await ContentService.Instance().GetItemAsync<DoctorInfo, int>(DoctorId, "api/Doctors/GetDoctor/");
+        var response = await ContentService.Instance().GetItemAsync<DoctorInfo, int>($"api/Doctors/GetDoctor/{DoctorId}");
         if (response.StatusCode == 200)
         {
             Doctor = response;

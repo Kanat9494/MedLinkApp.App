@@ -56,7 +56,7 @@ public class ContentService
         }
     }
 
-    public async Task<TResponse> GetItemAsync<TResponse, TRequest>(TRequest request, string middleUrl) where TResponse : BaseResponse
+    public async Task<TResponse> GetItemAsync<TResponse, TRequest>(string requestUrl) where TResponse : BaseResponse
     {
         using (HttpClient httpClient = new HttpClient())
         {
@@ -64,7 +64,7 @@ public class ContentService
 
             try
             {
-                var response = await httpClient.GetStringAsync(httpClient.BaseAddress + middleUrl + "/" + request);
+                var response = await httpClient.GetStringAsync(httpClient.BaseAddress + requestUrl);
                 TResponse result = JsonConvert.DeserializeObject<TResponse>(response);
                 result.StatusCode = 200;
 
