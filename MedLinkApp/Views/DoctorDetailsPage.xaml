@@ -43,6 +43,8 @@
                 <Label
                     Text="{Binding Doctor.WorkExperience, StringFormat='Стаж работы: {0:F1} лет'}"
                     Margin="10, 20, 10, 20"/>
+                <Label
+                    Text="{Binding Doctor.DoctorId}"/>
 
                 <BoxView Color="{x:StaticResource PinkPrimary}"  HeightRequest="1" HorizontalOptions="Fill" Margin="10, 5, 10, 5" />
 
