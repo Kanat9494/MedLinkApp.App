@@ -1,6 +1,6 @@
 ﻿namespace MedLinkApp.ViewModels;
 
-internal class LoginViewModel : INotifyPropertyChanged
+internal class LoginViewModel : BaseViewModel
 {
     public LoginViewModel()
     {
@@ -12,33 +12,28 @@ internal class LoginViewModel : INotifyPropertyChanged
     public bool IsLoading
     {
         get => _isLoading;
-        set
-        {
-            _isLoading = value;
-            OnPropertyChanged();
-        }
+        set => SetProperty(ref _isLoading, value);
     }
 
     private string _userName;
     public string UserName
     {
         get => _userName;
-        set
-        {
-            _userName = value;
-            OnPropertyChanged();
-        }
+        set => SetProperty(ref _userName, value);
     }
 
     private string _password;
     public string Password
     {
         get => _password;
-        set
-        {
-            _password = value;
-            OnPropertyChanged();
-        }
+        set => SetProperty(ref _password, value );
+    }
+
+    private AuthenticateResponse _currentUser;
+    public AuthenticateResponse CurrentUser
+    {
+        get => _currentUser;
+        set => SetProperty(ref _currentUser, value);
     }
 
     public Command LoginCommand { get; }
@@ -73,23 +68,5 @@ internal class LoginViewModel : INotifyPropertyChanged
                 IsLoading = false;
             }
         }
-    }
-
-    private AuthenticateResponse _currentUser;
-    public AuthenticateResponse CurrentUser
-    {
-        get => _currentUser;
-        set
-        {
-            _currentUser = value;
-            OnPropertyChanged();
-        }
-    }
-
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

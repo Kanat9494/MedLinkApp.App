@@ -16,6 +16,7 @@ global using The49.Maui.BottomSheet;
 global using System.Web;
 global using CommunityToolkit.Maui;
 global using CommunityToolkit.Maui.Views;
+global using MedLinkApp.ViewModels.CustomControls;
 
 
 
