@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    x:Class="MedLinkApp.Views.DoctorDetailsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:d="http://schemas.microsoft.com/dotnet/2021/maui/design"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="clr-namespace:MedLinkApp.Views"
+    mc:Ignorable="d"
+    Title="{Binding Doctor.DoctorFullName}">
+    <ContentPage.Content>
+        <ScrollView
+            Margin="0"
+            Padding="0"
+            >
+            <StackLayout
+                >
+                <Border
+                    StrokeThickness="0"
+                    StrokeShape="RoundRectangle 0, 0, 10, 10"
+                    BackgroundColor="{x:StaticResource Green50}">
+                    <StackLayout
+                    Margin="40, 10, 40, 10">
+                        <Border
+                        StrokeThickness="0"
+                        StrokeShape="RoundRectangle 10">
+                            <Image 
+                        Source="{Binding Doctor.DoctorProfileImg}"
+                        HeightRequest="200"
+                        Aspect="AspectFill"/>
+                        </Border>
+                    </StackLayout>
+                </Border>
+
+                <Label
+                    Text="{Binding Doctor.DoctorFullName}"
+                    LineBreakMode="TailTruncation"
+                    FontSize="Title"
+                    Margin="10, 25, 10, 0"/>
+
+                <BoxView Color="{x:StaticResource PinkPrimary}"  HeightRequest="1" HorizontalOptions="Fill" Margin="10, 5, 10, 5" />
+
+                <Label
+                    Text="{Binding Doctor.WorkExperience, StringFormat='Стаж работы: {0:F1} лет'}"
+                    Margin="10, 20, 10, 20"/>
+
+                <BoxView Color="{x:StaticResource PinkPrimary}"  HeightRequest="1" HorizontalOptions="Fill" Margin="10, 5, 10, 5" />
+
+                <Label 
+                    Text="Работа"
+                    Margin="10, 10, 10, 5"
+                    FontSize="17"
+                    FontAttributes="Bold"/>
+                <Border
+                    StrokeThickness="0"
+                    StrokeShape="RoundRectangle 10"
+                    BackgroundColor="{x:StaticResource GreenPrimary}"
+                    Padding="10"
+                    Margin="10">
+                    <StackLayout>
+
+                        <Label
+                            Text="{Binding Doctor.AboutDoctor}"
+                            FontSize="17"
+                            />
+                    </StackLayout>
+                </Border>
+
+                <BoxView Color="{x:StaticResource PinkPrimary}"  HeightRequest="1" HorizontalOptions="Fill" Margin="10, 5, 10, 5" />
+
+                <StackLayout
+                    Orientation="Horizontal"
+                    Margin="10">
+                    <!--<Button
+                        Text="КОНСУЛЬТАЦИЯ"
+                        Margin="0, 5, 10, 0"
+                        HorizontalOptions="Start"
+                        WidthRequest="170"
+                        BackgroundColor="{x:StaticResource Green50}"
+                        FontAttributes="Bold"
+                        Command="{Binding Consultation}"/>-->
+
+                    <Button
+                        Text="КОНСУЛЬТАЦИЯ"
+                        Margin="0, 5, 10, 0"
+                        HorizontalOptions="Start"
+                        WidthRequest="170"
+                        BackgroundColor="{x:StaticResource Green50}"
+                        FontAttributes="Bold"
+                        Clicked="OnTest"/>
+
+                    <Button
+                        Text="ЗАПИСАТЬСЯ"
+                        Margin="0, 5, 0, 0"
+                        HorizontalOptions="EndAndExpand"
+                        WidthRequest="170"
+                        FontAttributes="Bold"/>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

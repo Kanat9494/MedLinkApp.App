@@ -60,6 +60,10 @@ internal class LoginViewModel : INotifyPropertyChanged
 
             if (CurrentUser.StatusCode == 200)
             {
+                await SecureStorage.Default.SetAsync("UserAccessToken", CurrentUser.AccessToken);
+                await SecureStorage.Default.SetAsync("UserId", CurrentUser.UserId.ToString());
+                await SecureStorage.Default.SetAsync("UserBalance", CurrentUser.UserBalance.ToString());
+
                 await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
             }
             else

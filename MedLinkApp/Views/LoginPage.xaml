@@ -5,7 +5,7 @@
              Title="LoginPage"
              BackgroundColor="{x:StaticResource White}"
              xmlns:customControls="clr-namespace:MedLinkApp.CustomControls"
-             >
+    >
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="220"/>

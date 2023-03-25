@@ -9,7 +9,12 @@
     xmlns:models="clr-namespace:MedLinkApp.Models"
     xmlns:DTOs="clr-namespace:MedLinkApp.Models.DTOs.Responses"
     xmlns:dxcv="clr-namespace:DevExpress.Maui.CollectionView;assembly=DevExpress.Maui.CollectionView"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     >
+    <ContentPage.Behaviors>
+        <toolkit:StatusBarBehavior StatusBarColor="{x:StaticResource Green50}"/>
+    </ContentPage.Behaviors>
+    
     <Grid
         Margin="15, 5"
         VerticalOptions="FillAndExpand">
@@ -136,20 +141,24 @@
             <dxcv:DXCollectionView.ItemTemplate>
                 <DataTemplate
                     x:DataType="models:Doctor">
-                    <Border
+                    <StackLayout>
+                        <BoxView Color="{x:StaticResource GreenPrimary}"  HeightRequest="1" HorizontalOptions="Fill" Margin="0, 5" />
+
+                        <Border
                         Stroke="Transparent"
                         StrokeShape="RoundRectangle 10"
                         Margin="0, 0, 0, 5"
                         Padding="0">
-                        <StackLayout
+
+                            <StackLayout
                             Orientation="Horizontal"
                             >
-                            <StackLayout
+                                <StackLayout
                                 WidthRequest="80"
                                 Margin="0, 0, 10, 0"
                                 VerticalOptions="CenterAndExpand"
                                 >
-                                <Border
+                                    <Border
                                     Stroke="Transparent"
                                     StrokeThickness="1"
                                     StrokeShape="RoundRectangle 10"
@@ -157,45 +166,46 @@
                                     WidthRequest="80"
                                     Margin="0, 0, 0, 0"
                                     HeightRequest="80">
-                                    <Image
+                                        <Image
                                         Grid.RowSpan="3"
                                         Source="{Binding DoctorProfileImg}"
                                         Aspect="AspectFill"
                                         HeightRequest="80"
                                         WidthRequest="80"
                                         HorizontalOptions="Start"/>
-                                </Border>
-                            </StackLayout>
+                                    </Border>
+                                </StackLayout>
 
-                            <StackLayout
+                                <StackLayout
                                 Margin="5, 5, 0, 0">
-                                <Label
+                                    <Label
                                     Text="{Binding DoctorFullName}"
                                     FontSize="17"
                                     FontAttributes="Bold"
                                     Margin="0, 0, 0, 5"
                                     LineBreakMode="TailTruncation"/>
 
-                                <Label
+                                    <Label
                                     Text="{Binding WorkExperience,
                                     StringFormat='Стаж работы: {0:F2}'}"
                                     Margin="0, 0, 0, 5"
                                     />
 
-                                <Label 
+                                    <Label 
                                     Text="{Binding IsBusy}"
                                     TextColor="{x:StaticResource Red50}"/>
-                            </StackLayout>
+                                </StackLayout>
 
-                            <StackLayout.GestureRecognizers>
-                                <TapGestureRecognizer
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer
                                             NumberOfTapsRequired="1"
                                             Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:HomeViewModel}}, Path=DoctorTapped}"
                                             CommandParameter="{Binding DoctorId}">
-                                </TapGestureRecognizer>
-                            </StackLayout.GestureRecognizers>
-                        </StackLayout>
-                    </Border>
+                                    </TapGestureRecognizer>
+                                </StackLayout.GestureRecognizers>
+                            </StackLayout>
+                        </Border>
+                    </StackLayout>
                 </DataTemplate>
             </dxcv:DXCollectionView.ItemTemplate>
         </dxcv:DXCollectionView>

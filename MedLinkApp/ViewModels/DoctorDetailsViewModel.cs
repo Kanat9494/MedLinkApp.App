@@ -1,13 +1,11 @@
-﻿using System.Web;
+﻿namespace MedLinkApp.ViewModels;
 
-namespace MedLinkApp.ViewModels;
-
-//[QueryProperty(nameof(DoctorId), nameof(DoctorId))]
-public class DoctorDetailViewModel : IQueryAttributable, INotifyPropertyChanged
+class DoctorDetailsViewModel : IQueryAttributable, INotifyPropertyChanged
 {
-    public DoctorDetailViewModel()
+    public DoctorDetailsViewModel()
     {
         Doctor = new DoctorInfo();
+        Consultation = new Command(OnConsultation);
     }
 
     private int _doctorId;
@@ -32,9 +30,12 @@ public class DoctorDetailViewModel : IQueryAttributable, INotifyPropertyChanged
         }
     }
 
+    public Command Consultation { get; set; }
+
     async Task GetDoctorInfo()
     {
-        var response = await ContentService.Instance().GetDoctorInfo(DoctorId);
+        //var response = await ContentService.Instance().GetDoctorInfo(DoctorId);
+        var response = await ContentService.Instance().GetItemAsync<DoctorInfo, int>(DoctorId, "api/Doctors/GetDoctor/");
         if (response.StatusCode == 200)
         {
             Doctor = response;
@@ -43,6 +44,14 @@ public class DoctorDetailViewModel : IQueryAttributable, INotifyPropertyChanged
         {
             await Shell.Current.DisplayAlert("Информация о докторе", response.ResponseMessage, "Ок");
         }
+    }
+
+    private async void OnConsultation()
+    {
+        //double userBalance = double.Parse(await SecureStorage.Default.GetAsync("UserBalance"));
+        //var page = new DoctorDetailsBottomSheet();
+        //page.ShowHandle = true;
+        //page.Show();
     }
 
     public event PropertyChangedEventHandler PropertyChanged;

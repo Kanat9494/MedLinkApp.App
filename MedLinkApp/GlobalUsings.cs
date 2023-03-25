@@ -12,6 +12,11 @@ global using MedLinkApp.Services;
 global using MedLinkApp.Models;
 global using System.Collections.ObjectModel;
 global using DevExpress.Maui;
+global using The49.Maui.BottomSheet;
+global using System.Web;
+global using CommunityToolkit.Maui;
+global using CommunityToolkit.Maui.Views;
+
 
 
 

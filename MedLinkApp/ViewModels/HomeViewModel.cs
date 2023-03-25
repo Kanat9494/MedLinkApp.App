@@ -78,7 +78,7 @@ public class HomeViewModel : INotifyPropertyChanged
         if (doctorId == null)
             return;
 
-        await Shell.Current.GoToAsync($"{nameof(DoctorDetailPage)}?{nameof(DoctorDetailViewModel.DoctorId)}={doctorId}");
+        await Shell.Current.GoToAsync($"{nameof(DoctorDetailsPage)}?{nameof(DoctorDetailsViewModel.DoctorId)}={doctorId}");
     }
 
     public event PropertyChangedEventHandler PropertyChanged;

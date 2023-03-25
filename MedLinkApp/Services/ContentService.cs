@@ -56,30 +56,30 @@ public class ContentService
         }
     }
 
-    //public async Task<TResponse> GetItemAsync<TResponse, TRequest>(TRequest request, string middleUrl) where TResponse : BaseResponse
-    //{
-    //    using (HttpClient httpClient = new HttpClient())
-    //    {
-    //        httpClient.BaseAddress = new Uri(MedLinkConstants.SERVER_ROOT_URL);
+    public async Task<TResponse> GetItemAsync<TResponse, TRequest>(TRequest request, string middleUrl) where TResponse : BaseResponse
+    {
+        using (HttpClient httpClient = new HttpClient())
+        {
+            httpClient.BaseAddress = new Uri(MedLinkConstants.SERVER_ROOT_URL);
 
-    //        try
-    //        {
-    //            var response = await httpClient.GetStringAsync(httpClient.BaseAddress + middleUrl + "/" + request);
-    //            TResponse result = JsonConvert.DeserializeObject<TResponse>(response);
-    //            result.StatusCode = 200;
+            try
+            {
+                var response = await httpClient.GetStringAsync(httpClient.BaseAddress + middleUrl + "/" + request);
+                TResponse result = JsonConvert.DeserializeObject<TResponse>(response);
+                result.StatusCode = 200;
 
-    //            return result;
-    //        }
-    //        catch (Exception ex)
-    //        {
-    //            var result = Activator.CreateInstance<TResponse>();
-    //            result.StatusCode = 500;
-    //            result.ResponseMessage = ex.Message;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var result = Activator.CreateInstance<TResponse>();
+                result.StatusCode = 500;
+                result.ResponseMessage = ex.Message;
 
-    //            return result;
-    //        }
-    //    }
-    //}
+                return result;
+            }
+        }
+    }
 
     public async Task<DoctorInfo> GetDoctorInfo(int doctorId)
     {
