@@ -1,6 +1,6 @@
 ﻿namespace MedLinkApp.ViewModels;
 
-class DoctorDetailsViewModel : IQueryAttributable, INotifyPropertyChanged
+class DoctorDetailsViewModel : BaseViewModel, IQueryAttributable
 {
     public DoctorDetailsViewModel()
     {
@@ -12,22 +12,14 @@ class DoctorDetailsViewModel : IQueryAttributable, INotifyPropertyChanged
     public int DoctorId
     {
         get => _doctorId;
-        set
-        {
-            _doctorId = value;
-            OnPropertyChanged();
-        }
+        set => SetProperty(ref _doctorId, value);
     }
 
     private DoctorInfo _doctor;
     public DoctorInfo Doctor
     {
         get => _doctor;
-        set
-        {
-            _doctor = value;
-            OnPropertyChanged();
-        }
+        set => SetProperty(ref _doctor, value);
     }
 
     public Command Consultation { get; set; }
@@ -52,12 +44,6 @@ class DoctorDetailsViewModel : IQueryAttributable, INotifyPropertyChanged
         //var page = new DoctorDetailsBottomSheet();
         //page.ShowHandle = true;
         //page.Show();
-    }
-
-    public event PropertyChangedEventHandler PropertyChanged;
-    protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
     public void ApplyQueryAttributes(IDictionary<string, object> query)
