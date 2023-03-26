@@ -8,5 +8,6 @@ public partial class AppShell : Shell
 		InitializeComponent();
 
         Routing.RegisterRoute(nameof(DoctorDetailsPage), typeof(DoctorDetailsPage));
+		Routing.RegisterRoute(nameof(ChatPage), typeof(ChatPage));
     }
 }

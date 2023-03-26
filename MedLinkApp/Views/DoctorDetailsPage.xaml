@@ -20,14 +20,14 @@
                     StrokeShape="RoundRectangle 0, 0, 10, 10"
                     BackgroundColor="{x:StaticResource Green50}">
                     <StackLayout
-                    Margin="40, 10, 40, 10">
+                        Margin="0">
                         <Border
-                        StrokeThickness="0"
-                        StrokeShape="RoundRectangle 10">
+                            StrokeThickness="0"
+                            StrokeShape="RoundRectangle 0, 0, 10, 10">
                             <Image 
-                        Source="{Binding Doctor.ProfileImg}"
-                        HeightRequest="200"
-                        Aspect="AspectFill"/>
+                                Source="{Binding Doctor.ProfileImg}"
+                                HeightRequest="200"
+                                Aspect="AspectFill"/>
                         </Border>
                     </StackLayout>
                 </Border>
@@ -89,7 +89,7 @@
                         WidthRequest="170"
                         BackgroundColor="{x:StaticResource Green50}"
                         FontAttributes="Bold"
-                        Clicked="OnTest"/>
+                        Clicked="OnConsultation_Clicked"/>
 
                     <Button
                         Text="ЗАПИСАТЬСЯ"

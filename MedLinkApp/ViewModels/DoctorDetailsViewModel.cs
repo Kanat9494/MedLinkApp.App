@@ -29,21 +29,15 @@ class DoctorDetailsViewModel : BaseViewModel, IQueryAttributable
         //var response = await ContentService.Instance().GetDoctorInfo(DoctorId);
         var response = await ContentService.Instance().GetItemAsync<DoctorInfo, int>($"api/Doctors/GetDoctor/{DoctorId}");
         if (response.StatusCode == 200)
-        {
             Doctor = response;
-        }
-        else
-        {
-            await Shell.Current.DisplayAlert("Информация о докторе", response.ResponseMessage, "Ок");
-        }
     }
 
     private async void OnConsultation()
     {
         //double userBalance = double.Parse(await SecureStorage.Default.GetAsync("UserBalance"));
-        //var page = new DoctorDetailsBottomSheet();
-        //page.ShowHandle = true;
-        //page.Show();
+
+        //var page = new DoctorDetailsPage();
+        //page.Show(new );
     }
 
     public void ApplyQueryAttributes(IDictionary<string, object> query)

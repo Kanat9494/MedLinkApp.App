@@ -41,13 +41,14 @@
                 StrokeShape="RoundRectangle 10, 10, 10, 10"
                 Padding="0"
                 BackgroundColor="Transparent"
-                Margin="5">
+                Margin="5"
+                >
                 <StackLayout 
                     Orientation="Horizontal"
                     >
                     <Frame BackgroundColor="SkyBlue" HeightRequest="40" WidthRequest="40" CornerRadius="30"
                             Padding="0" Margin="5 ">
-                        <Image Source="https://cdn4.iconfinder.com/data/icons/glyphs/24/icons_user2-256.png" Aspect="AspectFill"
+                        <Image Source="user_icon.png" Aspect="AspectFill"
                             Margin="0"/>
                     </Frame>
                     <customControls:CustomEntry 
@@ -73,7 +74,7 @@
                     <Frame BackgroundColor="SkyBlue" HeightRequest="40" WidthRequest="40" CornerRadius="30"
                             Padding="0" Margin="5 ">
                         <Image 
-                            Source="https://cdn4.iconfinder.com/data/icons/basic-ui-elements-round/700/09_lock-256.png" Aspect="AspectFill"
+                            Source="password_icon.png" Aspect="AspectFill"
                             Margin="0"/>
                     </Frame>
                     <customControls:CustomEntry 

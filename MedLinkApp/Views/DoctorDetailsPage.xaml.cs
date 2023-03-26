@@ -1,17 +1,17 @@
-﻿namespace MedLinkApp.Views
+﻿namespace MedLinkApp.Views;
+
+[XamlCompilation(XamlCompilationOptions.Compile)]
+public partial class DoctorDetailsPage : ContentPage
 {
-    public partial class DoctorDetailsPage : ContentPage
+    public DoctorDetailsPage()
     {
-        public DoctorDetailsPage()
-        {
-            InitializeComponent();
+        InitializeComponent();
 
-            this.BindingContext = new DoctorDetailsViewModel();
-        }
+        this.BindingContext = new DoctorDetailsViewModel();
+    }
 
-        public void OnTest(object sender, EventArgs e)
-        {
-            this.ShowPopup(new DoctorDetailsPopup());
-        }
+    public void OnConsultation_Clicked(object sender, EventArgs e)
+    {
+        this.ShowPopup(new DoctorDetailsPopup());
     }
 }

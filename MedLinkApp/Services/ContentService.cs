@@ -81,6 +81,26 @@ public class ContentService
         }
     }
 
+    public async Task<IEnumerable<TResponse>> GetItemsAsync<TResponse>(string requestUrl)
+    {
+        using (HttpClient httpClient = new HttpClient())
+        {
+            httpClient.BaseAddress = new Uri(MedLinkConstants.SERVER_ROOT_URL);
+
+            try
+            {
+                var response = await httpClient.GetStringAsync(httpClient.BaseAddress + requestUrl);
+                IEnumerable<TResponse> result = JsonConvert.DeserializeObject<IEnumerable<TResponse>>(response);
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+    }
+
     public async Task<DoctorInfo> GetDoctorInfo(int doctorId)
     {
         using (HttpClient httpClient = new HttpClient())

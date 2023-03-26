@@ -1,5 +1,54 @@
 ﻿namespace MedLinkApp.ViewModels.CustomControls;
 
-public class DoctorDetailsPopupViewModel
+internal class DoctorDetailsPopupViewModel : BaseViewModel
 {
+    public DoctorDetailsPopupViewModel()
+    {
+        IsLoading = true;
+        Products = new ObservableCollection<Product>();
+        OpenChat = new Command(async () => await OnOpenChat());
+
+        Task.Run(async () =>
+        {
+            await LoadProducts();
+        }).GetAwaiter().OnCompleted(() =>
+        {
+            IsLoading = false;
+        });
+    }
+
+    public ObservableCollection<Product> Products { get; set; }
+    private bool _isLoading;
+    public bool IsLoading
+    {
+        get => _isLoading;
+        set => SetProperty(ref _isLoading, value);
+    }
+
+    public Command OpenChat { get; }
+
+    public async Task LoadProducts()
+    {
+        try
+        {
+            var response = await ContentService.Instance().GetItemsAsync<Product>("api/Product/GetProducts");
+
+            if (response != null)
+            {
+                foreach (var item in response)
+                    Products.Add(item);
+            }
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+
+    private async Task OnOpenChat()
+    {
+        await Shell.Current.GoToAsync($"{nameof(ChatPage)}");
+        //await Navigation.PushAsync(new HomePage());
+        //await Navigation.PushAsync(new ChatPage(), true);
+    }
 }

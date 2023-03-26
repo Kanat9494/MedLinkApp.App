@@ -124,8 +124,6 @@
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-        
-
         <Label
             Text="Наши доктора"
             FontAttributes="Bold"
@@ -167,12 +165,18 @@
                                     Margin="0, 0, 0, 0"
                                     HeightRequest="80">
                                         <Image
-                                        Grid.RowSpan="3"
-                                        Source="{Binding ProfileImg}"
-                                        Aspect="AspectFill"
-                                        HeightRequest="80"
-                                        WidthRequest="80"
-                                        HorizontalOptions="Start"/>
+                                            Grid.RowSpan="3"
+                                            Aspect="AspectFill"
+                                            HeightRequest="80"
+                                            WidthRequest="80"
+                                            HorizontalOptions="Start">
+                                            <Image.Source>
+                                                <UriImageSource
+                                                    Uri="{Binding ProfileImg}"
+                                                    CachingEnabled="True"
+                                                    CacheValidity="5"/>
+                                            </Image.Source>
+                                        </Image>
                                     </Border>
                                 </StackLayout>
 

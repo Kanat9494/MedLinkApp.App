@@ -4,8 +4,65 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="MedLinkApp.CustomControls.DoctorDetailsPopup"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:models="clr-namespace:MedLinkApp.Models"
+    xmlns:dxcv="clr-namespace:DevExpress.Maui.CollectionView;assembly=DevExpress.Maui.CollectionView"
     >
-    <StackLayout>
-        
+    <StackLayout
+        Margin="10"
+        HeightRequest="400"
+        VerticalOptions="FillAndExpand">
+        <Label
+            Text="Выберите для консультации"
+            FontSize="15"
+            FontAttributes="Bold"
+            HorizontalOptions="Center"/>
+        <CollectionView
+            ItemsSource="{Binding Products}"
+            VerticalOptions="FillAndExpand"
+            HorizontalOptions="Center"
+            Margin="5"
+            >
+            <CollectionView.Header>
+                <ActivityIndicator
+                    IsRunning="{Binding IsLoading}"
+                    IsVisible="{Binding IsLoading}"
+                    Color="{x:StaticResource Green45}"/>
+            </CollectionView.Header>
+            
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout
+                    Orientation="Vertical"
+                    HorizontalItemSpacing="5"
+                    VerticalItemSpacing="5"
+                    Span="2"/>
+            </CollectionView.ItemsLayout>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate
+                    x:DataType="models:Product">
+                    <Frame
+                        BorderColor="Transparent"
+                        BackgroundColor="{x:StaticResource Yellow60}">
+                        <StackLayout
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center">
+                            <Label
+                                Text="{Binding ProductName}"
+                                FontAttributes="Bold"
+                                FontSize="18"/>
+
+                            <Label
+                                Text="{Binding Price, StringFormat='{0} сом'}"
+                                FontAttributes="Bold"
+                                FontSize="15"/>
+                        </StackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Button 
+            Text="Чат"
+            Command="{Binding OpenChat}"/>
     </StackLayout>
 </toolkit:Popup>

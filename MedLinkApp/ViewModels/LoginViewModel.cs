@@ -6,6 +6,9 @@ internal class LoginViewModel : BaseViewModel
     {
         IsLoading = false;
         LoginCommand = new Command(async () => await OnLogin());
+
+        UserName = "test";
+        Password = "1234";
     }
 
     private bool _isLoading;
