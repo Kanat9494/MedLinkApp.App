@@ -3,39 +3,60 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MedLinkApp.Views.ChatPage"
              Title="{Binding Doctor.DoctorFullName}">
-    <!--<StackLayout>
-        <StackLayout
-            Orientation="Horizontal">
-            <Frame>
+    <StackLayout
+        >
+        <Grid
+            >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50*"/>
+                <ColumnDefinition Width="50*"/>
+            </Grid.ColumnDefinitions>
+            <Frame
+                Grid.Column="0"
+                Margin="10"
+                BackgroundColor="{x:StaticResource Yellow60}"
+                BorderColor="Transparent"
+                Padding="0">
                 <Label
                     Text="{Binding ChatTimer}"
                     FontAttributes="Bold"
-                    FontSize="17"/>
+                    FontSize="45"
+                    HorizontalOptions="Center"
+                    />
             </Frame>
 
             <Button 
-                Text="Прервать"/>
+                Text="Прервать"
+                Grid.Column="1"
+                Margin="10"/>
+        </Grid>
+
+        
+        <StackLayout
+            VerticalOptions="FillAndExpand"
+            Margin="10">
+            <ListView ItemsSource="{Binding Messages}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <ViewCell.View>
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="{Binding Content}" />
+                                </StackLayout>
+                            </ViewCell.View>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackLayout>
-    </StackLayout>-->
-    <StackLayout>
-        <StackLayout Padding="10">
-            <Label FontSize="Small" Text="Логин" VerticalOptions="Center"/>
-            <Label FontSize="Small" Text="Сообщение" VerticalOptions="Center"/>
+
+        <StackLayout Padding="10"
+                     Margin="10">
             <Entry HorizontalOptions="FillAndExpand" Text="{Binding Message}"/>
             <Button Text="Отправить" Command="{Binding SendMessage}" CommandParameter="{Binding Message}"/>
         </StackLayout>
-        <ListView ItemsSource="{Binding Messages}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <ViewCell.View>
-                            <StackLayout Orientation="Horizontal">
-                                <Label Text="{Binding Content}" />
-                            </StackLayout>
-                        </ViewCell.View>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
     </StackLayout>
+    <!--<StackLayout>
+        
+    </StackLayout>-->
 </ContentPage>

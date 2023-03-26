@@ -131,7 +131,7 @@
             Margin="0, 10, 0, 0"
             Grid.Row="3"/>
 
-        <dxcv:DXCollectionView
+        <!--<dxcv:DXCollectionView
             ItemsSource="{Binding Doctors}"
             VerticalOptions="FillAndExpand"
             Grid.Row="4"
@@ -212,7 +212,90 @@
                     </StackLayout>
                 </DataTemplate>
             </dxcv:DXCollectionView.ItemTemplate>
-        </dxcv:DXCollectionView>
+        </dxcv:DXCollectionView>-->
+
+        <CollectionView
+            ItemsSource="{Binding Doctors}"
+            VerticalOptions="FillAndExpand"
+            Grid.Row="4"
+            >
+            <CollectionView.ItemTemplate>
+                <DataTemplate
+                    x:DataType="models:Doctor">
+                    <StackLayout>
+                        <BoxView Color="{x:StaticResource GreenPrimary}"  HeightRequest="1" HorizontalOptions="Fill" Margin="0, 5" />
+
+                        <Border
+                        Stroke="Transparent"
+                        StrokeShape="RoundRectangle 10"
+                        Margin="0, 0, 0, 5"
+                        Padding="0">
+
+                            <StackLayout
+                            Orientation="Horizontal"
+                            >
+                                <StackLayout
+                                WidthRequest="80"
+                                Margin="0, 0, 10, 0"
+                                VerticalOptions="CenterAndExpand"
+                                >
+                                    <Border
+                                    Stroke="Transparent"
+                                    StrokeThickness="1"
+                                    StrokeShape="RoundRectangle 10"
+                                    HorizontalOptions="Center"
+                                    WidthRequest="80"
+                                    Margin="0, 0, 0, 0"
+                                    HeightRequest="80">
+                                        <Image
+                                            Grid.RowSpan="3"
+                                            Aspect="AspectFill"
+                                            HeightRequest="80"
+                                            WidthRequest="80"
+                                            HorizontalOptions="Start">
+                                            <Image.Source>
+                                                <UriImageSource
+                                                    Uri="{Binding ProfileImg}"
+                                                    CachingEnabled="True"
+                                                    CacheValidity="5"/>
+                                            </Image.Source>
+                                        </Image>
+                                    </Border>
+                                </StackLayout>
+
+                                <StackLayout
+                                Margin="5, 5, 0, 0">
+                                    <Label
+                                    Text="{Binding FullName}"
+                                    FontSize="17"
+                                    FontAttributes="Bold"
+                                    Margin="0, 0, 0, 5"
+                                    LineBreakMode="TailTruncation"/>
+
+                                    <Label
+                                    Text="{Binding WorkExperience,
+                                    StringFormat='Стаж работы: {0:F2}'}"
+                                    Margin="0, 0, 0, 5"
+                                    />
+
+                                    <Label 
+                                    Text="{Binding IsBusy}"
+                                    TextColor="{x:StaticResource Red50}"/>
+                                </StackLayout>
+
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                            NumberOfTapsRequired="1"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:HomeViewModel}}, Path=DoctorTapped}"
+                                            CommandParameter="{Binding DoctorId}">
+                                    </TapGestureRecognizer>
+                                </StackLayout.GestureRecognizers>
+                            </StackLayout>
+                        </Border>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
 
         <ActivityIndicator 
             IsVisible="{Binding IsLoading}"

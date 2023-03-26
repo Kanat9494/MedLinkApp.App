@@ -14,9 +14,9 @@ internal class ChatViewModel : BaseViewModel
             await Connect();
         }).Wait();
 
-        SendMessage = new Command<string>(async (message) =>
+        SendMessage = new Command(async () =>
         {
-            await OnSendMessage(message);
+            await OnSendMessage();
         });
 
         hubConnection.Closed += async (error) =>
@@ -29,20 +29,56 @@ internal class ChatViewModel : BaseViewModel
         {
             Messages.Add(new Message() { Content = message});
         });
+
+        StartCountDownTimer();
     }
 
     HubConnection hubConnection;
-    public Command<string> SendMessage { get; }
+    public Command SendMessage { get; }
     public string Message { get; set; }
+    private string _chatTimer;
+    public string ChatTimer
+    {
+        get => _chatTimer;
+        set => SetProperty(ref _chatTimer, value);
+    }
+
+    string cTimer;
+    DateTime endTime;
+    System.Timers.Timer timer;
+
+    void StartCountDownTimer()
+    {
+        timer = new System.Timers.Timer();
+        endTime = DateTime.Now.AddMinutes(5);
+        timer.Elapsed += ChatTimerTick;
+        TimeSpan timeSpan = endTime - DateTime.Now;
+        cTimer = timeSpan.ToString("m' Minutes 's' Seconds'");
+        timer.Start();
+    }
+
+    void ChatTimerTick(object sender, EventArgs e)
+    {
+        TimeSpan timeSpan = endTime - DateTime.Now;
+
+        cTimer = timeSpan.ToString("m':'s' '");
+
+        App.Current.Dispatcher.Dispatch(() =>
+        {
+            ChatTimer = cTimer;
+        });
+
+        if ((timeSpan.TotalMilliseconds < 0) || (timeSpan.TotalMilliseconds < 1000))
+            timer.Stop();
+    }
 
     public ObservableCollection<Message> Messages { get; set; }
 
-    async Task OnSendMessage(string message)
+    async Task OnSendMessage()
     {
         try
         {
             await hubConnection.InvokeAsync("SendMessage", Message);
-            Message = string.Empty;
         }
         catch (Exception ex)
         {
@@ -52,7 +88,14 @@ internal class ChatViewModel : BaseViewModel
 
     async Task Connect()
     {
-        await hubConnection.StartAsync();
+        try
+        {
+            await hubConnection.StartAsync();
+        }
+        catch (Exception ex)
+        {
+
+        }
     }
 
     async Task Disconnect()
