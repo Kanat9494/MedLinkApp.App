@@ -28,6 +28,8 @@ class DoctorDetailsViewModel : BaseViewModel, IQueryAttributable
     {
         //var response = await ContentService.Instance().GetDoctorInfo(DoctorId);
         var response = await ContentService.Instance().GetItemAsync<DoctorInfo, int>($"api/Doctors/GetDoctor/{DoctorId}");
+        await SecureStorage.Default.SetAsync("DoctorId", DoctorId.ToString());
+
         if (response.StatusCode == 200)
             Doctor = response;
     }
@@ -36,7 +38,7 @@ class DoctorDetailsViewModel : BaseViewModel, IQueryAttributable
     {
         //double userBalance = double.Parse(await SecureStorage.Default.GetAsync("UserBalance"));
 
-        //var page = new DoctorDetailsPage();
+        var page = new DoctorDetailsPage();
         //page.Show(new );
     }
 

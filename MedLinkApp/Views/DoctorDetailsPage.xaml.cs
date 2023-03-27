@@ -10,7 +10,7 @@ public partial class DoctorDetailsPage : ContentPage
         this.BindingContext = new DoctorDetailsViewModel();
     }
 
-    public void OnConsultation_Clicked(object sender, EventArgs e)
+    public async void OnConsultation_Clicked(object sender, EventArgs e)
     {
         this.ShowPopup(new DoctorDetailsPopup());
     }

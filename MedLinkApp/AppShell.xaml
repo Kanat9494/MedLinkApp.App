@@ -15,30 +15,25 @@
 
     <TabBar
         >
-        <Tab
+        <ShellContent
+            Icon="home_icon.png"
             Title="Главная"
-            Icon="home_icon.png">
-            <ShellContent
-                ContentTemplate="{DataTemplate views:HomePage}"
-                Route="HomePage"
-                Shell.NavBarIsVisible="False"/>
-        </Tab>
+            ContentTemplate="{DataTemplate views:HomePage}"
+            Route="HomePage"
+            Shell.NavBarIsVisible="False"
+            />
 
-        <Tab
+        <ShellContent
             Title="Чаты"
-            Icon="chats_icon.png">
-            <ShellContent
-                ContentTemplate="{DataTemplate views:ChatsPage}"
-                Shell.NavBarIsVisible="False"/>
-        </Tab>
-
-        <Tab
+            Icon="chats_icon.png"
+            ContentTemplate="{DataTemplate views:ChatsPage}"
+            Shell.NavBarIsVisible="False"/>
+        
+        <ShellContent
             Title="Аккаунт"
-            Icon="account_icon.png">
-            <ShellContent
-                ContentTemplate="{DataTemplate views:AccountPage}"
-                Shell.NavBarIsVisible="False"/>
-        </Tab>
+            Icon="account_icon.png"
+            ContentTemplate="{DataTemplate views:AccountPage}"
+            Shell.NavBarIsVisible="False"/>
     </TabBar>
 
 </Shell>

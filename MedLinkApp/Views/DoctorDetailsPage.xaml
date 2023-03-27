@@ -7,7 +7,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="clr-namespace:MedLinkApp.Views"
     mc:Ignorable="d"
-    Title="{Binding Doctor.FullName}">
+    Title="{Binding Doctor.FullName}"
+    Shell.TabBarIsVisible="False">
     <ContentPage.Content>
         <ScrollView
             Margin="0"

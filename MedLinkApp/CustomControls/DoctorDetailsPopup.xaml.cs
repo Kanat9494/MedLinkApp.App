@@ -8,4 +8,9 @@ public partial class DoctorDetailsPopup : Popup
 
 		BindingContext = new DoctorDetailsPopupViewModel();
 	}
+
+    protected internal virtual void OnTapped()
+    {
+        Close();
+    }
 }
