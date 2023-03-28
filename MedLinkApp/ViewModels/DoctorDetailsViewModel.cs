@@ -6,6 +6,11 @@ class DoctorDetailsViewModel : BaseViewModel, IQueryAttributable
     {
         Doctor = new DoctorInfo();
         Consultation = new Command(OnConsultation);
+
+        Task.Run(async () =>
+        {
+            accessToken = await SecureStorage.Default.GetAsync("UserAccessToken");
+        }).GetAwaiter();
     }
 
     private int _doctorId;
@@ -22,12 +27,14 @@ class DoctorDetailsViewModel : BaseViewModel, IQueryAttributable
         set => SetProperty(ref _doctor, value);
     }
 
+    string accessToken;
+
     public Command Consultation { get; set; }
 
     async Task GetDoctorInfo()
     {
         //var response = await ContentService.Instance().GetDoctorInfo(DoctorId);
-        var response = await ContentService.Instance().GetItemAsync<DoctorInfo, int>($"api/Doctors/GetDoctor/{DoctorId}");
+        var response = await ContentService.Instance(accessToken).GetItemAsync<DoctorInfo, int>($"api/Doctors/GetDoctor/{DoctorId}");
         await SecureStorage.Default.SetAsync("DoctorId", DoctorId.ToString());
 
         if (response.StatusCode == 200)

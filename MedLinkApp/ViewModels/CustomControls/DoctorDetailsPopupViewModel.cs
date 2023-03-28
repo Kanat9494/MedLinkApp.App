@@ -11,6 +11,7 @@ internal class DoctorDetailsPopupViewModel : BaseViewModel
         Task.Run(async () =>
         {
             await LoadProducts();
+            accessToken = await SecureStorage.Default.GetAsync("UserAccessToken");
         }).GetAwaiter().OnCompleted(() =>
         {
             IsLoading = false;
@@ -27,11 +28,13 @@ internal class DoctorDetailsPopupViewModel : BaseViewModel
 
     public Command OpenChat { get; }
 
+    string accessToken;
+
     public async Task LoadProducts()
     {
         try
         {
-            var response = await ContentService.Instance().GetItemsAsync<Product>("api/Product/GetProducts");
+            var response = await ContentService.Instance(accessToken).GetItemsAsync<Product>("api/Product/GetProducts");
 
             if (response != null)
             {

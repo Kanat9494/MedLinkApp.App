@@ -10,10 +10,13 @@ public class HomeViewModel : INotifyPropertyChanged
         Doctors = new ObservableCollection<Doctor>();
         DoctorTapped = new Command<int>(OnDoctorSelected);
 
+        
+
         Task.Run(async () =>
         {
             await LoadCategories();
             await GetAllDoctors();
+            accessToken = await SecureStorage.Default.GetAsync("UserAccessToken");
         }).GetAwaiter().OnCompleted(() =>
         {
             IsLoading = false;
@@ -31,6 +34,8 @@ public class HomeViewModel : INotifyPropertyChanged
         }
     }
 
+    string accessToken;
+
     public ObservableCollection<Doctor> Doctors { get; set; }
     public ObservableCollection<Category> Categories { get; set; }
 
@@ -40,7 +45,7 @@ public class HomeViewModel : INotifyPropertyChanged
     {
         try
         {
-            var response = await ContentService.Instance().LoadCategories();
+            var response = await ContentService.Instance(accessToken).LoadCategories();
 
             if (response != null)
             {
@@ -59,7 +64,7 @@ public class HomeViewModel : INotifyPropertyChanged
     {
         try
         {
-            var response = await ContentService.Instance().GetAllDoctors();
+            var response = await ContentService.Instance(accessToken).GetAllDoctors();
 
             if (response != null )
             {

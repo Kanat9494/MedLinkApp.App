@@ -12,6 +12,7 @@ internal class ChatViewModel : BaseViewModel
         Task.Run(async () =>
         {
             await Connect();
+            accessToken = await SecureStorage.Default.GetAsync("UserAccessToken");
         }).Wait();
 
         SendMessage = new Command(async () =>
@@ -32,6 +33,8 @@ internal class ChatViewModel : BaseViewModel
 
         StartCountDownTimer();
     }
+
+    string accessToken;
 
     HubConnection hubConnection;
     public Command SendMessage { get; }

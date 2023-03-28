@@ -2,26 +2,29 @@
 
 public class ContentService
 {
-    public ContentService()
+    public ContentService(string token)
     {
-
+        httpClient = new HttpClient();
+        httpClient.BaseAddress = new Uri(MedLinkConstants.SERVER_ROOT_URL);
+        httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+        httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
     }
 
     private static ContentService _instance;
-    public static ContentService Instance()
+    public static ContentService Instance(string token)
     {
         if (_instance == null)
-            _instance = new ContentService();
+            _instance = new ContentService(token);
 
         return _instance;
     }
 
+    HttpClient httpClient;
+
     public async Task<IEnumerable<Category>> LoadCategories()
     {
-        using (HttpClient httpClient = new HttpClient())
+        using (httpClient)
         {
-            httpClient.BaseAddress = new Uri(MedLinkConstants.SERVER_ROOT_URL);
-
             try
             {
                 var response = await httpClient.GetStringAsync(httpClient.BaseAddress + "api/Categories/LoadCategories");
@@ -38,7 +41,7 @@ public class ContentService
 
     public async Task<IEnumerable<Doctor>> GetAllDoctors()
     {
-        using (HttpClient httpClient = new HttpClient())
+        using (httpClient)
         {
             httpClient.BaseAddress = new Uri(MedLinkConstants.SERVER_ROOT_URL);
 
@@ -58,7 +61,7 @@ public class ContentService
 
     public async Task<TResponse> GetItemAsync<TResponse, TRequest>(string requestUrl) where TResponse : BaseResponse
     {
-        using (HttpClient httpClient = new HttpClient())
+        using (httpClient)
         {
             httpClient.BaseAddress = new Uri(MedLinkConstants.SERVER_ROOT_URL);
 
