@@ -4,6 +4,10 @@ internal class ChatViewModel : BaseViewModel
 {
     public ChatViewModel()
     {
+        WaitingForDoctor = true;
+        ContentIsVisible = false;
+        _isTimerRunning = false;
+
         Messages = new ObservableCollection<Message>();
         hubConnection = new HubConnectionBuilder()
             .WithUrl(MedLinkConstants.SERVER_ROOT_URL + "/chatHub")
@@ -13,8 +17,16 @@ internal class ChatViewModel : BaseViewModel
         {
             accessToken = await SecureStorage.Default.GetAsync("UserAccessToken");
 
+            senderId = int.Parse(await SecureStorage.Default.GetAsync("UserId"));
+            receiverId = int.Parse(await SecureStorage.Default.GetAsync("DoctorId"));
+
             await Connect();
-        }).Wait();
+
+            await SendConfirmMessage();
+        }).GetAwaiter().OnCompleted(() =>
+        {
+
+        });
 
         SendMessage = new Command(async () =>
         {
@@ -27,19 +39,36 @@ internal class ChatViewModel : BaseViewModel
             await Connect();
         };
 
-        hubConnection.On<string>("ReceiveMessage", (message) =>
+        hubConnection.On<int, int, string>("ReceiveMessage", (senderId, receiverId, message) =>
         {
-            Messages.Add(new Message() { Content = message});
-        });
+            if (_isConfirmed)
+            {
+                if (!_isTimerRunning)
+                {
+                    StartCountDownTimer();
+                    _isTimerRunning = !_isTimerRunning;
+                }
 
-        StartCountDownTimer();
+                SendLocalMessage(senderId, receiverId, message);
+            }
+            else
+                Task.Run(async () => await ConsultationConfirmed());
+        });
     }
+
+    int senderId, receiverId;
 
     string accessToken;
 
     HubConnection hubConnection;
     public Command SendMessage { get; }
-    public string Message { get; set; }
+
+    private string _message;
+    public string Message
+    {
+        get => _message;
+        set => SetProperty(ref _message, value);
+    }
     private string _chatTimer;
     public string ChatTimer
     {
@@ -50,6 +79,25 @@ internal class ChatViewModel : BaseViewModel
     string cTimer;
     DateTime endTime;
     System.Timers.Timer timer;
+
+    private bool _contentIsVisible;
+    public bool ContentIsVisible
+    {
+        get => _contentIsVisible;
+        set => SetProperty(ref _contentIsVisible, value);
+    }
+
+    private bool _waitingForDoctor;
+    public bool WaitingForDoctor
+    {
+        get => _waitingForDoctor;
+        set => SetProperty(ref _waitingForDoctor, value);
+    }
+
+    private bool _isConfirmed;
+    private bool _isTimerRunning;
+
+    public ObservableCollection<Message> Messages { get; set; }
 
     void StartCountDownTimer()
     {
@@ -76,13 +124,13 @@ internal class ChatViewModel : BaseViewModel
             timer.Stop();
     }
 
-    public ObservableCollection<Message> Messages { get; set; }
-
     async Task OnSendMessage()
     {
         try
         {
-            await hubConnection.InvokeAsync("SendMessage", Message);
+            await hubConnection.InvokeAsync("SendMessage", senderId, receiverId, Message);
+
+            SendLocalMessage(senderId, receiverId, Message);
         }
         catch (Exception ex)
         {
@@ -105,5 +153,39 @@ internal class ChatViewModel : BaseViewModel
     async Task Disconnect()
     {
         await hubConnection.StopAsync();
+    }
+
+    async Task SendConfirmMessage()
+    {
+        try
+        {
+            await hubConnection.InvokeAsync("SendMessage", senderId, 
+                receiverId, MedLinkConstants.CONFIRM_MESSAGE);
+        }
+        catch (Exception ex)
+        {
+            
+        }
+    }
+
+    private async Task ConsultationConfirmed()
+    {
+        _isConfirmed = true;
+
+        WaitingForDoctor = false;
+        await Task.Delay(500);
+        ContentIsVisible = true;
+
+        StartCountDownTimer();
+    }
+
+    private void SendLocalMessage(int senderId, int receiverId, string message)
+    {
+        Message = string.Empty;
+
+        Messages.Insert(0, new Message
+        {
+            Content = message
+        });
     }
 }
