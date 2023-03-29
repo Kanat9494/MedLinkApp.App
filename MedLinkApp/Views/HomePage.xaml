@@ -264,7 +264,7 @@
                                 </StackLayout>
 
                                 <StackLayout
-                                Margin="5, 5, 0, 0">
+                                    Margin="5, 5, 0, 0">
                                     <Label
                                     Text="{Binding FullName}"
                                     FontSize="17"

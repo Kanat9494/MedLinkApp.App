@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="MedLinkApp.Views.ProductsPage"
+    xmlns:models="clr-namespace:MedLinkApp.Models"
+    Title="ProductsPage"
+    xmlns:viewModels="clr-namespace:MedLinkApp.ViewModels"
+    Shell.TabBarIsVisible="False">
+    <StackLayout
+        Margin="10"
+        VerticalOptions="FillAndExpand">
+        <Label
+            Text="Выберите для консультации"
+            FontAttributes="Bold"
+            HorizontalOptions="Center"
+            FontSize="19"
+            Margin="0, 10, 0, 0"/>
+        
+        <CollectionView
+            ItemsSource="{Binding Products}"
+            VerticalOptions="FillAndExpand"
+            HorizontalOptions="Center"
+            Margin="20, 0, 20, 0"
+            >
+            <CollectionView.Header>
+                <ActivityIndicator
+                    IsRunning="{Binding IsLoading}"
+                    IsVisible="{Binding IsLoading}"
+                    Color="{x:StaticResource Green45}"/>
+            </CollectionView.Header>
+
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout
+                    Orientation="Vertical"
+                    HorizontalItemSpacing="10"
+                    VerticalItemSpacing="10"
+                    Span="2"/>
+            </CollectionView.ItemsLayout>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate
+                    >
+                    <Frame
+                        BorderColor="Transparent"
+                        BackgroundColor="{x:StaticResource Yellow60}"
+                        Padding="10">
+                        <StackLayout
+                            HorizontalOptions="Center"
+                            VerticalOptions="Center">
+                            <Label
+                                Text="{Binding ProductName}"
+                                FontAttributes="Bold"
+                                FontSize="18"/>
+
+                            <Label
+                                Text="{Binding Price, StringFormat='{0} сом'}"
+                                FontAttributes="Bold"
+                                FontSize="15"/>
+                        </StackLayout>
+
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer
+                                NumberOfTapsRequired="1"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:ProductsViewModel}}, Path=ProductTapped}"
+                                
+                                CommandParameter="{Binding .}">
+                            </TapGestureRecognizer>
+                        </Frame.GestureRecognizers>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </StackLayout>
+</ContentPage>

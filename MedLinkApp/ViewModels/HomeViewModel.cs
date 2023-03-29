@@ -1,5 +1,4 @@
-﻿
-namespace MedLinkApp.ViewModels;
+﻿namespace MedLinkApp.ViewModels;
 
 public class HomeViewModel : INotifyPropertyChanged
 {
@@ -9,8 +8,6 @@ public class HomeViewModel : INotifyPropertyChanged
         Categories = new ObservableCollection<Category>();
         Doctors = new ObservableCollection<Doctor>();
         DoctorTapped = new Command<int>(OnDoctorSelected);
-
-        
 
         Task.Run(async () =>
         {

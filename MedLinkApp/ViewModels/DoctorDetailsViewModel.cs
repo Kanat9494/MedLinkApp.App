@@ -5,7 +5,10 @@ class DoctorDetailsViewModel : BaseViewModel, IQueryAttributable
     public DoctorDetailsViewModel()
     {
         Doctor = new DoctorInfo();
-        Consultation = new Command(OnConsultation);
+        Consultation = new Command(async () => 
+        {
+            await OnConsultation();
+        });
 
         Task.Run(async () =>
         {
@@ -39,14 +42,13 @@ class DoctorDetailsViewModel : BaseViewModel, IQueryAttributable
 
         if (response.StatusCode == 200)
             Doctor = response;
+        else if (response.StatusCode == 401)
+            await Shell.Current.GoToAsync($"..//{nameof(LoginPage)}");
     }
 
-    private async void OnConsultation()
+    private async Task OnConsultation()
     {
-        //double userBalance = double.Parse(await SecureStorage.Default.GetAsync("UserBalance"));
-
-        var page = new DoctorDetailsPage();
-        //page.Show(new );
+        await Shell.Current.GoToAsync($"{nameof(ProductsPage)}?{nameof(ProductsViewModel.DoctorId)}={DoctorId}");
     }
 
     public void ApplyQueryAttributes(IDictionary<string, object> query)

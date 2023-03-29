@@ -74,15 +74,6 @@
                 <StackLayout
                     Orientation="Horizontal"
                     Margin="10">
-                    <!--<Button
-                        Text="КОНСУЛЬТАЦИЯ"
-                        Margin="0, 5, 10, 0"
-                        HorizontalOptions="Start"
-                        WidthRequest="170"
-                        BackgroundColor="{x:StaticResource Green50}"
-                        FontAttributes="Bold"
-                        Command="{Binding Consultation}"/>-->
-
                     <Button
                         Text="КОНСУЛЬТАЦИЯ"
                         Margin="0, 5, 10, 0"
@@ -90,7 +81,16 @@
                         WidthRequest="170"
                         BackgroundColor="{x:StaticResource Green50}"
                         FontAttributes="Bold"
-                        Clicked="OnConsultation_Clicked"/>
+                        Command="{Binding Consultation}"/>
+
+                    <!--<Button
+                        Text="КОНСУЛЬТАЦИЯ"
+                        Margin="0, 5, 10, 0"
+                        HorizontalOptions="Start"
+                        WidthRequest="170"
+                        BackgroundColor="{x:StaticResource Green50}"
+                        FontAttributes="Bold"
+                        Clicked="OnConsultation_Clicked"/>-->
 
                     <Button
                         Text="ЗАПИСАТЬСЯ"
