@@ -10,4 +10,6 @@ public class MedLinkConstants
 
     //для дома
     //internal const string SERVER_ROOT_URL = "http://192.168.1.51:45455";
+
+    internal const string CONFIRM_MESSAGE = "124091994";
 }

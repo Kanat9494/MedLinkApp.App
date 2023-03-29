@@ -62,9 +62,13 @@ class DoctorDetailsViewModel : BaseViewModel, IQueryAttributable
             if (!Doctor.IsBusy.Equals("Свободен"))
                 await Shell.Current.DisplayAlert("Занят", "В данный момент выбранный врач консультирует другого пациента", "Ок");
             else
+            {
                 await Shell.Current.GoToAsync($"{nameof(ProductsPage)}?{nameof(ProductsViewModel.DoctorId)}={DoctorId}");
+            }
         }
     }
+
+    
 
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
