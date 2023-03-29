@@ -10,8 +10,9 @@ internal class DoctorDetailsPopupViewModel : BaseViewModel
 
         Task.Run(async () =>
         {
-            await LoadProducts();
             accessToken = await SecureStorage.Default.GetAsync("UserAccessToken");
+
+            await LoadProducts();
         }).GetAwaiter().OnCompleted(() =>
         {
             IsLoading = false;

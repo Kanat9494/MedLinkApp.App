@@ -14,9 +14,10 @@ public class HomeViewModel : INotifyPropertyChanged
 
         Task.Run(async () =>
         {
+            accessToken = await SecureStorage.Default.GetAsync("UserAccessToken");
+
             await LoadCategories();
             await GetAllDoctors();
-            accessToken = await SecureStorage.Default.GetAsync("UserAccessToken");
         }).GetAwaiter().OnCompleted(() =>
         {
             IsLoading = false;

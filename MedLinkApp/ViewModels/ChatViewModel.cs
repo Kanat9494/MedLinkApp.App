@@ -11,8 +11,9 @@ internal class ChatViewModel : BaseViewModel
 
         Task.Run(async () =>
         {
-            await Connect();
             accessToken = await SecureStorage.Default.GetAsync("UserAccessToken");
+
+            await Connect();
         }).Wait();
 
         SendMessage = new Command(async () =>

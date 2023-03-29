@@ -4,10 +4,9 @@ public class ContentService
 {
     public ContentService(string token)
     {
-        httpClient = new HttpClient();
-        httpClient.BaseAddress = new Uri(MedLinkConstants.SERVER_ROOT_URL);
-        httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-        httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+        
+
+        accessToken = token;
     }
 
     private static ContentService _instance;
@@ -20,11 +19,16 @@ public class ContentService
     }
 
     HttpClient httpClient;
+    string accessToken;
 
     public async Task<IEnumerable<Category>> LoadCategories()
     {
-        using (httpClient)
+        using (HttpClient httpClient = new HttpClient())
         {
+            httpClient.BaseAddress = new Uri(MedLinkConstants.SERVER_ROOT_URL);
+            httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
+
             try
             {
                 var response = await httpClient.GetStringAsync(httpClient.BaseAddress + "api/Categories/LoadCategories");
@@ -41,9 +45,11 @@ public class ContentService
 
     public async Task<IEnumerable<Doctor>> GetAllDoctors()
     {
-        using (httpClient)
+        using (HttpClient httpClient = new HttpClient())
         {
             httpClient.BaseAddress = new Uri(MedLinkConstants.SERVER_ROOT_URL);
+            httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
 
             try
             {
@@ -61,9 +67,11 @@ public class ContentService
 
     public async Task<TResponse> GetItemAsync<TResponse, TRequest>(string requestUrl) where TResponse : BaseResponse
     {
-        using (httpClient)
+        using (HttpClient httpClient = new HttpClient())
         {
             httpClient.BaseAddress = new Uri(MedLinkConstants.SERVER_ROOT_URL);
+            httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
 
             try
             {
@@ -89,6 +97,8 @@ public class ContentService
         using (HttpClient httpClient = new HttpClient())
         {
             httpClient.BaseAddress = new Uri(MedLinkConstants.SERVER_ROOT_URL);
+            httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
 
             try
             {
@@ -109,6 +119,8 @@ public class ContentService
         using (HttpClient httpClient = new HttpClient())
         {
             httpClient.BaseAddress = new Uri(MedLinkConstants.SERVER_ROOT_URL);
+            httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
 
             try
             {
