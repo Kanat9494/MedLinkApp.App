@@ -8,4 +8,5 @@ public class DoctorInfo : BaseResponse
     public string AboutDoctor { get; set; }
     public string ProfileImg { get; set; }
     public string IsBusy { get; set; }
+    public string IsOnline { get; set; }
 }

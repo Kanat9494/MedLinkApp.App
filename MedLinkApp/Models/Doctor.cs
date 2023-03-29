@@ -7,4 +7,5 @@ public class Doctor
     public int WorkExperience { get; set; }
     public string ProfileImg { get; set; }
     public string IsBusy { get; set; }
+    public string IsOnline { get; set; }
 }

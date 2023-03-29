@@ -279,7 +279,7 @@
                                     />
 
                                     <Label 
-                                    Text="{Binding IsBusy}"
+                                    Text="{Binding IsOnline}"
                                     TextColor="{x:StaticResource Red50}"/>
                                 </StackLayout>
 

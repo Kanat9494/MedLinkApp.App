@@ -30,6 +30,13 @@ class DoctorDetailsViewModel : BaseViewModel, IQueryAttributable
         set => SetProperty(ref _doctor, value);
     }
 
+    private bool _isDoctorOnline;
+    public bool IsDoctorOnline
+    {
+        get => _isDoctorOnline;
+        set => SetProperty(ref _isDoctorOnline, value);
+    }
+
     string accessToken;
 
     public Command Consultation { get; set; }
@@ -48,7 +55,15 @@ class DoctorDetailsViewModel : BaseViewModel, IQueryAttributable
 
     private async Task OnConsultation()
     {
-        await Shell.Current.GoToAsync($"{nameof(ProductsPage)}?{nameof(ProductsViewModel.DoctorId)}={DoctorId}");
+        if (!Doctor.IsOnline.Equals("В сети"))
+            await Shell.Current.DisplayAlert("Не в сети", "В данный момент выбранный врач не в сети", "Ок");
+        else
+        {
+            if (!Doctor.IsBusy.Equals("Свободен"))
+                await Shell.Current.DisplayAlert("Занят", "В данный момент выбранный врач консультирует другого пациента", "Ок");
+            else
+                await Shell.Current.GoToAsync($"{nameof(ProductsPage)}?{nameof(ProductsViewModel.DoctorId)}={DoctorId}");
+        }
     }
 
     public void ApplyQueryAttributes(IDictionary<string, object> query)

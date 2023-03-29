@@ -6,6 +6,7 @@ internal class ProductsViewModel : BaseViewModel
     public ProductsViewModel()
     {
         IsLoading = true;
+        IsWaitingDoctor = false;
         Products = new ObservableCollection<Product>();
 
         ProductTapped = new Command<Product>(async (product) =>
@@ -36,6 +37,13 @@ internal class ProductsViewModel : BaseViewModel
     {
         get => _isLoading;
         set => SetProperty(ref _isLoading, value);
+    }
+
+    private bool _isWaitingDoctor;
+    public bool IsWaitingDoctor
+    {
+        get => _isWaitingDoctor;
+        set => SetProperty(ref _isWaitingDoctor, value);
     }
 
     string accessToken;
@@ -78,6 +86,10 @@ internal class ProductsViewModel : BaseViewModel
             if (userBalance < product.Price)
                 await Shell.Current.DisplayAlert("Недостаточно средств", "У вас не хватает средств для консультации, " +
                     "пожалуйста пополните баланс", "Ок");
+            else
+            {
+                IsWaitingDoctor = true;
+            }
         }
     }
 }

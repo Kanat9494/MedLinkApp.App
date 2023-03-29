@@ -41,12 +41,41 @@
 
                 <BoxView Color="{x:StaticResource PinkPrimary}"  HeightRequest="1" HorizontalOptions="Fill" Margin="10, 5, 10, 5" />
 
-                <Label
+                <!--<Label
                     Text="{Binding Doctor.WorkExperience, StringFormat='Стаж работы: {0:F1} лет'}"
-                    Margin="10, 20, 10, 20"/>
-                <Label
-                    Text="{Binding Doctor.DoctorId}"/>
+                    Margin="10, 20, 10, 20"/>-->
+                <!--<Label
+                    Text="{Binding Doctor.DoctorId}"/>-->
+                <StackLayout
+                    Orientation="Horizontal"
+                    Margin="10">
+                    <Label
+                        Text="Стаж работы"
+                        FontAttributes="Bold"
+                        FontSize="14"/>
 
+                    <Label
+                        Text="{Binding Doctor.WorkExperience}"
+                        HorizontalOptions="EndAndExpand"
+                        TextColor="{x:StaticResource Green50}"/>
+                </StackLayout>
+
+                <BoxView Color="{x:StaticResource PinkPrimary}"  HeightRequest="1" HorizontalOptions="Fill" Margin="10, 5, 10, 5" />
+
+                <StackLayout
+                    Orientation="Horizontal"
+                    Margin="10">
+                    <Label
+                        Text="Статус для консультации:"
+                        FontAttributes="Bold"
+                        FontSize="14"/>
+
+                    <Label
+                        Text="{Binding Doctor.IsBusy}"
+                        HorizontalOptions="EndAndExpand"
+                        TextColor="{x:StaticResource Green50}"/>
+                </StackLayout>
+                
                 <BoxView Color="{x:StaticResource PinkPrimary}"  HeightRequest="1" HorizontalOptions="Fill" Margin="10, 5, 10, 5" />
 
                 <Label 
