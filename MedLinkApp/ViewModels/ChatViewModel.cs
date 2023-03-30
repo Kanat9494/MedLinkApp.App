@@ -10,7 +10,7 @@ internal class ChatViewModel : BaseViewModel
 
         Messages = new ObservableCollection<Message>();
         hubConnection = new HubConnectionBuilder()
-            .WithUrl(MedLinkConstants.SERVER_ROOT_URL + "/chatHub")
+            .WithUrl(MedLinkConstants.SERVER_ROOT_URL + "/chatHub/" + "test")
             .Build();
 
         Task.Run(async () =>
@@ -39,7 +39,7 @@ internal class ChatViewModel : BaseViewModel
             await Connect();
         };
 
-        hubConnection.On<int, int, string>("ReceiveMessage", (senderId, receiverId, message) =>
+        hubConnection.On<string, string, string>("ReceiveMessage", (senderId, receiverId, message) =>
         {
             if (_isConfirmed)
             {
@@ -128,9 +128,9 @@ internal class ChatViewModel : BaseViewModel
     {
         try
         {
-            await hubConnection.InvokeAsync("SendMessage", senderId, receiverId, Message);
+            await hubConnection.InvokeAsync("SendMessage", senderId.ToString(), receiverId.ToString(), Message);
 
-            SendLocalMessage(senderId, receiverId, Message);
+            SendLocalMessage(senderId.ToString(), receiverId.ToString(), Message);
         }
         catch (Exception ex)
         {
@@ -159,8 +159,8 @@ internal class ChatViewModel : BaseViewModel
     {
         try
         {
-            await hubConnection.InvokeAsync("SendMessage", senderId, 
-                receiverId, MedLinkConstants.CONFIRM_MESSAGE);
+            await hubConnection.InvokeAsync("SendMessage", "test", 
+                receiverId.ToString(), MedLinkConstants.CONFIRM_MESSAGE);
         }
         catch (Exception ex)
         {
@@ -179,7 +179,7 @@ internal class ChatViewModel : BaseViewModel
         StartCountDownTimer();
     }
 
-    private void SendLocalMessage(int senderId, int receiverId, string message)
+    private void SendLocalMessage(string senderId, string receiverId, string message)
     {
         Message = string.Empty;
 
