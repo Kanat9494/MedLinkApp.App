@@ -8,19 +8,26 @@ internal class ChatViewModel : BaseViewModel
         ContentIsVisible = false;
         _isTimerRunning = false;
 
-        Messages = new ObservableCollection<Message>();
-        hubConnection = new HubConnectionBuilder()
-            .WithUrl(MedLinkConstants.SERVER_ROOT_URL + "/chatHub/" + "test")
-            .Build();
-
         Task.Run(async () =>
         {
             accessToken = await SecureStorage.Default.GetAsync("UserAccessToken");
 
-            senderId = int.Parse(await SecureStorage.Default.GetAsync("UserId"));
-            receiverId = int.Parse(await SecureStorage.Default.GetAsync("DoctorId"));
+            _senderName = await SecureStorage.Default.GetAsync("UserName");
+            _receiverName = await SecureStorage.Default.GetAsync("DoctorAccountName");
+        }).Wait();
 
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl(MedLinkConstants.SERVER_ROOT_URL + $"/chatHub/{_senderName}")
+            .Build();
+
+        Messages = new ObservableCollection<Message>();
+        
+
+        Task.Run(async () =>
+        {
             await Connect();
+
+            DoctorFullName = await SecureStorage.Default.GetAsync("DoctorFullName");
 
             await SendConfirmMessage();
         }).GetAwaiter().OnCompleted(() =>
@@ -39,7 +46,7 @@ internal class ChatViewModel : BaseViewModel
             await Connect();
         };
 
-        hubConnection.On<string, string, string>("ReceiveMessage", (senderId, receiverId, message) =>
+        hubConnection.On<string, string, string>("ReceiveMessage", (senderName, receiverName, message) =>
         {
             if (_isConfirmed)
             {
@@ -49,26 +56,27 @@ internal class ChatViewModel : BaseViewModel
                     _isTimerRunning = !_isTimerRunning;
                 }
 
-                SendLocalMessage(senderId, receiverId, message);
+                SendLocalMessage(message);
             }
             else
                 Task.Run(async () => await ConsultationConfirmed());
         });
     }
 
-    int senderId, receiverId;
-
     string accessToken;
 
     HubConnection hubConnection;
     public Command SendMessage { get; }
 
-    private string _message;
-    public string Message
+    private string _sendingMessage;
+    public string SendingMessage
     {
-        get => _message;
-        set => SetProperty(ref _message, value);
+        get => _sendingMessage;
+        set => SetProperty(ref _sendingMessage, value);
     }
+    private string _senderName;
+    private string _receiverName;
+
     private string _chatTimer;
     public string ChatTimer
     {
@@ -92,6 +100,13 @@ internal class ChatViewModel : BaseViewModel
     {
         get => _waitingForDoctor;
         set => SetProperty(ref _waitingForDoctor, value);
+    }
+
+    private string _doctorFullName;
+    public string DoctorFullName
+    {
+        get => _doctorFullName;
+        set => SetProperty(ref _doctorFullName, value);
     }
 
     private bool _isConfirmed;
@@ -128,9 +143,15 @@ internal class ChatViewModel : BaseViewModel
     {
         try
         {
-            await hubConnection.InvokeAsync("SendMessage", senderId.ToString(), receiverId.ToString(), Message);
+            await hubConnection.InvokeAsync("SendMessage", new Message()
+            {
+                SenderName = _senderName,
+                ReceiverName = _receiverName,
+                Content = SendingMessage
+            });
 
-            SendLocalMessage(senderId.ToString(), receiverId.ToString(), Message);
+            //это лишнее убрал, чтобы не отправлять сообщение 2 раза
+            //SendLocalMessage(SendingMessage);
         }
         catch (Exception ex)
         {
@@ -159,8 +180,14 @@ internal class ChatViewModel : BaseViewModel
     {
         try
         {
-            await hubConnection.InvokeAsync("SendMessage", "test", 
-                receiverId.ToString(), MedLinkConstants.CONFIRM_MESSAGE);
+            await hubConnection.InvokeAsync("SendMessage", new Message
+            {
+                SenderName = _senderName,
+                ReceiverName = _receiverName,
+                Content = MedLinkConstants.CONFIRM_MESSAGE
+            });
+
+            //await hubConnection.InvokeAsync("SendMessage", _senderName, _receiverName, SendingMessage);
         }
         catch (Exception ex)
         {
@@ -179,13 +206,15 @@ internal class ChatViewModel : BaseViewModel
         StartCountDownTimer();
     }
 
-    private void SendLocalMessage(string senderId, string receiverId, string message)
+    private void SendLocalMessage(string message)
     {
-        Message = string.Empty;
-
+        if (string.IsNullOrEmpty(message))
+            return;
         Messages.Insert(0, new Message
         {
             Content = message
         });
+
+        SendingMessage = string.Empty;
     }
 }

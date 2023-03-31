@@ -48,7 +48,11 @@ class DoctorDetailsViewModel : BaseViewModel, IQueryAttributable
         await SecureStorage.Default.SetAsync("DoctorId", DoctorId.ToString());
 
         if (response.StatusCode == 200)
+        {
             Doctor = response;
+            await SecureStorage.Default.SetAsync("DoctorAccountName", response.AccountName);
+            await SecureStorage.Default.SetAsync("DoctorFullName", response.FullName);
+        }
         else if (response.StatusCode == 401)
             await Shell.Current.GoToAsync($"..//{nameof(LoginPage)}");
     }

@@ -60,6 +60,7 @@ internal class LoginViewModel : BaseViewModel
             {
                 await SecureStorage.Default.SetAsync("UserAccessToken", CurrentUser.AccessToken);
                 await SecureStorage.Default.SetAsync("UserId", CurrentUser.UserId.ToString());
+                await SecureStorage.Default.SetAsync("UserName", CurrentUser.UserName);
 
                 await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
             }

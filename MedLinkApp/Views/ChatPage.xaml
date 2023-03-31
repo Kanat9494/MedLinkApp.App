@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MedLinkApp.Views.ChatPage"
-             Title="{Binding Doctor.DoctorFullName}"
+             Title="{Binding DoctorFullName}"
     Shell.TabBarIsVisible="False">
     <StackLayout
         >
@@ -55,8 +55,8 @@
 
             <StackLayout Padding="10"
                      Margin="10">
-                <Entry HorizontalOptions="FillAndExpand" Text="{Binding Message}"/>
-                <Button Text="Отправить" Command="{Binding SendMessage}" CommandParameter="{Binding Message}"/>
+                <Entry HorizontalOptions="FillAndExpand" Text="{Binding SendingMessage}"/>
+                <Button Text="Отправить" Command="{Binding SendMessage}" CommandParameter="{Binding SendingMessage}"/>
             </StackLayout>
         </StackLayout>
 

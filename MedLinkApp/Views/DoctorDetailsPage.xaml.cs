@@ -9,4 +9,11 @@ public partial class DoctorDetailsPage : ContentPage
 
         this.BindingContext = new DoctorDetailsViewModel();
     }
+
+    //protected override void OnAppearing()
+    //{
+    //    base.OnAppearing();
+    //    //Application.Current.MainPage = new DoctorDetailsPage();
+    //    Shell.SetTabBarIsVisible(this, false);// set false in second page, set true in first page
+    //}
 }
