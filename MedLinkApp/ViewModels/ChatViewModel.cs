@@ -70,8 +70,6 @@ internal class ChatViewModel : BaseViewModel
             var message = JsonConvert.DeserializeObject<Message>(jsonMessage);
             if (_isConfirmed)
             {
-                if (message.Image != null)
-                    IsImageVisible = true;
                 if (!_isTimerRunning)
                 {
                     StartCountDownTimer();
@@ -173,11 +171,13 @@ internal class ChatViewModel : BaseViewModel
     {
         try
         {
+            
             var message = new Message()
             {
                 SenderName = _senderName,
                 ReceiverName = _receiverName,
                 Content = SendingMessage,
+                ImageUrl = "https://cdn-icons-png.flaticon.com/512/1077/1077046.png"
             };
             var serializedMessage = JsonConvert.SerializeObject(message);
             await hubConnection.InvokeAsync("SendMessage", _senderName, _receiverName, serializedMessage);
@@ -244,7 +244,9 @@ internal class ChatViewModel : BaseViewModel
             return;
         Messages.Add(new Message
         {
-            Content = message
+            Content = message,
+            //Image = imageBytes
+            ImageUrl = "https://cdn-icons-png.flaticon.com/512/1077/1077046.png"
         });
 
         SendingMessage = string.Empty;
@@ -253,5 +255,11 @@ internal class ChatViewModel : BaseViewModel
     private async void ToAudioMessagePage()
     {
         await Shell.Current.GoToAsync(nameof(AudioMessagePage));
+    }
+
+    static byte[] ImageToByteArray(string imagefilePath)
+    {
+        byte[] imageArray = File.ReadAllBytes(imagefilePath);
+        return imageArray;
     }
 }

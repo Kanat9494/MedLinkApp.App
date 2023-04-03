@@ -9,6 +9,14 @@ internal class LoginViewModel : BaseViewModel
 
         UserName = "test";
         Password = "1234";
+        TestImg = "http://192.168.2.33:45457/test_img.png";
+    }
+
+    private string testImg;
+    public string TestImg
+    {
+        get => testImg;
+        set => SetProperty(ref testImg, value);
     }
 
     private bool _isLoading;

@@ -103,6 +103,10 @@
             <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Margin="0,60,0,0" Padding="0">
                 <Label Text="Новый пользователь?" TextColor="DarkGray" FontSize="Small"/>
                 <Label Text="  Зарегистрируйтесь" TextColor="#1d8348" FontAttributes="Bold" FontSize="Small"/>
+                <!--<Image
+                    Source="{Binding TestImg}"
+                    HeightRequest="70"
+                    WidthRequest="70"/>-->
             </StackLayout>
         </VerticalStackLayout>
 

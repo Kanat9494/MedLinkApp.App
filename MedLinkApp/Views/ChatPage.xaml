@@ -21,7 +21,7 @@
                     Margin="0, 5">
                     <Label Text="{Binding Content}" />
                     <Image
-                        Source="{Binding Image}"
+                        Source="{Binding ImageUrl}"
                         IsVisible="{Binding IsImageVisible}"/>
                 </StackLayout>
             </Border>
@@ -43,7 +43,8 @@
                     <StackLayout>
                         <Label Text="{Binding Content}" />
                         <Image
-                        Source="{Binding Image}"
+                        Source="{Binding ImageUrl}"
+                            WidthRequest="200"
                         IsVisible="{Binding IsImageVisible}"/>
                     </StackLayout>
                 </Border>
@@ -142,7 +143,7 @@
 
             <StackLayout Padding="10"
                          Margin="10"
-                    HeightRequest="110">
+                    HeightRequest="105">
                 <Border
                     StrokeThickness="0"
                     Background="{x:StaticResource White95}"
