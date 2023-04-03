@@ -7,6 +7,7 @@ internal class ChatViewModel : BaseViewModel
         WaitingForDoctor = true;
         ContentIsVisible = false;
         _isTimerRunning = false;
+        IsImageVisible = false;
 
         Task.Run(async () =>
         {
@@ -21,7 +22,7 @@ internal class ChatViewModel : BaseViewModel
             .Build();
 
         Messages = new ObservableCollection<Message>();
-        
+
 
         Task.Run(async () =>
         {
@@ -67,6 +68,8 @@ internal class ChatViewModel : BaseViewModel
             var message = JsonConvert.DeserializeObject<Message>(jsonMessage);
             if (_isConfirmed)
             {
+                if (message.Image != null)
+                    IsImageVisible = true;
                 if (!_isTimerRunning)
                 {
                     StartCountDownTimer();
@@ -128,6 +131,13 @@ internal class ChatViewModel : BaseViewModel
 
     private bool _isConfirmed;
     private bool _isTimerRunning;
+
+    public bool _isImageVisible;
+    public bool IsImageVisible
+    {
+        get => _isImageVisible;
+        set => SetProperty(ref _isImageVisible, value);
+    }
 
     public ObservableCollection<Message> Messages { get; set; }
 
