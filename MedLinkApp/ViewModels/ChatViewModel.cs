@@ -41,6 +41,8 @@ internal class ChatViewModel : BaseViewModel
             await OnSendMessage();
         });
 
+        OpenAudioMessagePage = new Command(ToAudioMessagePage);
+
         hubConnection.Closed += async (error) =>
         {
             await Task.Delay(5000);
@@ -87,6 +89,7 @@ internal class ChatViewModel : BaseViewModel
 
     HubConnection hubConnection;
     public Command SendMessage { get; }
+    public Command OpenAudioMessagePage { get; }
 
     private string _sendingMessage;
     public string SendingMessage
@@ -245,5 +248,10 @@ internal class ChatViewModel : BaseViewModel
         });
 
         SendingMessage = string.Empty;
+    }
+
+    private async void ToAudioMessagePage()
+    {
+        await Shell.Current.GoToAsync(nameof(AudioMessagePage));
     }
 }
