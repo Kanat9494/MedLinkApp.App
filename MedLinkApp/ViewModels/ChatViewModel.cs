@@ -177,7 +177,7 @@ internal class ChatViewModel : BaseViewModel
                 SenderName = _senderName,
                 ReceiverName = _receiverName,
                 Content = SendingMessage,
-                ImageUrl = "https://cdn-icons-png.flaticon.com/512/1077/1077046.png"
+                ImageUrl = "http://192.168.2.33:45455/images/profile_img.png"
             };
             var serializedMessage = JsonConvert.SerializeObject(message);
             await hubConnection.InvokeAsync("SendMessage", _senderName, _receiverName, serializedMessage);
@@ -246,7 +246,7 @@ internal class ChatViewModel : BaseViewModel
         {
             Content = message,
             //Image = imageBytes
-            ImageUrl = "https://cdn-icons-png.flaticon.com/512/1077/1077046.png"
+            ImageUrl = "http://192.168.2.33:45455/images/profile_img.png"
         });
 
         SendingMessage = string.Empty;
