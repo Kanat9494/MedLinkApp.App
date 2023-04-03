@@ -10,7 +10,7 @@ internal class ChatTemplateSelector : DataTemplateSelector
         if (item is Message message)
         {
             if (message.SenderName != null)
-                return IncomingMessageTemplate;
+                return IncomingMessageTemplate; //OutgoingMessageTemplate
             else
                 return OutgoingMessageTemplate;
         }

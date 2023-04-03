@@ -6,49 +6,65 @@
              Title="{Binding DoctorFullName}"
     xmlns:chatTemplate="clr-namespace:MedLinkApp.Selectors"
     xmlns:customControls="clr-namespace:MedLinkApp.CustomControls"
-    Shell.TabBarIsVisible="False">
+    Shell.TabBarIsVisible="False"
+    Shell.NavBarIsVisible="False">
     <ContentPage.Resources>
         <DataTemplate
             x:Key="IncomingMessage"
             >
-            <Border
+            <Grid
+                HorizontalOptions="Start"
+                Margin="5, 5, 30, 5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Border
                 StrokeThickness="0"
                     StrokeShape="RoundRectangle 10"
                 BackgroundColor="{x:StaticResource Orange60}"
                 Padding="8"
                 >
-                <StackLayout
-                    Margin="0, 5">
-                    <Label Text="{Binding Content}" />
-                    <Image
+                    <StackLayout
+                        VerticalOptions="FillAndExpand">
+                        <Label Text="{Binding Content}" 
+                           LineBreakMode="WordWrap"
+                               VerticalOptions="FillAndExpand"
+                           />
+                        <Image
                         Source="{Binding ImageUrl}"
                         IsVisible="{Binding IsImageVisible}"/>
-                </StackLayout>
-            </Border>
+                    </StackLayout>
+                </Border>
+            </Grid>
         </DataTemplate>
 
         <DataTemplate
             x:Key="OutgoingMessage">
-            <StackLayout
-                Orientation="Horizontal"
+            <Grid
                 HorizontalOptions="End"
-                Margin="0, 5"
+                Margin="30, 5, 5, 5"
                 >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
                 <Border
                     Padding="8"
                 StrokeThickness="0"
                     StrokeShape="RoundRectangle 10"
                 BackgroundColor="{x:StaticResource Green60}"
                 >
-                    <StackLayout>
-                        <Label Text="{Binding Content}" />
+                    <StackLayout
+                        VerticalOptions="FillAndExpand">
+                        <Label Text="{Binding Content}" 
+                            LineBreakMode="WordWrap"
+                               VerticalOptions="FillAndExpand"/>
                         <Image
                         Source="{Binding ImageUrl}"
                             WidthRequest="200"
                         IsVisible="{Binding IsImageVisible}"/>
                     </StackLayout>
                 </Border>
-            </StackLayout>
+            </Grid>
         </DataTemplate>
 
         <chatTemplate:ChatTemplateSelector
