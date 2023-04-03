@@ -46,8 +46,25 @@ internal class ChatViewModel : BaseViewModel
             await Connect();
         };
 
-        hubConnection.On<string, string, string>("ReceiveMessage", (senderName, receiverName, message) =>
+        //hubConnection.On<string, string, string>("ReceiveMessage", (senderName, receiverName, message) =>
+        //{
+        //    if (_isConfirmed)
+        //    {
+        //        if (!_isTimerRunning)
+        //        {
+        //            StartCountDownTimer();
+        //            _isTimerRunning = !_isTimerRunning;
+        //        }
+
+        //        SendLocalMessage(message);
+        //    }
+        //    else
+        //        Task.Run(async () => await ConsultationConfirmed());
+        //});
+
+        hubConnection.On<string, string, string>("ReceiveMessage", (senderName, receiverName, jsonMessage) =>
         {
+            var message = JsonConvert.DeserializeObject<Message>(jsonMessage);
             if (_isConfirmed)
             {
                 if (!_isTimerRunning)
@@ -56,7 +73,7 @@ internal class ChatViewModel : BaseViewModel
                     _isTimerRunning = !_isTimerRunning;
                 }
 
-                SendLocalMessage(message);
+                SendLocalMessage(message.Content);
             }
             else
                 Task.Run(async () => await ConsultationConfirmed());
@@ -143,12 +160,14 @@ internal class ChatViewModel : BaseViewModel
     {
         try
         {
-            await hubConnection.InvokeAsync("SendMessage", new Message()
+            var message = new Message()
             {
                 SenderName = _senderName,
                 ReceiverName = _receiverName,
-                Content = SendingMessage
-            });
+                Content = SendingMessage,
+            };
+            var serializedMessage = JsonConvert.SerializeObject(message);
+            await hubConnection.InvokeAsync("SendMessage", _senderName, _receiverName, serializedMessage);
 
             //это лишнее убрал, чтобы не отправлять сообщение 2 раза
             //SendLocalMessage(SendingMessage);
@@ -180,12 +199,12 @@ internal class ChatViewModel : BaseViewModel
     {
         try
         {
-            await hubConnection.InvokeAsync("SendMessage", new Message
+            await hubConnection.InvokeAsync("SendMessage", _senderName, _receiverName, JsonConvert.SerializeObject(new Message
             {
                 SenderName = _senderName,
                 ReceiverName = _receiverName,
                 Content = MedLinkConstants.CONFIRM_MESSAGE
-            });
+            }));
 
             //await hubConnection.InvokeAsync("SendMessage", _senderName, _receiverName, SendingMessage);
         }
@@ -210,7 +229,7 @@ internal class ChatViewModel : BaseViewModel
     {
         if (string.IsNullOrEmpty(message))
             return;
-        Messages.Insert(0, new Message
+        Messages.Add(new Message
         {
             Content = message
         });
