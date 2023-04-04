@@ -1,4 +1,6 @@
-﻿namespace MedLinkApp.ViewModels;
+﻿using MedLinkApp.Helpers;
+
+namespace MedLinkApp.ViewModels;
 
 internal class ChatViewModel : BaseViewModel
 {
@@ -42,6 +44,7 @@ internal class ChatViewModel : BaseViewModel
         });
 
         OpenAudioMessagePage = new Command(ToAudioMessagePage);
+        OpenPhotoMessagePage = new Command(PickImage);
 
         hubConnection.Closed += async (error) =>
         {
@@ -76,7 +79,7 @@ internal class ChatViewModel : BaseViewModel
                     _isTimerRunning = !_isTimerRunning;
                 }
 
-                SendLocalMessage(message.Content);
+                SendLocalMessage(message);
             }
             else
                 Task.Run(async () => await ConsultationConfirmed());
@@ -88,6 +91,7 @@ internal class ChatViewModel : BaseViewModel
     HubConnection hubConnection;
     public Command SendMessage { get; }
     public Command OpenAudioMessagePage { get; }
+    public Command OpenPhotoMessagePage { get; }
 
     private string _sendingMessage;
     public string SendingMessage
@@ -238,16 +242,12 @@ internal class ChatViewModel : BaseViewModel
         StartCountDownTimer();
     }
 
-    private void SendLocalMessage(string message)
+    private void SendLocalMessage(Message message)
     {
-        if (string.IsNullOrEmpty(message))
+        if (string.IsNullOrEmpty(message.Content))
             return;
-        Messages.Add(new Message
-        {
-            Content = message,
-            //Image = imageBytes
-            //ImageUrl = "http://192.168.2.33:45455/images/profile_img.png"
-        });
+
+        Messages.Add(message);
 
         SendingMessage = string.Empty;
     }
@@ -257,9 +257,65 @@ internal class ChatViewModel : BaseViewModel
         await Shell.Current.GoToAsync(nameof(AudioMessagePage));
     }
 
+    private async void ToPhotoMessagePage()
+    {
+
+    }
+
     static byte[] ImageToByteArray(string imagefilePath)
     {
         byte[] imageArray = File.ReadAllBytes(imagefilePath);
         return imageArray;
     }
+
+
+    #region SendImage
+    async void PickImage()
+    {
+        var result = await FilePicker.PickAsync(new PickOptions
+        {
+            PickerTitle = "Выберите изображение",
+            FileTypes = FilePickerFileType.Images
+        });
+
+        if (result == null)
+            return;
+
+        var stream = await result.OpenReadAsync();
+
+        var imageBytes = MedLinkStatic.StreamTyByte(stream);
+        string accessToken = await SecureStorage.Default.GetAsync("UserAccessToken");
+
+        var imageUrl = MedLinkConstants.FILE_BASE_PATH + "/" + await FileService.UploadFile(imageBytes, accessToken);
+
+        //await OnSendMessage("test", "tomy", "тестовый месседж", $"{MedLinkConstants.FILE_BASE_PATH}/{filePath}");
+        await SendImageMessage(imageUrl);
+    }
+
+    async Task SendImageMessage(string imageUrl)
+    {
+        try
+        {
+
+            var message = new Message()
+            {
+                SenderName = _senderName,
+                ReceiverName = _receiverName,
+                Content = "Фото",
+                ImageUrl = imageUrl
+            };
+            var serializedMessage = JsonConvert.SerializeObject(message);
+            await hubConnection.InvokeAsync("SendMessage", _senderName, _receiverName, serializedMessage);
+
+            //это лишнее убрал, чтобы не отправлять сообщение 2 раза
+            //SendLocalMessage(SendingMessage);
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+
+
+    #endregion
 }

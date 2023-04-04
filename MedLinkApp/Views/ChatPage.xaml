@@ -31,8 +31,8 @@
                                VerticalOptions="FillAndExpand"
                            />
                         <Image
-                        Source="{Binding ImageUrl}"
-                        IsVisible="{Binding IsImageVisible}"/>
+                            Source="{Binding ImageUrl}"
+                            />
                     </StackLayout>
                 </Border>
             </Grid>
@@ -61,7 +61,7 @@
                         <Image
                         Source="{Binding ImageUrl}"
                             WidthRequest="200"
-                        IsVisible="{Binding IsImageVisible}"/>
+                            />
                     </StackLayout>
                 </Border>
             </Grid>
@@ -191,13 +191,22 @@
                         WidthRequest="30"
                         Grid.Column="0"
                         />
-                        <Button 
-                            Text="Отправить" Command="{Binding SendMessage}" 
-                            CommandParameter="{Binding SendingMessage}"
-                            HorizontalOptions="Center"
-                            VerticalOptions="CenterAndExpand"
-                            Grid.Column="1"
-                            />
+                    
+                    <Button 
+                        Text="Отправить" Command="{Binding SendMessage}" 
+                        CommandParameter="{Binding SendingMessage}"
+                        HorizontalOptions="Center"
+                        VerticalOptions="CenterAndExpand"
+                        Grid.Column="1"
+                        />
+                    
+                    <ImageButton Source="photo_icon.png"
+                        Command="{Binding OpenPhotoMessagePage}"
+                        HorizontalOptions="CenterAndExpand"
+                        HeightRequest="30"
+                        WidthRequest="30"
+                        Grid.Column="2"
+                        />
                 </Grid>
             </StackLayout>
 

@@ -49,6 +49,7 @@
 	  <None Remove="Resources\Images\home_icon.png" />
 	  <None Remove="Resources\Images\mic_icon.png" />
 	  <None Remove="Resources\Images\password_icon.png" />
+	  <None Remove="Resources\Images\photo_icon.png" />
 	  <None Remove="Resources\Images\user_icon.png" />
 	</ItemGroup>
 
