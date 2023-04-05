@@ -30,6 +30,7 @@ internal class FileHelper
                 using (var memoryStream = new MemoryStream())
                 {
                     await contentStream.CopyToAsync(memoryStream);
+
                     return memoryStream.ToArray();
                 }
             }

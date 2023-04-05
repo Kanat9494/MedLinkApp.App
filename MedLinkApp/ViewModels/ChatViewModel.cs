@@ -72,19 +72,26 @@ internal class ChatViewModel : BaseViewModel
 
         hubConnection.On<string, string, string>("ReceiveMessage", (senderName, receiverName, jsonMessage) =>
         {
-            var message = JsonConvert.DeserializeObject<Message>(jsonMessage);
-            if (_isConfirmed)
+            try
             {
-                if (!_isTimerRunning)
+                var message = JsonConvert.DeserializeObject<Message>(jsonMessage);
+                if (_isConfirmed)
                 {
-                    StartCountDownTimer();
-                    _isTimerRunning = !_isTimerRunning;
-                }
+                    if (!_isTimerRunning)
+                    {
+                        StartCountDownTimer();
+                        _isTimerRunning = !_isTimerRunning;
+                    }
 
-                SendLocalMessage(message);
+                    SendLocalMessage(message);
+                }
+                else
+                    Task.Run(async () => await ConsultationConfirmed());
             }
-            else
-                Task.Run(async () => await ConsultationConfirmed());
+            catch
+            {
+
+            }
         });
     }
 
@@ -183,14 +190,14 @@ internal class ChatViewModel : BaseViewModel
                 SenderName = _senderName,
                 ReceiverName = _receiverName,
                 Content = SendingMessage,
-                ImageUrl = "https://www.google.com/images/logos/ps_logo2.png"
+                //ImageUrl = "https://www.google.com/images/logos/ps_logo2.png"
 
             };
             var serializedMessage = JsonConvert.SerializeObject(message);
             await hubConnection.InvokeAsync("SendMessage", _senderName, _receiverName, serializedMessage);
 
             //это лишнее убрал, чтобы не отправлять сообщение 2 раза
-            //SendLocalMessage(SendingMessage);
+            SendLocalMessage(message);
         }
         catch (Exception ex)
         {
@@ -250,18 +257,21 @@ internal class ChatViewModel : BaseViewModel
         if (string.IsNullOrEmpty(message.Content))
             return;
 
-        if (message.ImageUrl != null)
-        {
-            Task.Run(async () =>
-            {
-                var imabeBytes = await FileHelper.DownloadImageBytesAsync(message.ImageUrl);
-                if (imabeBytes != null)
-                {
-                    var c = await FileHelper.SaveFileAsync(imabeBytes);
-                    message.ImageUrl = c;
-                }
-            }).Wait();
-        }
+
+        #region сохранение фото в локальном хранилище
+        //if (message.ImageUrl != null)
+        //{
+        //    Task.Run(async () =>
+        //    {
+        //        var imabeBytes = await FileHelper.DownloadImageBytesAsync(message.ImageUrl);
+        //        if (imabeBytes != null)
+        //        {
+        //            var c = await FileHelper.SaveFileAsync(imabeBytes);
+        //            message.ImageUrl = c;
+        //        }
+        //    }).Wait();
+        //}
+        #endregion
 
         Messages.Add(message);
 
@@ -319,7 +329,7 @@ internal class ChatViewModel : BaseViewModel
             await hubConnection.InvokeAsync("SendMessage", _senderName, _receiverName, serializedMessage);
 
             //это лишнее убрал, чтобы не отправлять сообщение 2 раза
-            //SendLocalMessage(SendingMessage);
+            SendLocalMessage(message);
         }
         catch (Exception ex)
         {
