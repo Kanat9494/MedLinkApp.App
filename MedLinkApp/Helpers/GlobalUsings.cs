@@ -16,6 +16,7 @@ global using The49.Maui.BottomSheet;
 global using System.Web;
 global using CommunityToolkit.Maui;
 global using CommunityToolkit.Maui.Views;
+global using CommunityToolkit.Maui.Storage;
 global using MedLinkApp.ViewModels.CustomControls;
 global using Microsoft.AspNetCore.SignalR.Client;
 global using Sharpnado.Tabs;

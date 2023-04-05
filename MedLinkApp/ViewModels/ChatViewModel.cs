@@ -1,4 +1,6 @@
 ﻿using MedLinkApp.Helpers;
+using System.Net;
+using System.Threading;
 
 namespace MedLinkApp.ViewModels;
 
@@ -181,7 +183,8 @@ internal class ChatViewModel : BaseViewModel
                 SenderName = _senderName,
                 ReceiverName = _receiverName,
                 Content = SendingMessage,
-                //ImageUrl = "http://192.168.2.33:45455/images/profile_img.png"
+                ImageUrl = "https://www.google.com/images/logos/ps_logo2.png"
+
             };
             var serializedMessage = JsonConvert.SerializeObject(message);
             await hubConnection.InvokeAsync("SendMessage", _senderName, _receiverName, serializedMessage);
@@ -247,6 +250,19 @@ internal class ChatViewModel : BaseViewModel
         if (string.IsNullOrEmpty(message.Content))
             return;
 
+        if (message.ImageUrl != null)
+        {
+            Task.Run(async () =>
+            {
+                var imabeBytes = await FileHelper.DownloadImageBytesAsync(message.ImageUrl);
+                if (imabeBytes != null)
+                {
+                    var c = await FileHelper.SaveFileAsync(imabeBytes);
+                    message.ImageUrl = c;
+                }
+            }).Wait();
+        }
+
         Messages.Add(message);
 
         SendingMessage = string.Empty;
@@ -262,14 +278,10 @@ internal class ChatViewModel : BaseViewModel
 
     }
 
-    static byte[] ImageToByteArray(string imagefilePath)
-    {
-        byte[] imageArray = File.ReadAllBytes(imagefilePath);
-        return imageArray;
-    }
 
 
     #region SendImage
+
     async void PickImage()
     {
         var result = await FilePicker.PickAsync(new PickOptions
@@ -283,7 +295,7 @@ internal class ChatViewModel : BaseViewModel
 
         var stream = await result.OpenReadAsync();
 
-        var imageBytes = MedLinkStatic.StreamTyByte(stream);
+        var imageBytes = FileHelper.StreamTyByte(stream);
         string accessToken = await SecureStorage.Default.GetAsync("UserAccessToken");
 
         var imageUrl = MedLinkConstants.FILE_BASE_PATH + "/" + await FileService.UploadFile(imageBytes, accessToken);
@@ -296,7 +308,6 @@ internal class ChatViewModel : BaseViewModel
     {
         try
         {
-
             var message = new Message()
             {
                 SenderName = _senderName,
