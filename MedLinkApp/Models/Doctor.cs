@@ -8,4 +8,5 @@ public class Doctor
     public string ProfileImg { get; set; }
     public string IsBusy { get; set; }
     public string IsOnline { get; set; }
+    public string Specialization { get; set; }
 }

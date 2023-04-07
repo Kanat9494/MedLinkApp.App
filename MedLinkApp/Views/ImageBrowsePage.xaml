@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="MedLinkApp.Views.ImageBrowsePage"
+    Title="ImageBrowsePage"
+    Shell.NavBarIsVisible="False"
+    Shell.TabBarIsVisible="False">
+    <StackLayout
+        VerticalOptions="FillAndExpand"
+        HorizontalOptions="FillAndExpand">
+        <Image
+            Source="{Binding ImageUrl}"
+            Aspect="AspectFit"
+            VerticalOptions="CenterAndExpand"
+            x:Name="imageFromMessage"
+            TranslationX="0" TranslationY="0"
+            Scale="1"
+            IsEnabled="True"
+            InputTransparent="False"
+            >
+            <Image.GestureRecognizers>
+                <PinchGestureRecognizer PinchUpdated="OnPinchUpdated"/>
+                <PanGestureRecognizer PanUpdated="OnPanUpdated" />
+            </Image.GestureRecognizers>
+        </Image>
+    </StackLayout>
+</ContentPage>

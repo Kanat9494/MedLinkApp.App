@@ -47,6 +47,7 @@ internal class ChatViewModel : BaseViewModel
 
         OpenAudioMessagePage = new Command(ToAudioMessagePage);
         OpenPhotoMessagePage = new Command(PickImage);
+        OpenPhotoMessageCommand = new Command<string>(async (imageUrl) => await OnOpenPhotoMessage(imageUrl));
 
         hubConnection.Closed += async (error) =>
         {
@@ -101,6 +102,7 @@ internal class ChatViewModel : BaseViewModel
     public Command SendMessage { get; }
     public Command OpenAudioMessagePage { get; }
     public Command OpenPhotoMessagePage { get; }
+    public Command<string> OpenPhotoMessageCommand { get; }
 
     private string _sendingMessage;
     public string SendingMessage
@@ -283,9 +285,9 @@ internal class ChatViewModel : BaseViewModel
         await Shell.Current.GoToAsync(nameof(AudioMessagePage));
     }
 
-    private async void ToPhotoMessagePage()
+    private async Task OnOpenPhotoMessage(string imageUrl)
     {
-
+        await Shell.Current.GoToAsync($"{nameof(ImageBrowsePage)}?{nameof(ImageBrowseViewModel.ImageUrl)}={imageUrl}");
     }
 
 

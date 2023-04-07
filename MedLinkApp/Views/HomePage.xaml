@@ -280,7 +280,11 @@
 
                                     <Label 
                                     Text="{Binding IsOnline}"
-                                    TextColor="{x:StaticResource Red50}"/>
+                                    TextColor="{x:StaticResource Green45}"/>
+
+                                    <Label
+                                        Text="{Binding Specialization}"
+                                        TextColor="{x:StaticResource Red50}"/>
                                 </StackLayout>
 
                                 <StackLayout.GestureRecognizers>

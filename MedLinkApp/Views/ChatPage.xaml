@@ -6,6 +6,7 @@
              Title="{Binding DoctorFullName}"
     xmlns:chatTemplate="clr-namespace:MedLinkApp.Selectors"
     xmlns:customControls="clr-namespace:MedLinkApp.CustomControls"
+    xmlns:viewModels="clr-namespace:MedLinkApp.ViewModels"
     Shell.TabBarIsVisible="False"
     Shell.NavBarIsVisible="False">
     <ContentPage.Resources>
@@ -32,7 +33,15 @@
                            />
                         <Image
                             Source="{Binding ImageUrl}"
-                            />
+                            >
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer
+                                            NumberOfTapsRequired="1"
+                                            Command="{Binding OpenPhotoMessageCommand}"
+                                            CommandParameter="{Binding ImageUrl}">
+                                </TapGestureRecognizer>
+                            </Image.GestureRecognizers>
+                        </Image>
                     </StackLayout>
                 </Border>
             </Grid>
@@ -61,7 +70,15 @@
                         <Image
                         Source="{Binding ImageUrl}"
                             WidthRequest="200"
-                            />
+                            >
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer
+                                            NumberOfTapsRequired="1"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:ChatViewModel}}, Path=OpenPhotoMessageCommand}"
+                                            CommandParameter="{Binding ImageUrl}">
+                                </TapGestureRecognizer>
+                            </Image.GestureRecognizers>
+                        </Image>
                     </StackLayout>
                 </Border>
             </Grid>
@@ -109,20 +126,6 @@
             <StackLayout
             VerticalOptions="FillAndExpand"
             Margin="10">
-                <!--<ListView ItemsSource="{Binding Messages}">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <ViewCell.View>
-                                    <StackLayout Orientation="Horizontal">
-                                        <Label Text="{Binding Content}" />
-                                    </StackLayout>
-                                </ViewCell.View>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>-->
-
                 <Grid
                     VerticalOptions="FillAndExpand">
                     <Grid.RowDefinitions>
@@ -134,23 +137,7 @@
                     ItemTemplate="{StaticResource ChatTemplateSelector}"
                         Grid.Row="0"
                         VerticalOptions="FillAndExpand">
-                        <!--<CollectionView.ItemTemplate>
-                        <DataTemplate
-                            x:DataType="models:Message">
-                            <StackLayout Orientation="Horizontal">
-                                <Frame
-                                    BorderColor="Transparent"
-                                    BackgroundColor="{x:StaticResource Orange60}">
-                                    <StackLayout>
-                                        <Label Text="{Binding Content}" />
-                                        <Image
-                                            Source="{Binding Image}"
-                                            IsVisible="{Binding IsImageVisible}"/>
-                                    </StackLayout>
-                                </Frame>
-                            </StackLayout>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>-->
+                        
                     </CollectionView>
 
                 
@@ -218,7 +205,8 @@
             VerticalOptions="CenterAndExpand">
             <Frame
                 BackgroundColor="{x:StaticResource GreenPrimary}"
-                Margin="20, 0, 20, 0">
+                Margin="20, 0, 20, 0"
+                BorderColor="Transparent">
                 <StackLayout>
                     <Label
                         HorizontalOptions="CenterAndExpand"

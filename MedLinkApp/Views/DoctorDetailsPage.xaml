@@ -52,12 +52,32 @@
                     <Label
                         Text="Стаж работы"
                         FontAttributes="Bold"
-                        FontSize="14"/>
+                        FontSize="16"/>
 
                     <Label
                         Text="{Binding Doctor.WorkExperience}"
                         HorizontalOptions="EndAndExpand"
-                        TextColor="{x:StaticResource Green50}"/>
+                        TextColor="{x:StaticResource Green50}"
+                        FontSize="16"
+                        FontAttributes="Bold"/>
+                </StackLayout>
+
+                <BoxView Color="{x:StaticResource PinkPrimary}"  HeightRequest="1" HorizontalOptions="Fill" Margin="10, 5, 10, 5" />
+
+                <StackLayout
+                    Orientation="Horizontal"
+                    Margin="10">
+                    <Label
+                        Text="Специальность:"
+                        FontAttributes="Bold"
+                        FontSize="16"/>
+
+                    <Label
+                        Text="{Binding Doctor.Specialization}"
+                        HorizontalOptions="EndAndExpand"
+                        TextColor="{x:StaticResource Green50}"
+                        FontAttributes="Bold"
+                        FontSize="16"/>
                 </StackLayout>
 
                 <BoxView Color="{x:StaticResource PinkPrimary}"  HeightRequest="1" HorizontalOptions="Fill" Margin="10, 5, 10, 5" />
@@ -68,12 +88,14 @@
                     <Label
                         Text="Статус для консультации:"
                         FontAttributes="Bold"
-                        FontSize="14"/>
+                        FontSize="16"/>
 
                     <Label
                         Text="{Binding Doctor.IsBusy}"
                         HorizontalOptions="EndAndExpand"
-                        TextColor="{x:StaticResource Green50}"/>
+                        TextColor="{x:StaticResource Green50}"
+                        FontAttributes="Bold"
+                        FontSize="16"/>
                 </StackLayout>
                 
                 <BoxView Color="{x:StaticResource PinkPrimary}"  HeightRequest="1" HorizontalOptions="Fill" Margin="10, 5, 10, 5" />
