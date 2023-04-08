@@ -178,7 +178,7 @@ internal class ChatViewModel : BaseViewModel
             ChatTimer = cTimer;
         });
 
-        if ((timeSpan.TotalMilliseconds < 0) || (timeSpan.TotalMilliseconds < 1000))
+        if ((timeSpan.TotalMinutes == 0) || (timeSpan.TotalMilliseconds < 1000))
             timer.Stop();
     }
 

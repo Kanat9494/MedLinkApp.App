@@ -235,7 +235,7 @@
                             Orientation="Horizontal"
                             >
                                 <StackLayout
-                                WidthRequest="80"
+                                WidthRequest="90"
                                 Margin="0, 0, 10, 0"
                                 VerticalOptions="CenterAndExpand"
                                 >
@@ -244,14 +244,14 @@
                                     StrokeThickness="1"
                                     StrokeShape="RoundRectangle 10"
                                     HorizontalOptions="Center"
-                                    WidthRequest="80"
+                                    WidthRequest="90"
                                     Margin="0, 0, 0, 0"
-                                    HeightRequest="80">
+                                    HeightRequest="90">
                                         <Image
                                             Grid.RowSpan="3"
                                             Aspect="AspectFill"
-                                            HeightRequest="80"
-                                            WidthRequest="80"
+                                            HeightRequest="90"
+                                            WidthRequest="90"
                                             HorizontalOptions="Start">
                                             <Image.Source>
                                                 <UriImageSource

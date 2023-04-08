@@ -8,7 +8,7 @@
     xmlns:customControls="clr-namespace:MedLinkApp.CustomControls"
     xmlns:viewModels="clr-namespace:MedLinkApp.ViewModels"
     Shell.TabBarIsVisible="False"
-    Shell.NavBarIsVisible="False">
+    >
     <ContentPage.Resources>
         <DataTemplate
             x:Key="IncomingMessage"
@@ -28,8 +28,9 @@
                     <StackLayout
                         VerticalOptions="FillAndExpand">
                         <Label Text="{Binding Content}" 
-                           LineBreakMode="WordWrap"
-                               VerticalOptions="FillAndExpand"
+                            LineBreakMode="WordWrap"
+                            VerticalOptions="FillAndExpand"
+                            FontSize="16"
                            />
                         <Image
                             Source="{Binding ImageUrl}"
@@ -66,7 +67,9 @@
                         VerticalOptions="FillAndExpand">
                         <Label Text="{Binding Content}" 
                             LineBreakMode="WordWrap"
-                               VerticalOptions="FillAndExpand"/>
+                               VerticalOptions="FillAndExpand"
+                            FontSize="16"
+                               />
                         <Image
                         Source="{Binding ImageUrl}"
                             WidthRequest="200"
@@ -144,26 +147,51 @@
             </Grid>
             </StackLayout>
 
-            <StackLayout Padding="10"
-                         Margin="10"
-                    HeightRequest="105">
-                <Border
-                    StrokeThickness="0"
-                    Background="{x:StaticResource White95}"
-                    StrokeShape="RoundRectangle 10"
-                    Padding="2"
-                    Margin="0, 0, 0, 10">
-                    <customControls:CustomEntry 
-                        Text="{Binding SendingMessage}" 
-                        Placeholder="Введите сообщение" 
-                        TextColor="Black" 
-                        FontAttributes="Bold"
-                        VerticalOptions="Center" 
-                        HorizontalOptions="FillAndExpand" 
-                        Margin="10,0,25,0"
-                        />
-                </Border>
-                <Grid>
+            <StackLayout 
+                    Margin="0"
+                    HeightRequest="100"
+                BackgroundColor="{x:StaticResource GreenPrimary}"
+                Padding="0">
+                <Grid
+                    HeightRequest="100"
+                    Margin="10, -15, 10, -25">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="50"/>
+                    </Grid.ColumnDefinitions>
+                    <Border
+                        StrokeThickness="0"
+                        Background="{x:StaticResource White95}"
+                        StrokeShape="RoundRectangle 10"
+                        Padding="2"
+                        Margin="0, 0, 0, 10"
+                        Grid.Column="0"
+                        VerticalOptions="Center">
+                        <customControls:CustomEntry 
+                            Text="{Binding SendingMessage}" 
+                            Placeholder="Введите сообщение" 
+                            TextColor="Black" 
+                            FontAttributes="Bold"
+                            VerticalOptions="Center" 
+                            HorizontalOptions="FillAndExpand" 
+                            Margin="10,0,25,0"
+                            FontSize="16"
+                            />
+                    </Border>
+
+                    <ImageButton
+                        Source="send_icon.png"
+                        Command="{Binding SendMessage}"
+                        CommandParameter="{Binding SendingMessage}"
+                        HorizontalOptions="End"
+                        VerticalOptions="Center"
+                        HeightRequest="30"
+                        WidthRequest="30"
+                        Grid.Column="1"/>
+                </Grid>
+                <Grid
+                    HeightRequest="30"
+                    >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="50"/>
                         <ColumnDefinition Width="*"/>
@@ -171,28 +199,22 @@
 
                     </Grid.ColumnDefinitions>
 
-                    <ImageButton Source="mic_icon.png"
+                    <!--<ImageButton Source="mic_icon.png"
                         Command="{Binding OpenAudioMessagePage}"
                         HorizontalOptions="CenterAndExpand"
                         HeightRequest="30"
                         WidthRequest="30"
                         Grid.Column="0"
-                        />
+                        />-->
                     
-                    <Button 
-                        Text="Отправить" Command="{Binding SendMessage}" 
-                        CommandParameter="{Binding SendingMessage}"
-                        HorizontalOptions="Center"
-                        VerticalOptions="CenterAndExpand"
-                        Grid.Column="1"
-                        />
+                    
                     
                     <ImageButton Source="photo_icon.png"
                         Command="{Binding OpenPhotoMessagePage}"
                         HorizontalOptions="CenterAndExpand"
                         HeightRequest="30"
                         WidthRequest="30"
-                        Grid.Column="2"
+                        Grid.Column="1"
                         />
                 </Grid>
             </StackLayout>
