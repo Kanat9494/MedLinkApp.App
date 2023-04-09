@@ -47,28 +47,13 @@ internal class ChatViewModel : BaseViewModel
         OpenAudioMessagePage = new Command(ToAudioMessagePage);
         OpenPhotoMessagePage = new Command(PickImage);
         OpenPhotoMessageCommand = new Command<string>(async (imageUrl) => await OnOpenPhotoMessage(imageUrl));
+        AbortChatCommand = new Command(OnAbortChat);
 
-        hubConnection.Closed += async (error) =>
-        {
-            await Task.Delay(5000);
-            await Connect();
-        };
-
-        //hubConnection.On<string, string, string>("ReceiveMessage", (senderName, receiverName, message) =>
+        //hubConnection.Closed += async (error) =>
         //{
-        //    if (_isConfirmed)
-        //    {
-        //        if (!_isTimerRunning)
-        //        {
-        //            StartCountDownTimer();
-        //            _isTimerRunning = !_isTimerRunning;
-        //        }
-
-        //        SendLocalMessage(message);
-        //    }
-        //    else
-        //        Task.Run(async () => await ConsultationConfirmed());
-        //});
+        //    await Task.Delay(5000);
+        //    await Connect();
+        //};
 
         hubConnection.On<string, string, string>("ReceiveMessage", (senderName, receiverName, jsonMessage) =>
         {
@@ -102,6 +87,7 @@ internal class ChatViewModel : BaseViewModel
     public Command OpenAudioMessagePage { get; }
     public Command OpenPhotoMessagePage { get; }
     public Command<string> OpenPhotoMessageCommand { get; }
+    public Command AbortChatCommand { get; }
 
     private string _sendingMessage;
     public string SendingMessage
@@ -274,6 +260,12 @@ internal class ChatViewModel : BaseViewModel
     private async void ToAudioMessagePage()
     {
         await Shell.Current.GoToAsync(nameof(AudioMessagePage));
+    }
+
+    private async void OnAbortChat()
+    {
+        await Disconnect();
+        await Shell.Current.GoToAsync(nameof(ProductsPage));
     }
 
     private async Task OnOpenPhotoMessage(string imageUrl)

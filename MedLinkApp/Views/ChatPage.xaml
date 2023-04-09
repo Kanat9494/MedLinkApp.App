@@ -120,9 +120,10 @@
                 </Frame>
 
                 <Button 
-                Text="Прервать"
-                Grid.Column="1"
-                Margin="10"/>
+                    Text="Прервать"
+                    Grid.Column="1"
+                    Margin="10"
+                    Command="{Binding AbortChatCommand}"/>
             </Grid>
 
 
