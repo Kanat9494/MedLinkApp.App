@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="MedLinkApp.Views.ProductsPage"
     xmlns:models="clr-namespace:MedLinkApp.Models"
-    Title="ProductsPage"
+    Title="Длительность консультации"
     xmlns:viewModels="clr-namespace:MedLinkApp.ViewModels"
     Shell.TabBarIsVisible="False">
     <Grid>
