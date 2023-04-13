@@ -5,6 +5,16 @@ internal class AccountViewModel : BaseViewModel
     public AccountViewModel()
     {
         IsLoading = true;
+        RefreshAccountInfo = new Command(() =>
+        {
+            Task.Run(async () =>
+            {
+                await InitializeUser();
+            }).GetAwaiter().OnCompleted(() =>
+            {
+                IsRefreshing = false;
+            });
+        });
 
         Task.Run(async () =>
         {
@@ -15,6 +25,13 @@ internal class AccountViewModel : BaseViewModel
         });
     }
 
+    private bool _isRefreshing;
+    public bool IsRefreshing
+    {
+        get => _isRefreshing;
+        set => SetProperty(ref _isRefreshing, value);
+    }
+    public Command RefreshAccountInfo { get; }
     private AuthenticateResponse _currentUser;
     public AuthenticateResponse CurrentUser
     {

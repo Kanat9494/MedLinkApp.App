@@ -4,21 +4,24 @@
              x:Class="MedLinkApp.Views.AccountPage"
              xmlns:models="clr-namespace:MedLinkApp.Models"
              Title="AccountPage">
-    <ScrollView
+    <RefreshView
+        IsRefreshing="{Binding IsRefreshing}"
+        Command="{Binding RefreshAccountInfo}">
+        <ScrollView
         BackgroundColor="{x:StaticResource White95}">
-        <StackLayout>
-            <Grid
+            <StackLayout>
+                <Grid
                 Margin="10, 30, 10, 0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="50"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="80"/>
-                </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="50"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="80"/>
+                    </Grid.ColumnDefinitions>
 
-                <Label
+                    <Label
                     Text="Добро пожаловать"
                     Grid.Row="0"
                     TextColor="{x:StaticResource Gray900}"
@@ -27,7 +30,7 @@
                     FontSize="16"
                     FontFamily="RegularFont"/>
 
-                <Label
+                    <Label
                     Text="{Binding CurrentUser.UserName}"
                     Grid.Row="1"
                     TextColor="{x:StaticResource Black}"
@@ -37,77 +40,94 @@
                     VerticalOptions="Center"
                     FontFamily="RegularFont"/>
 
-                <Border
+                    <Border
                     Grid.Column="1"
                     Grid.RowSpan="2"
-                    StrokeShape="RoundRectangle 10">
-                    <Image
+                    StrokeShape="RoundRectangle 10"
+                        StrokeThickness="0">
+                        <Image
                         Source="{Binding CurrentUser.ProfileImg}"
                         Aspect="Fill"/>
-                </Border>
-            </Grid>
+                    </Border>
+                </Grid>
 
 
-            <ActivityIndicator
+                <ActivityIndicator
                 Color="{x:StaticResource Green45}"
                 IsRunning="{Binding IsLoading}"
                 IsVisible="{Binding IsLoading}"
                 HeightRequest="70"
                 WidthRequest="70"/>
 
-            <StackLayout
+                <StackLayout
                 Margin="10, 10, 10, 0">
-                <Border
+                    <Border
                     StrokeShape="RoundRectangle 10"
                     StrokeThickness="0"
                     Padding="15"
                     BackgroundColor="{x:StaticResource Red70}"
                     >
-                    <StackLayout>
-                        <Label
+                        <StackLayout>
+                            <Label
                             Text="Баланс"
                             TextColor="{x:StaticResource White}"
                             FontSize="19"
                             FontFamily="RegularFont"/>
-                        <StackLayout
-                            Orientation="Horizontal">
-                            <Label
+                            <StackLayout
+                                Orientation="Horizontal">
+                                <Label
                                 Text="KG"
                                 FontSize="28"
                                 TextColor="{x:StaticResource White}"
                                 Margin="0, 15, 0, 0"
                                 FontAttributes="Bold"
-                                Grid.Column="0"
                                 FontFamily="RegularFont"/>
 
-                            <Label
+                                <Label
                                 Text="{Binding CurrentUser.UserBalance, StringFormat='{0:F2}'}"
                                 FontSize="28"
                                 TextColor="{x:StaticResource White}"
                                 Margin="30, 15, 0, 0"
                                 FontAttributes="Bold"
-                                Grid.Column="1"
                                 />
-                        </StackLayout>
-                    </StackLayout>
-                </Border>
-            </StackLayout>
+                            </StackLayout>
 
-            <Border
+                            <StackLayout
+                                Orientation="Vertical"
+                                Margin="0, 15, 0, 0">
+                                <Label
+                                    Text="Ваш лицевой счет"
+                                    FontFamily="RegularFont"
+                                    FontSize="19"
+                                    TextColor="{x:StaticResource White}"
+                                    />
+
+                                <Label
+                                    Text="{Binding CurrentUser.UserId}"
+                                    FontSize="28"
+                                    TextColor="{x:StaticResource White}"
+                                    Margin="0, 10, 0, 0"
+                                    FontAttributes="Bold"/>
+                            </StackLayout>
+                        </StackLayout>
+                    </Border>
+                </StackLayout>
+
+                <Border
                 StrokeShape="RoundRectangle 10"
                 Padding="25"
                 Margin="10, 20, 10, 0"
                 StrokeThickness="0">
-                <StackLayout
+                    <StackLayout
                     Orientation="Horizontal">
-                    <Label
+                        <Label
                         Text="Пополнить"
                         VerticalOptions="Center"
                         FontSize="20"
                         FontAttributes="Bold"
                         FontFamily="RegularFont"/>
 
-                    <Border
+                        <Border
                         HorizontalOptions="EndAndExpand"
                         HeightRequest="40"
                         WidthRequest="40"
@@ -115,12 +135,13 @@
                         BackgroundColor="{x:StaticResource White95}"
                         Padding="10"
                         StrokeShape="RoundRectangle 40">
-                        <Image
+                            <Image
                             Source="next_icon.png"
                             />
-                    </Border>
-                </StackLayout>
-            </Border>
-        </StackLayout>
-    </ScrollView>
+                        </Border>
+                    </StackLayout>
+                </Border>
+            </StackLayout>
+        </ScrollView>
+    </RefreshView>
 </ContentPage>
