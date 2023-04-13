@@ -8,7 +8,13 @@
     xmlns:customControls="clr-namespace:MedLinkApp.CustomControls"
     xmlns:viewModels="clr-namespace:MedLinkApp.ViewModels"
     Shell.TabBarIsVisible="False"
+    Shell.NavBarIsVisible="True"
     >
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior 
+            IsVisible="False"
+            IsEnabled="False"/>
+    </Shell.BackButtonBehavior>
     <ContentPage.Resources>
         <DataTemplate
             x:Key="IncomingMessage"
@@ -120,7 +126,7 @@
                 </Frame>
 
                 <Button 
-                    Text="Прервать"
+                    Text="Завершить"
                     Grid.Column="1"
                     Margin="10"
                     Command="{Binding AbortChatCommand}"/>

@@ -8,7 +8,13 @@
     xmlns:local="clr-namespace:MedLinkApp.Views"
     mc:Ignorable="d"
     Title="{Binding Doctor.FullName}"
-    Shell.TabBarIsVisible="False">
+    Shell.TabBarIsVisible="False"
+    >
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior 
+            Command="{Binding BackCommand}"/>
+    </Shell.BackButtonBehavior>
+    
     <ContentPage.Content>
         <ScrollView
             Margin="0"

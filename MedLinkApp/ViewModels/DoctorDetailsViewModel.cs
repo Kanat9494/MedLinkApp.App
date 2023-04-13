@@ -9,6 +9,7 @@ class DoctorDetailsViewModel : BaseViewModel, IQueryAttributable
         {
             await OnConsultation();
         });
+        BackCommand = new Command(OnBackCommand);
 
         Task.Run(async () =>
         {
@@ -40,6 +41,7 @@ class DoctorDetailsViewModel : BaseViewModel, IQueryAttributable
     string accessToken;
 
     public Command Consultation { get; set; }
+    public Command BackCommand { get; }
 
     async Task GetDoctorInfo()
     {
@@ -72,7 +74,12 @@ class DoctorDetailsViewModel : BaseViewModel, IQueryAttributable
         }
     }
 
-    
+    async void OnBackCommand()
+    {
+        await Shell.Current.GoToAsync($"..");
+    }
+
+
 
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {

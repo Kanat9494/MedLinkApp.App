@@ -76,6 +76,7 @@ public class HomeViewModel : INotifyPropertyChanged
         }
     }
 
+
     private async void OnDoctorSelected(int doctorId)
     {
         if (doctorId == null)

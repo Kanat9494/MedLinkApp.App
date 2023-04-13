@@ -9,4 +9,9 @@ public partial class ProductsPage : ContentPage
 
 		this.BindingContext = new ProductsViewModel();
 	}
+
+    protected override bool OnBackButtonPressed()
+    {
+        return true;
+    }
 }

@@ -9,4 +9,9 @@ public partial class HomePage : ContentPage
 
         this.BindingContext = new HomeViewModel();
     }
+    protected override bool OnBackButtonPressed()
+    {
+        System.Diagnostics.Process.GetCurrentProcess().CloseMainWindow();
+        return false;
+    }
 }

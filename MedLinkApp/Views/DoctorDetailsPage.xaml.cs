@@ -16,4 +16,9 @@ public partial class DoctorDetailsPage : ContentPage
     //    //Application.Current.MainPage = new DoctorDetailsPage();
     //    Shell.SetTabBarIsVisible(this, false);// set false in second page, set true in first page
     //}
+
+    protected override bool OnBackButtonPressed()
+    {
+        return true;
+    }
 }

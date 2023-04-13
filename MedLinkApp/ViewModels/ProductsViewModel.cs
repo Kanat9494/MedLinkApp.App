@@ -14,6 +14,7 @@ internal class ProductsViewModel : BaseViewModel
         {
             await OnProductSelected(product);
         });
+        BackCommand = new Command(OnBackCommand);
 
         Task.Run(async () =>
         {
@@ -45,6 +46,7 @@ internal class ProductsViewModel : BaseViewModel
     public ObservableCollection<Product> Products { get; set; }
 
     public Command<Product> ProductTapped { get; }
+    public Command BackCommand { get; }
 
     public async Task LoadProducts()
     {
@@ -91,5 +93,10 @@ internal class ProductsViewModel : BaseViewModel
     async Task ConsultationConfirmed()
     {
         await Shell.Current.GoToAsync($"{nameof(ChatsPage)}");
+    }
+
+    async void OnBackCommand()
+    {
+        await Shell.Current.GoToAsync("..");
     }
 }

@@ -227,8 +227,6 @@ internal class ChatViewModel : BaseViewModel
         WaitingForDoctor = false;
         await Task.Delay(500);
         ContentIsVisible = true;
-
-        StartCountDownTimer();
     }
 
     private void SendLocalMessage(Message message)
@@ -265,7 +263,7 @@ internal class ChatViewModel : BaseViewModel
     private async void OnAbortChat()
     {
         await Disconnect();
-        await Shell.Current.GoToAsync(nameof(ProductsPage));
+        await Shell.Current.GoToAsync("..");
     }
 
     private async Task OnOpenPhotoMessage(string imageUrl)
