@@ -23,11 +23,11 @@
             Shell.NavBarIsVisible="False"
             />
 
-        <ShellContent
+        <!--<ShellContent
             Title="Чаты"
             Icon="chats_icon.png"
             ContentTemplate="{DataTemplate views:ChatsPage}"
-            Shell.NavBarIsVisible="False"/>
+            Shell.NavBarIsVisible="False"/>-->
         
         <ShellContent
             Title="Аккаунт"

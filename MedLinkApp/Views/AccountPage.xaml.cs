@@ -7,6 +7,6 @@ public partial class AccountPage : ContentPage
 	{
 		InitializeComponent();
 
-		this.BindingContext = new HomeViewModel();
+		this.BindingContext = new AccountViewModel();
 	}
 }
