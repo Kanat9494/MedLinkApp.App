@@ -15,6 +15,7 @@
             IsVisible="False"
             IsEnabled="False"/>
     </Shell.BackButtonBehavior>
+    
     <ContentPage.Resources>
         <DataTemplate
             x:Key="IncomingMessage"
@@ -37,7 +38,7 @@
                             LineBreakMode="WordWrap"
                             VerticalOptions="FillAndExpand"
                             FontSize="16"
-                           />
+                            FontFamily="RegularFont"/>
                         <Image
                             Source="{Binding ImageUrl}"
                             >
@@ -71,13 +72,14 @@
                 >
                     <StackLayout
                         VerticalOptions="FillAndExpand">
-                        <Label Text="{Binding Content}" 
+                        <Label 
+                            Text="{Binding Content}" 
                             LineBreakMode="WordWrap"
-                               VerticalOptions="FillAndExpand"
+                            VerticalOptions="FillAndExpand"
                             FontSize="16"
-                               />
+                            FontFamily="RegularFont"/>
                         <Image
-                        Source="{Binding ImageUrl}"
+                            Source="{Binding ImageUrl}"
                             WidthRequest="200"
                             >
                             <Image.GestureRecognizers>
@@ -122,7 +124,7 @@
                     FontAttributes="Bold"
                     FontSize="45"
                     HorizontalOptions="Center"
-                    />
+                    FontFamily="RegularFont"/>
                 </Frame>
 
                 <Button 
@@ -143,8 +145,8 @@
                     </Grid.RowDefinitions>
 
                     <CollectionView
-                    ItemsSource="{Binding Messages}"
-                    ItemTemplate="{StaticResource ChatTemplateSelector}"
+                        ItemsSource="{Binding Messages}"
+                        ItemTemplate="{StaticResource ChatTemplateSelector}"
                         Grid.Row="0"
                         VerticalOptions="FillAndExpand">
                         
@@ -155,8 +157,8 @@
             </StackLayout>
 
             <StackLayout 
-                    Margin="0"
-                    HeightRequest="100"
+                Margin="0"
+                HeightRequest="100"
                 BackgroundColor="{x:StaticResource GreenPrimary}"
                 Padding="0">
                 <Grid
@@ -183,7 +185,7 @@
                             HorizontalOptions="FillAndExpand" 
                             Margin="10,0,25,0"
                             FontSize="16"
-                            />
+                            FontFamily="RegularFont"/>
                     </Border>
 
                     <ImageButton

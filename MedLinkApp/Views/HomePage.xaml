@@ -41,7 +41,7 @@
                     FontAttributes="Bold,Italic" 
                     HorizontalOptions="Start"
                     VerticalOptions="Center"
-                    />
+                    FontFamily="RegularFont"/>
 
                 <Image
                     VerticalOptions="Center"
@@ -55,7 +55,8 @@
             <Label
                 Text="Ваше здоровье в надежных руках"
                 FontAttributes="Bold"
-                TextColor="{x:StaticResource Green45}"/>
+                TextColor="{x:StaticResource Green45}"
+                FontFamily="RegularFont"/>
 
             <StackLayout
                 HeightRequest="40"
@@ -94,7 +95,8 @@
             FontAttributes="Bold"
             FontSize="18"
             Margin="0, 15, 0, 0"
-            Grid.Row="1"/>
+            Grid.Row="1"
+            FontFamily="RegularFont"/>
 
         <!--<customControls:CategoriesControl
             Grid.Row="2"
@@ -117,7 +119,8 @@
                             Margin="5"
                             Padding="10">
                             <Label
-                                Text="{Binding CategoryName}"/>
+                                Text="{Binding CategoryName}"
+                                FontFamily="RegularFont"/>
                         </Border>
                     </StackLayout>
                 </DataTemplate>
@@ -129,7 +132,8 @@
             FontAttributes="Bold"
             FontSize="18"
             Margin="0, 10, 0, 0"
-            Grid.Row="3"/>
+            Grid.Row="3"
+            FontFamily="RegularFont"/>
 
         <!--<dxcv:DXCollectionView
             ItemsSource="{Binding Doctors}"
@@ -266,25 +270,28 @@
                                 <StackLayout
                                     Margin="5, 5, 0, 0">
                                     <Label
-                                    Text="{Binding FullName}"
-                                    FontSize="17"
-                                    FontAttributes="Bold"
-                                    Margin="0, 0, 0, 5"
-                                    LineBreakMode="TailTruncation"/>
+                                        Text="{Binding FullName}"
+                                        FontSize="17"
+                                        FontAttributes="Bold"
+                                        Margin="0, 0, 0, 5"
+                                        LineBreakMode="TailTruncation"
+                                        FontFamily="RegularFont"/>
 
                                     <Label
-                                    Text="{Binding WorkExperience,
-                                    StringFormat='Стаж работы: {0:F2}'}"
-                                    Margin="0, 0, 0, 5"
-                                    />
+                                        Text="{Binding WorkExperience,
+                                        StringFormat='Стаж работы: {0:F2}'}"
+                                        Margin="0, 0, 0, 5"
+                                        FontFamily="RegularFont"/>
 
                                     <Label 
-                                    Text="{Binding IsOnline}"
-                                    TextColor="{x:StaticResource Green45}"/>
+                                        Text="{Binding IsOnline}"
+                                        TextColor="{x:StaticResource Green45}"
+                                        FontFamily="RegularFont"/>
 
                                     <Label
                                         Text="{Binding Specialization}"
-                                        TextColor="{x:StaticResource Red50}"/>
+                                        TextColor="{x:StaticResource Red50}"
+                                        FontFamily="RegularFont"/>
                                 </StackLayout>
 
                                 <StackLayout.GestureRecognizers>

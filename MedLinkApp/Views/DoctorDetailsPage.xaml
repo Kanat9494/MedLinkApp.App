@@ -43,7 +43,8 @@
                     Text="{Binding Doctor.FullName}"
                     LineBreakMode="TailTruncation"
                     FontSize="Title"
-                    Margin="10, 25, 10, 0"/>
+                    Margin="10, 25, 10, 0"
+                    FontFamily="RegularFont"/>
 
                 <BoxView Color="{x:StaticResource PinkPrimary}"  HeightRequest="1" HorizontalOptions="Fill" Margin="10, 5, 10, 5" />
 
@@ -58,14 +59,16 @@
                     <Label
                         Text="Стаж работы"
                         FontAttributes="Bold"
-                        FontSize="16"/>
+                        FontSize="16"
+                        FontFamily="RegularFont"/>
 
                     <Label
                         Text="{Binding Doctor.WorkExperience}"
                         HorizontalOptions="EndAndExpand"
                         TextColor="{x:StaticResource Green50}"
                         FontSize="16"
-                        FontAttributes="Bold"/>
+                        FontAttributes="Bold"
+                        FontFamily="RegularFont"/>
                 </StackLayout>
 
                 <BoxView Color="{x:StaticResource PinkPrimary}"  HeightRequest="1" HorizontalOptions="Fill" Margin="10, 5, 10, 5" />
@@ -76,14 +79,16 @@
                     <Label
                         Text="Специальность:"
                         FontAttributes="Bold"
-                        FontSize="16"/>
+                        FontSize="16"
+                        FontFamily="RegularFont"/>
 
                     <Label
                         Text="{Binding Doctor.Specialization}"
                         HorizontalOptions="EndAndExpand"
                         TextColor="{x:StaticResource Green50}"
                         FontAttributes="Bold"
-                        FontSize="16"/>
+                        FontSize="16"
+                        FontFamily="RegularFont"/>
                 </StackLayout>
 
                 <BoxView Color="{x:StaticResource PinkPrimary}"  HeightRequest="1" HorizontalOptions="Fill" Margin="10, 5, 10, 5" />
@@ -94,14 +99,16 @@
                     <Label
                         Text="Статус для консультации:"
                         FontAttributes="Bold"
-                        FontSize="16"/>
+                        FontSize="16"
+                        FontFamily="RegularFont"/>
 
                     <Label
                         Text="{Binding Doctor.IsBusy}"
                         HorizontalOptions="EndAndExpand"
                         TextColor="{x:StaticResource Green50}"
                         FontAttributes="Bold"
-                        FontSize="16"/>
+                        FontSize="16"
+                        FontFamily="RegularFont"/>
                 </StackLayout>
                 
                 <BoxView Color="{x:StaticResource PinkPrimary}"  HeightRequest="1" HorizontalOptions="Fill" Margin="10, 5, 10, 5" />
@@ -110,7 +117,8 @@
                     Text="Работа"
                     Margin="10, 10, 10, 5"
                     FontSize="17"
-                    FontAttributes="Bold"/>
+                    FontAttributes="Bold"
+                    FontFamily="RegularFont"/>
                 <Border
                     StrokeThickness="0"
                     StrokeShape="RoundRectangle 10"
@@ -122,7 +130,7 @@
                         <Label
                             Text="{Binding Doctor.AboutDoctor}"
                             FontSize="17"
-                            />
+                            FontFamily="RegularFont"/>
                     </StackLayout>
                 </Border>
 
