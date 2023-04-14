@@ -17,8 +17,8 @@ public partial class DoctorDetailsPage : ContentPage
     //    Shell.SetTabBarIsVisible(this, false);// set false in second page, set true in first page
     //}
 
-    protected override bool OnBackButtonPressed()
-    {
-        return true;
-    }
+    //protected override bool OnBackButtonPressed()
+    //{
+    //    return true;
+    //}
 }

@@ -49,11 +49,11 @@ internal class ChatViewModel : BaseViewModel
         OpenPhotoMessageCommand = new Command<string>(async (imageUrl) => await OnOpenPhotoMessage(imageUrl));
         AbortChatCommand = new Command(OnAbortChat);
 
-        //hubConnection.Closed += async (error) =>
-        //{
-        //    await Task.Delay(5000);
-        //    await Connect();
-        //};
+        hubConnection.Closed += async (error) =>
+        {
+            await Task.Delay(4000);
+            await Connect();
+        };
 
         hubConnection.On<string, string, string>("ReceiveMessage", (senderName, receiverName, jsonMessage) =>
         {
@@ -263,7 +263,7 @@ internal class ChatViewModel : BaseViewModel
     private async void OnAbortChat()
     {
         await Disconnect();
-        await Shell.Current.GoToAsync("..");
+        await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
     }
 
     private async Task OnOpenPhotoMessage(string imageUrl)

@@ -61,6 +61,18 @@ class DoctorDetailsViewModel : BaseViewModel, IQueryAttributable
 
     private async Task OnConsultation()
     {
+        //var isOnline = await ContentService.Instance(accessToken).GetItemDataAsync<bool, int>($"api/Doctors/IsDoctorOnline?doctorId={Doctor.DoctorId}");
+        //if (!isOnline)
+        //    await Shell.Current.DisplayAlert("Не в сети", "В данный момент выбранный врач не в сети", "Ок");
+        //else
+        //{
+        //    var isBusy = await ContentService.Instance(accessToken).GetItemDataAsync<bool, int>($"api/Doctors/IsDoctorBusy?doctorId={Doctor.DoctorId}");
+        //    if (!isBusy)
+        //        await Shell.Current.DisplayAlert("Занят", "В данный момент выбранный врач консультирует другого пациента", "Ок");
+        //    else
+        //        await Shell.Current.GoToAsync($"{nameof(ProductsPage)}?{nameof(ProductsViewModel.DoctorId)}={DoctorId}");
+        //}
+
         if (!Doctor.IsOnline.Equals("В сети"))
             await Shell.Current.DisplayAlert("Не в сети", "В данный момент выбранный врач не в сети", "Ок");
         else

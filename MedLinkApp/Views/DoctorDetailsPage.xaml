@@ -10,10 +10,10 @@
     Title="{Binding Doctor.FullName}"
     Shell.TabBarIsVisible="False"
     >
-    <Shell.BackButtonBehavior>
+    <!--<Shell.BackButtonBehavior>
         <BackButtonBehavior 
             Command="{Binding BackCommand}"/>
-    </Shell.BackButtonBehavior>
+    </Shell.BackButtonBehavior>-->
     
     <ContentPage.Content>
         <ScrollView
@@ -84,6 +84,26 @@
 
                     <Label
                         Text="{Binding Doctor.Specialization}"
+                        HorizontalOptions="EndAndExpand"
+                        TextColor="{x:StaticResource Green50}"
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        FontFamily="RegularFont"/>
+                </StackLayout>
+
+                <BoxView Color="{x:StaticResource PinkPrimary}"  HeightRequest="1" HorizontalOptions="Fill" Margin="10, 5, 10, 5" />
+
+                <StackLayout
+                    Orientation="Horizontal"
+                    Margin="10">
+                    <Label
+                        Text="Онлайн/Офлайн:"
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        FontFamily="RegularFont"/>
+
+                    <Label
+                        Text="{Binding Doctor.IsOnline}"
                         HorizontalOptions="EndAndExpand"
                         TextColor="{x:StaticResource Green50}"
                         FontAttributes="Bold"

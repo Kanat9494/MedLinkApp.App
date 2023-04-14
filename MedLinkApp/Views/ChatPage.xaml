@@ -253,6 +253,13 @@
                         Color="{x:StaticResource Red50}"
                         HeightRequest="70"
                         WidthRequest="70"/>
+
+                    <Button
+                        Text="Отменить"
+                        Command="{Binding AbortChatCommand}"
+                        BackgroundColor="{x:StaticResource Yellow60}"
+                        TextColor="Black"
+                        Margin="0, 15, 0, 0"/>
                 </StackLayout>
             </Frame>
         </StackLayout>

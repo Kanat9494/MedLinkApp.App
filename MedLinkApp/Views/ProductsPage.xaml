@@ -7,10 +7,10 @@
     Title="Длительность консультации"
     xmlns:viewModels="clr-namespace:MedLinkApp.ViewModels"
     Shell.TabBarIsVisible="False">
-    <Shell.BackButtonBehavior>
+    <!--<Shell.BackButtonBehavior>
         <BackButtonBehavior 
             Command="{Binding BackCommand}"/>
-    </Shell.BackButtonBehavior>
+    </Shell.BackButtonBehavior>-->
     
     <Grid>
         <Grid.RowDefinitions>
