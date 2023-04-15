@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.SignalR.Client;
-
-namespace MedLinkApp.ViewModels;
+﻿namespace MedLinkApp.ViewModels;
 
 [QueryProperty(nameof(DoctorId), "DoctorId")]
 internal class ProductsViewModel : BaseViewModel
@@ -85,7 +83,7 @@ internal class ProductsViewModel : BaseViewModel
                     "пожалуйста пополните баланс", "Ок");
             else
             {
-                await Shell.Current.GoToAsync($"{nameof(ChatPage)}");
+                await Shell.Current.GoToAsync($"{nameof(ChatPage)}?{nameof(ChatViewModel.ProductPrice)}={product.Price}");
             }
         }
     }

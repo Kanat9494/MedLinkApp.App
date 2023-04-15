@@ -1,9 +1,6 @@
-﻿using MedLinkApp.Helpers;
-using System.Net;
-using System.Threading;
+﻿namespace MedLinkApp.ViewModels;
 
-namespace MedLinkApp.ViewModels;
-
+[QueryProperty(nameof(ProductPrice), "ProductPrice")]
 internal class ChatViewModel : BaseViewModel
 {
     public ChatViewModel()
@@ -11,6 +8,7 @@ internal class ChatViewModel : BaseViewModel
         WaitingForDoctor = true;
         ContentIsVisible = false;
         _isTimerRunning = false;
+        _abortMessage = "Ваш запрос отменен";
 
         Task.Run(async () =>
         {
@@ -55,23 +53,29 @@ internal class ChatViewModel : BaseViewModel
             await Connect();
         };
 
+        hubConnection.On<string, string>("ReceiveRejectMessage", (senderName, receiverName) =>
+        {
+            _abortMessage = "Доктор отклонил ваш запрос, попробуйте еще раз";
+            OnAbortChat();
+        });
+
+        hubConnection.On<string, string, double>("ReceiveConfirmMessage", (senderName, receiverName, prive) =>
+        {
+            Task.Run(async () => await ConsultationConfirmed());
+        });
+
         hubConnection.On<string, string, string>("ReceiveMessage", (senderName, receiverName, jsonMessage) =>
         {
             try
             {
                 var message = JsonConvert.DeserializeObject<Message>(jsonMessage);
-                if (_isConfirmed)
+                if (!_isTimerRunning)
                 {
-                    if (!_isTimerRunning)
-                    {
-                        StartCountDownTimer();
-                        _isTimerRunning = !_isTimerRunning;
-                    }
-
-                    SendLocalMessage(message);
+                    StartCountDownTimer();
+                    _isTimerRunning = !_isTimerRunning;
                 }
-                else
-                    Task.Run(async () => await ConsultationConfirmed());
+
+                SendLocalMessage(message);
             }
             catch
             {
@@ -81,6 +85,7 @@ internal class ChatViewModel : BaseViewModel
     }
 
     string accessToken;
+    string _abortMessage;
 
     HubConnection hubConnection;
     public Command SendMessage { get; }
@@ -129,8 +134,14 @@ internal class ChatViewModel : BaseViewModel
         get => _doctorFullName;
         set => SetProperty(ref _doctorFullName, value);
     }
+    private double _productPrice;
 
-    private bool _isConfirmed;
+    public double ProductPrice
+    {
+        get => _productPrice;
+        set => SetProperty(ref _productPrice, value);
+    }
+
     private bool _isTimerRunning;
     public ObservableCollection<Message> Messages { get; set; }
 
@@ -163,7 +174,6 @@ internal class ChatViewModel : BaseViewModel
     {
         try
         {
-            
             var message = new Message()
             {
                 SenderName = _senderName,
@@ -205,14 +215,7 @@ internal class ChatViewModel : BaseViewModel
     {
         try
         {
-            await hubConnection.InvokeAsync("SendMessage", _senderName, _receiverName, JsonConvert.SerializeObject(new Message
-            {
-                SenderName = _senderName,
-                ReceiverName = _receiverName,
-                Content = MedLinkConstants.CONFIRM_MESSAGE
-            }));
-
-            //await hubConnection.InvokeAsync("SendMessage", _senderName, _receiverName, SendingMessage);
+            await hubConnection.InvokeAsync("SendConfirmMessage", _senderName, _receiverName, ProductPrice);
         }
         catch (Exception ex)
         {
@@ -222,8 +225,6 @@ internal class ChatViewModel : BaseViewModel
 
     private async Task ConsultationConfirmed()
     {
-        _isConfirmed = true;
-
         WaitingForDoctor = false;
         await Task.Delay(500);
         ContentIsVisible = true;
@@ -262,6 +263,7 @@ internal class ChatViewModel : BaseViewModel
 
     private async void OnAbortChat()
     {
+        await Shell.Current.DisplayAlert("Отмена", _abortMessage, "Ок");
         await Disconnect();
         await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
     }
