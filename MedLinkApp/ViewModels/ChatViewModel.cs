@@ -1,4 +1,8 @@
-﻿namespace MedLinkApp.ViewModels;
+﻿using Firebase.Database.Query;
+using Microsoft.AspNetCore.SignalR.Client;
+using System.Reactive.Linq;
+
+namespace MedLinkApp.ViewModels;
 
 [QueryProperty(nameof(ProductPrice), "ProductPrice")]
 internal class ChatViewModel : BaseViewModel
@@ -9,28 +13,32 @@ internal class ChatViewModel : BaseViewModel
         ContentIsVisible = false;
         _isTimerRunning = false;
         _abortMessage = "Ваш запрос отменен";
+        firebaseClient = new FirebaseClient("https://medlinkchat-default-rtdb.europe-west1.firebasedatabase.app/");
 
         Task.Run(async () =>
         {
             accessToken = await SecureStorage.Default.GetAsync("UserAccessToken");
-
             _senderName = await SecureStorage.Default.GetAsync("UserName");
             _receiverName = await SecureStorage.Default.GetAsync("DoctorAccountName");
         }).Wait();
 
-        hubConnection = new HubConnectionBuilder()
-            .WithUrl(MedLinkConstants.SERVER_ROOT_URL + $"/chatHub/{_senderName}")
-            .Build();
-
         Messages = new ObservableCollection<Message>();
 
+        var collectionOfMessages = firebaseClient
+            .Child("Messages")
+            .OrderByPriority()
+            .LimitToLast(1)
+            .AsObservable<Message>()
+            .Where(m => m.Object.ReceiverName == _senderName && m.Object.SenderName == _receiverName)
+            .Subscribe((item) =>
+            {
+                if (item.Object != null)
+                    Messages.Add(item.Object);
+            });
 
         Task.Run(async () =>
         {
-            await Connect();
-
             DoctorFullName = await SecureStorage.Default.GetAsync("DoctorFullName");
-
             await SendConfirmMessage();
         }).GetAwaiter().OnCompleted(() =>
         {
@@ -41,53 +49,41 @@ internal class ChatViewModel : BaseViewModel
         {
             await OnSendMessage();
         });
-
         OpenAudioMessagePage = new Command(ToAudioMessagePage);
         OpenPhotoMessagePage = new Command(PickImage);
         OpenPhotoMessageCommand = new Command<string>(async (imageUrl) => await OnOpenPhotoMessage(imageUrl));
         AbortChatCommand = new Command(OnAbortChat);
 
-        hubConnection.Closed += async (error) =>
-        {
-            await Task.Delay(4000);
-            await Connect();
-        };
+        //hubConnection.On<string, string, string>("ReceiveMessage", (senderName, receiverName, jsonMessage) =>
+//        {
+//            try
+//            {
+//                var message = JsonConvert.DeserializeObject<Message>(jsonMessage);
+//                if (!_isTimerRunning)
+//                {
+//                    StartCountDownTimer();
+//                    _isTimerRunning = !_isTimerRunning;
+//                }
 
-        hubConnection.On<string, string>("ReceiveRejectMessage", (senderName, receiverName) =>
-        {
-            _abortMessage = "Доктор отклонил ваш запрос, попробуйте еще раз";
-            OnAbortChat();
-        });
+        //                SendLocalMessage(message);
+        //            }
+        //            catch
+        //            {
 
-        hubConnection.On<string, string, double>("ReceiveConfirmMessage", (senderName, receiverName, prive) =>
-        {
-            Task.Run(async () => await ConsultationConfirmed());
-        });
-
-        hubConnection.On<string, string, string>("ReceiveMessage", (senderName, receiverName, jsonMessage) =>
-        {
-            try
-            {
-                var message = JsonConvert.DeserializeObject<Message>(jsonMessage);
-                if (!_isTimerRunning)
-                {
-                    StartCountDownTimer();
-                    _isTimerRunning = !_isTimerRunning;
-                }
-
-                SendLocalMessage(message);
-            }
-            catch
-            {
-
-            }
-        });
+        //            }
+        //        });
     }
 
     string accessToken;
     string _abortMessage;
+    string _senderName;
+    string _receiverName;
+    string cTimer;
+    DateTime endTime;
+    System.Timers.Timer timer;
+    bool _isTimerRunning;
+    FirebaseClient firebaseClient;
 
-    HubConnection hubConnection;
     public Command SendMessage { get; }
     public Command OpenAudioMessagePage { get; }
     public Command OpenPhotoMessagePage { get; }
@@ -100,34 +96,24 @@ internal class ChatViewModel : BaseViewModel
         get => _sendingMessage;
         set => SetProperty(ref _sendingMessage, value);
     }
-    private string _senderName;
-    private string _receiverName;
-
     private string _chatTimer;
     public string ChatTimer
     {
         get => _chatTimer;
         set => SetProperty(ref _chatTimer, value);
     }
-
-    string cTimer;
-    DateTime endTime;
-    System.Timers.Timer timer;
-
     private bool _contentIsVisible;
     public bool ContentIsVisible
     {
         get => _contentIsVisible;
         set => SetProperty(ref _contentIsVisible, value);
     }
-
     private bool _waitingForDoctor;
     public bool WaitingForDoctor
     {
         get => _waitingForDoctor;
         set => SetProperty(ref _waitingForDoctor, value);
     }
-
     private string _doctorFullName;
     public string DoctorFullName
     {
@@ -135,14 +121,12 @@ internal class ChatViewModel : BaseViewModel
         set => SetProperty(ref _doctorFullName, value);
     }
     private double _productPrice;
-
     public double ProductPrice
     {
         get => _productPrice;
         set => SetProperty(ref _productPrice, value);
     }
 
-    private bool _isTimerRunning;
     public ObservableCollection<Message> Messages { get; set; }
 
     void StartCountDownTimer()
@@ -156,7 +140,7 @@ internal class ChatViewModel : BaseViewModel
     }
 
     void ChatTimerTick(object sender, EventArgs e)
-    {
+   {
         TimeSpan timeSpan = endTime - DateTime.Now;
 
         cTimer = timeSpan.ToString("m':'s' '");
@@ -166,7 +150,7 @@ internal class ChatViewModel : BaseViewModel
             ChatTimer = cTimer;
         });
 
-        if ((timeSpan.TotalMinutes == 0) || (timeSpan.TotalMilliseconds < 1000))
+        if ((timeSpan.TotalMinutes == 0) || (timeSpan.TotalMilliseconds< 1000))
             timer.Stop();
     }
 
@@ -179,48 +163,38 @@ internal class ChatViewModel : BaseViewModel
                 SenderName = _senderName,
                 ReceiverName = _receiverName,
                 Content = SendingMessage,
-                //ImageUrl = "https://www.google.com/images/logos/ps_logo2.png"
-
             };
-            var serializedMessage = JsonConvert.SerializeObject(message);
-            await hubConnection.InvokeAsync("SendMessage", _senderName, _receiverName, serializedMessage);
 
-            //это лишнее убрал, чтобы не отправлять сообщение 2 раза
+            var serializedMessage = JsonConvert.SerializeObject(message);
+
+            await firebaseClient.Child("Messages").PostAsync(serializedMessage);
+
             SendLocalMessage(message);
         }
-        catch (Exception ex)
-        {
-
-        }
+        catch (Exception ex) { }
     }
 
-    async Task Connect()
+    void DisconnectFirebase()
     {
-        try
-        {
-            await hubConnection.StartAsync();
-        }
-        catch (Exception ex)
-        {
-
-        }
-    }
-
-    async Task Disconnect()
-    {
-        await hubConnection.StopAsync();
+        if (firebaseClient != null)
+            firebaseClient.Dispose();
     }
 
     async Task SendConfirmMessage()
     {
         try
         {
-            await hubConnection.InvokeAsync("SendConfirmMessage", _senderName, _receiverName, ProductPrice);
+            var message = new Message()
+            {
+                SenderName = _senderName,
+                ReceiverName = _receiverName,
+                Content = MedLinkConstants.CONFIRM_MESSAGE
+            };
+
+            var serializedMessage = JsonConvert.SerializeObject(message);
+            await firebaseClient.Child("Messages").PostAsync(serializedMessage);
         }
-        catch (Exception ex)
-        {
-            
-        }
+        catch { }
     }
 
     private async Task ConsultationConfirmed()
@@ -234,7 +208,6 @@ internal class ChatViewModel : BaseViewModel
     {
         if (string.IsNullOrEmpty(message.Content))
             return;
-
 
         #region сохранение фото в локальном хранилище
         //if (message.ImageUrl != null)
@@ -257,26 +230,19 @@ internal class ChatViewModel : BaseViewModel
     }
 
     private async void ToAudioMessagePage()
-    {
-        await Shell.Current.GoToAsync(nameof(AudioMessagePage));
-    }
+        => await Shell.Current.GoToAsync(nameof(AudioMessagePage));
 
     private async void OnAbortChat()
     {
         await Shell.Current.DisplayAlert("Отмена", _abortMessage, "Ок");
-        await Disconnect();
+        DisconnectFirebase();
         await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
     }
 
     private async Task OnOpenPhotoMessage(string imageUrl)
-    {
-        await Shell.Current.GoToAsync($"{nameof(ImageBrowsePage)}?{nameof(ImageBrowseViewModel.ImageUrl)}={imageUrl}");
-    }
-
-
+        => await Shell.Current.GoToAsync($"{nameof(ImageBrowsePage)}?{nameof(ImageBrowseViewModel.ImageUrl)}={imageUrl}");
 
     #region SendImage
-
     async void PickImage()
     {
         var result = await FilePicker.PickAsync(new PickOptions
@@ -311,9 +277,8 @@ internal class ChatViewModel : BaseViewModel
                 ImageUrl = imageUrl
             };
             var serializedMessage = JsonConvert.SerializeObject(message);
-            await hubConnection.InvokeAsync("SendMessage", _senderName, _receiverName, serializedMessage);
+            await firebaseClient.Child("Messages").PostAsync(serializedMessage);
 
-            //это лишнее убрал, чтобы не отправлять сообщение 2 раза
             SendLocalMessage(message);
         }
         catch (Exception ex)
@@ -321,7 +286,331 @@ internal class ChatViewModel : BaseViewModel
 
         }
     }
-
-
     #endregion
 }
+
+//Расскомментировать, для SignalR или собственного чат сервера
+//internal class ChatViewModel : BaseViewModel
+//{
+//    public ChatViewModel()
+//    {
+//        WaitingForDoctor = true;
+//        ContentIsVisible = false;
+//        _isTimerRunning = false;
+//        _abortMessage = "Ваш запрос отменен";
+
+//        Task.Run(async () =>
+//        {
+//            accessToken = await SecureStorage.Default.GetAsync("UserAccessToken");
+
+//            _senderName = await SecureStorage.Default.GetAsync("UserName");
+//            _receiverName = await SecureStorage.Default.GetAsync("DoctorAccountName");
+//        }).Wait();
+
+//        hubConnection = new HubConnectionBuilder()
+//            .WithUrl(MedLinkConstants.SERVER_ROOT_URL + $"/chatHub/{_senderName}")
+//            .Build();
+
+//        Messages = new ObservableCollection<Message>();
+
+
+//        Task.Run(async () =>
+//        {
+//            await Connect();
+
+//            DoctorFullName = await SecureStorage.Default.GetAsync("DoctorFullName");
+
+//            await SendConfirmMessage();
+//        }).GetAwaiter().OnCompleted(() =>
+//        {
+
+//        });
+
+//        SendMessage = new Command(async () =>
+//        {
+//            await OnSendMessage();
+//        });
+
+//        OpenAudioMessagePage = new Command(ToAudioMessagePage);
+//        OpenPhotoMessagePage = new Command(PickImage);
+//        OpenPhotoMessageCommand = new Command<string>(async (imageUrl) => await OnOpenPhotoMessage(imageUrl));
+//        AbortChatCommand = new Command(OnAbortChat);
+
+//        hubConnection.Closed += async (error) =>
+//        {
+//            await Task.Delay(4000);
+//            await Connect();
+//        };
+
+//        hubConnection.On<string, string>("ReceiveRejectMessage", (senderName, receiverName) =>
+//        {
+//            _abortMessage = "Доктор отклонил ваш запрос, попробуйте еще раз";
+//            OnAbortChat();
+//        });
+
+//        hubConnection.On<string, string, double>("ReceiveConfirmMessage", (senderName, receiverName, prive) =>
+//        {
+//            Task.Run(async () => await ConsultationConfirmed());
+//        });
+
+//        hubConnection.On<string, string, string>("ReceiveMessage", (senderName, receiverName, jsonMessage) =>
+//        {
+//            try
+//            {
+//                var message = JsonConvert.DeserializeObject<Message>(jsonMessage);
+//                if (!_isTimerRunning)
+//                {
+//                    StartCountDownTimer();
+//                    _isTimerRunning = !_isTimerRunning;
+//                }
+
+//                SendLocalMessage(message);
+//            }
+//            catch
+//            {
+
+//            }
+//        });
+//    }
+
+//    string accessToken;
+//    string _abortMessage;
+
+//    HubConnection hubConnection;
+//    public Command SendMessage { get; }
+//    public Command OpenAudioMessagePage { get; }
+//    public Command OpenPhotoMessagePage { get; }
+//    public Command<string> OpenPhotoMessageCommand { get; }
+//    public Command AbortChatCommand { get; }
+
+//    private string _sendingMessage;
+//    public string SendingMessage
+//    {
+//        get => _sendingMessage;
+//        set => SetProperty(ref _sendingMessage, value);
+//    }
+//    private string _senderName;
+//    private string _receiverName;
+
+//    private string _chatTimer;
+//    public string ChatTimer
+//    {
+//        get => _chatTimer;
+//        set => SetProperty(ref _chatTimer, value);
+//    }
+
+//    string cTimer;
+//    DateTime endTime;
+//    System.Timers.Timer timer;
+
+//    private bool _contentIsVisible;
+//    public bool ContentIsVisible
+//    {
+//        get => _contentIsVisible;
+//        set => SetProperty(ref _contentIsVisible, value);
+//    }
+
+//    private bool _waitingForDoctor;
+//    public bool WaitingForDoctor
+//    {
+//        get => _waitingForDoctor;
+//        set => SetProperty(ref _waitingForDoctor, value);
+//    }
+
+//    private string _doctorFullName;
+//    public string DoctorFullName
+//    {
+//        get => _doctorFullName;
+//        set => SetProperty(ref _doctorFullName, value);
+//    }
+//    private double _productPrice;
+
+//    public double ProductPrice
+//    {
+//        get => _productPrice;
+//        set => SetProperty(ref _productPrice, value);
+//    }
+
+//    private bool _isTimerRunning;
+//    public ObservableCollection<Message> Messages { get; set; }
+
+//    void StartCountDownTimer()
+//    {
+//        timer = new System.Timers.Timer();
+//        endTime = DateTime.Now.AddMinutes(5);
+//        timer.Elapsed += ChatTimerTick;
+//        TimeSpan timeSpan = endTime - DateTime.Now;
+//        cTimer = timeSpan.ToString("m' Minutes 's' Seconds'");
+//        timer.Start();
+//    }
+
+//    void ChatTimerTick(object sender, EventArgs e)
+//    {
+//        TimeSpan timeSpan = endTime - DateTime.Now;
+
+//        cTimer = timeSpan.ToString("m':'s' '");
+
+//        App.Current.Dispatcher.Dispatch(() =>
+//        {
+//            ChatTimer = cTimer;
+//        });
+
+//        if ((timeSpan.TotalMinutes == 0) || (timeSpan.TotalMilliseconds < 1000))
+//            timer.Stop();
+//    }
+
+//    async Task OnSendMessage()
+//    {
+//        try
+//        {
+//            var message = new Message()
+//            {
+//                SenderName = _senderName,
+//                ReceiverName = _receiverName,
+//                Content = SendingMessage,
+//                //ImageUrl = "https://www.google.com/images/logos/ps_logo2.png"
+
+//            };
+//            var serializedMessage = JsonConvert.SerializeObject(message);
+//            await hubConnection.InvokeAsync("SendMessage", _senderName, _receiverName, serializedMessage);
+
+//            //это лишнее убрал, чтобы не отправлять сообщение 2 раза
+//            SendLocalMessage(message);
+//        }
+//        catch (Exception ex)
+//        {
+
+//        }
+//    }
+
+//    async Task Connect()
+//    {
+//        try
+//        {
+//            await hubConnection.StartAsync();
+//        }
+//        catch (Exception ex)
+//        {
+
+//        }
+//    }
+
+//    async Task Disconnect()
+//    {
+//        await hubConnection.StopAsync();
+//    }
+
+//    async Task SendConfirmMessage()
+//    {
+//        try
+//        {
+//            await hubConnection.InvokeAsync("SendConfirmMessage", _senderName, _receiverName, ProductPrice);
+//        }
+//        catch (Exception ex)
+//        {
+
+//        }
+//    }
+
+//    private async Task ConsultationConfirmed()
+//    {
+//        WaitingForDoctor = false;
+//        await Task.Delay(500);
+//        ContentIsVisible = true;
+//    }
+
+//    private void SendLocalMessage(Message message)
+//    {
+//        if (string.IsNullOrEmpty(message.Content))
+//            return;
+
+
+//        #region сохранение фото в локальном хранилище
+//        //if (message.ImageUrl != null)
+//        //{
+//        //    Task.Run(async () =>
+//        //    {
+//        //        var imabeBytes = await FileHelper.DownloadImageBytesAsync(message.ImageUrl);
+//        //        if (imabeBytes != null)
+//        //        {
+//        //            var c = await FileHelper.SaveFileAsync(imabeBytes);
+//        //            message.ImageUrl = c;
+//        //        }
+//        //    }).Wait();
+//        //}
+//        #endregion
+
+//        Messages.Add(message);
+
+//        SendingMessage = string.Empty;
+//    }
+
+//    private async void ToAudioMessagePage()
+//    {
+//        await Shell.Current.GoToAsync(nameof(AudioMessagePage));
+//    }
+
+//    private async void OnAbortChat()
+//    {
+//        await Shell.Current.DisplayAlert("Отмена", _abortMessage, "Ок");
+//        await Disconnect();
+//        await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
+//    }
+
+//    private async Task OnOpenPhotoMessage(string imageUrl)
+//    {
+//        await Shell.Current.GoToAsync($"{nameof(ImageBrowsePage)}?{nameof(ImageBrowseViewModel.ImageUrl)}={imageUrl}");
+//    }
+
+
+
+//    #region SendImage
+
+//    async void PickImage()
+//    {
+//        var result = await FilePicker.PickAsync(new PickOptions
+//        {
+//            PickerTitle = "Выберите изображение",
+//            FileTypes = FilePickerFileType.Images
+//        });
+
+//        if (result == null)
+//            return;
+
+//        var stream = await result.OpenReadAsync();
+
+//        var imageBytes = FileHelper.StreamTyByte(stream);
+//        string accessToken = await SecureStorage.Default.GetAsync("UserAccessToken");
+
+//        var imageUrl = MedLinkConstants.FILE_BASE_PATH + "/" + await FileService.UploadFile(imageBytes, accessToken);
+
+//        //await OnSendMessage("test", "tomy", "тестовый месседж", $"{MedLinkConstants.FILE_BASE_PATH}/{filePath}");
+//        await SendImageMessage(imageUrl);
+//    }
+
+//    async Task SendImageMessage(string imageUrl)
+//    {
+//        try
+//        {
+//            var message = new Message()
+//            {
+//                SenderName = _senderName,
+//                ReceiverName = _receiverName,
+//                Content = "Фото",
+//                ImageUrl = imageUrl
+//            };
+//            var serializedMessage = JsonConvert.SerializeObject(message);
+//            await hubConnection.InvokeAsync("SendMessage", _senderName, _receiverName, serializedMessage);
+
+//            //это лишнее убрал, чтобы не отправлять сообщение 2 раза
+//            SendLocalMessage(message);
+//        }
+//        catch (Exception ex)
+//        {
+
+//        }
+//    }
+
+
+//    #endregion
+//}

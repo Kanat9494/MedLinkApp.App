@@ -21,6 +21,6 @@ global using MedLinkApp.ViewModels.CustomControls;
 global using Microsoft.AspNetCore.SignalR.Client;
 global using Sharpnado.Tabs;
 global using MedLinkApp.Helpers;
-
+global using Firebase.Database;
 
 
