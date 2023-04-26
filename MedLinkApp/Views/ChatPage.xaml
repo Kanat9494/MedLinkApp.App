@@ -148,7 +148,8 @@
                         ItemsSource="{Binding Messages}"
                         ItemTemplate="{StaticResource ChatTemplateSelector}"
                         Grid.Row="0"
-                        VerticalOptions="FillAndExpand">
+                        VerticalOptions="FillAndExpand"
+                        ItemsUpdatingScrollMode="KeepLastItemInView">
                         
                     </CollectionView>
 
