@@ -1,8 +1,4 @@
-﻿using Firebase.Database.Query;
-using Microsoft.AspNetCore.SignalR.Client;
-using System.Reactive.Linq;
-
-namespace MedLinkApp.ViewModels;
+﻿namespace MedLinkApp.ViewModels;
 
 [QueryProperty(nameof(ProductPrice), "ProductPrice")]
 internal class ChatViewModel : BaseViewModel
@@ -12,7 +8,8 @@ internal class ChatViewModel : BaseViewModel
         WaitingForDoctor = true;
         ContentIsVisible = false;
         _isTimerRunning = false;
-        _abortMessage = "Ваш запрос отменен";
+        _isConfirmed = false;
+        _abortMessage = "Вы отмененили";
         firebaseClient = new FirebaseClient("https://medlinkchat-default-rtdb.europe-west1.firebasedatabase.app/");
 
         Task.Run(async () =>
@@ -33,7 +30,25 @@ internal class ChatViewModel : BaseViewModel
             .Subscribe((item) =>
             {
                 if (item.Object != null)
-                    Messages.Add(item.Object);
+                {
+                    if (!_isConfirmed)
+                    {
+                        if (item.Object.Content == MedLinkConstants.CONFIRM_MESSAGE)
+                        {
+                            Task.Run(async () =>
+                            {
+                                await ConsultationConfirmed();
+                            });
+                        }
+                        else if (item.Object.Content == MedLinkConstants.REJECT_MESSAGE)
+                        {
+                            _abortMessage = "Доктор отклонил ваш запрос, попробуйте еще раз";
+                            OnAbortChat();
+                        }
+                    }
+                    else
+                        Messages.Add(item.Object);
+                }
             });
 
         Task.Run(async () =>
@@ -83,6 +98,7 @@ internal class ChatViewModel : BaseViewModel
     System.Timers.Timer timer;
     bool _isTimerRunning;
     FirebaseClient firebaseClient;
+    bool _isConfirmed;
 
     public Command SendMessage { get; }
     public Command OpenAudioMessagePage { get; }
@@ -202,6 +218,12 @@ internal class ChatViewModel : BaseViewModel
         WaitingForDoctor = false;
         await Task.Delay(500);
         ContentIsVisible = true;
+        _isConfirmed = true;
+        if (!_isTimerRunning)
+        {
+            StartCountDownTimer();
+            _isTimerRunning = !_isTimerRunning;
+        }
     }
 
     private void SendLocalMessage(Message message)

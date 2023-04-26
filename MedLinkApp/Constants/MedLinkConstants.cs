@@ -13,6 +13,8 @@ public class MedLinkConstants
 
     internal const string CONFIRM_MESSAGE = "Kana-LetoCoOwner";
 
+    internal const string REJECT_MESSAGE = "RejectingTheMessage!";
+
     //для работы
     internal const string FILE_BASE_PATH = "http://192.168.2.33:40";
 

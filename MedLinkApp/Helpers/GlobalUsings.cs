@@ -22,5 +22,8 @@ global using Microsoft.AspNetCore.SignalR.Client;
 global using Sharpnado.Tabs;
 global using MedLinkApp.Helpers;
 global using Firebase.Database;
+global using System.Reactive.Linq;
+global using Firebase.Database.Query;
+
 
 
