@@ -4,8 +4,6 @@ public class ContentService
 {
     public ContentService(string token)
     {
-        
-
         accessToken = token;
     }
 
@@ -18,7 +16,6 @@ public class ContentService
         return _instance;
     }
 
-    HttpClient httpClient;
     string accessToken;
 
     public async Task<IEnumerable<Category>> LoadCategories()
@@ -113,7 +110,7 @@ public class ContentService
         }
     }
 
-    public async Task<TResponse> GetItemDataAsync<TResponse, TRequest>(string requestUrl) 
+    public async Task<TResponse> GetItemDataAsync<TResponse>(string requestUrl) 
     {
         using (HttpClient httpClient = new HttpClient())
         {
@@ -159,31 +156,5 @@ public class ContentService
         }
     }
 
-    public async Task<DoctorInfo> GetDoctorInfo(int doctorId)
-    {
-        using (HttpClient httpClient = new HttpClient())
-        {
-            httpClient.BaseAddress = new Uri(MedLinkConstants.SERVER_ROOT_URL);
-            httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-            httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
-
-            try
-            {
-                var response = await httpClient.GetStringAsync(httpClient.BaseAddress + "api/Doctors/GetDoctor/" + doctorId);
-
-                DoctorInfo result = JsonConvert.DeserializeObject<DoctorInfo>(response);
-                result.StatusCode = 200;
-
-                return result;
-            }
-            catch (Exception ex)
-            {
-                return new DoctorInfo()
-                {
-                    StatusCode = 500,
-                    ResponseMessage = ex.Message
-                };
-            }
-        }
-    }
+    
 }

@@ -71,7 +71,7 @@ internal class ProductsViewModel : BaseViewModel
 
         int userId = int.Parse(await SecureStorage.Default.GetAsync("UserId"));
 
-        double userBalance = await ContentService.Instance(accessToken).GetItemDataAsync<double, double>($"api/User/GetUserBalance/{userId}");
+        double userBalance = await ContentService.Instance(accessToken).GetItemDataAsync<double>($"api/User/GetUserBalance/{userId}");
 
         if (userBalance == 0)
             await Shell.Current.DisplayAlert("Недостаточно средств", "У вас не хватает средств для консультации, " +
@@ -83,7 +83,7 @@ internal class ProductsViewModel : BaseViewModel
                     "пожалуйста пополните баланс", "Ок");
             else
             {
-                await Shell.Current.GoToAsync($"{nameof(ChatPage)}?{nameof(ChatViewModel.ProductPrice)}={product.Price}");
+                await Shell.Current.GoToAsync($"{nameof(OfferPage)}?{nameof(OfferViewModel.ProductPrice)}={product.Price}");
             }
         }
     }
