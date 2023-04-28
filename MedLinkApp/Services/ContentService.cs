@@ -62,7 +62,7 @@ public class ContentService
         }
     }
 
-    public async Task<TResponse> GetItemAsync<TResponse, TRequest>(string requestUrl) where TResponse : BaseResponse
+    public async Task<TResponse> GetItemAsync<TResponse>(string requestUrl) where TResponse : BaseResponse
     {
         using (HttpClient httpClient = new HttpClient())
         {

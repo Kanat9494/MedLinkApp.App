@@ -46,7 +46,7 @@ class DoctorDetailsViewModel : BaseViewModel, IQueryAttributable
     async Task GetDoctorInfo()
     {
         //var response = await ContentService.Instance().GetDoctorInfo(DoctorId);
-        var response = await ContentService.Instance(accessToken).GetItemAsync<DoctorInfo, int>($"api/Doctors/GetDoctor/{DoctorId}");
+        var response = await ContentService.Instance(accessToken).GetItemAsync<DoctorInfo>($"api/Doctors/GetDoctor/{DoctorId}");
         await SecureStorage.Default.SetAsync("DoctorId", DoctorId.ToString());
 
         if (response.StatusCode == 200)

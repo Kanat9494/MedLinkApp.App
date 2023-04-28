@@ -52,7 +52,7 @@ internal class AccountViewModel : BaseViewModel
     {
         try
         {
-            var response = await ContentService.Instance(_accessToken).GetItemAsync<AuthenticateResponse, int>($"api/User/GetUser?userId={_userId}");
+            var response = await ContentService.Instance(_accessToken).GetItemAsync<AuthenticateResponse>($"api/User/GetUser?userId={_userId}");
 
             if (response.StatusCode == 200)
                 CurrentUser = response;
