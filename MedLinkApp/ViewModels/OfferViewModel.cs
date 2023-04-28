@@ -80,7 +80,6 @@ internal class OfferViewModel : BaseViewModel
                     await SecureStorage.Default.SetAsync("ReceiverName", offer.SenderName);
                     _productPrice = offer.ProductPrice;
                     _offerId = offer.OfferId;
-
                 }
 
                 await ContentService.Instance(_accessToken).GetItemDataAsync<bool>($"api/Offers/DeleteOffer?offerId={_offerId}");
