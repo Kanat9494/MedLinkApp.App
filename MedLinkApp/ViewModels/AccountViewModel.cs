@@ -16,6 +16,8 @@ internal class AccountViewModel : BaseViewModel
             });
         });
 
+        ExitCommand = new Command(OnExit);
+
         Task.Run(async () =>
         {
             _accessToken = await SecureStorage.Default.GetAsync("UserAccessToken");
@@ -25,13 +27,15 @@ internal class AccountViewModel : BaseViewModel
         });
     }
 
+    public Command RefreshAccountInfo { get; }
+    public Command ExitCommand { get; }
+
     private bool _isRefreshing;
     public bool IsRefreshing
     {
         get => _isRefreshing;
         set => SetProperty(ref _isRefreshing, value);
     }
-    public Command RefreshAccountInfo { get; }
     private AuthenticateResponse _currentUser;
     public AuthenticateResponse CurrentUser
     {
@@ -64,4 +68,7 @@ internal class AccountViewModel : BaseViewModel
             IsLoading = false;
         }
     }
+
+    void OnExit()
+        => System.Diagnostics.Process.GetCurrentProcess().Kill();
 }

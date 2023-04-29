@@ -1,14 +1,9 @@
 ﻿namespace MedLinkApp.ViewModels;
 
-[QueryProperty(nameof(ProductPrice), "ProductPrice")]
 internal class ChatViewModel : BaseViewModel
 {
     public ChatViewModel()
     {
-        WaitingForDoctor = true;
-        ContentIsVisible = false;
-        _isTimerRunning = false;
-        _isConfirmed = false;
         _abortMessage = "Вы отмененили";
         firebaseClient = new FirebaseClient("https://medlinkchat-default-rtdb.europe-west1.firebasedatabase.app/");
 
@@ -17,6 +12,7 @@ internal class ChatViewModel : BaseViewModel
             accessToken = await SecureStorage.Default.GetAsync("UserAccessToken");
             _senderName = await SecureStorage.Default.GetAsync("UserName");
             _receiverName = await SecureStorage.Default.GetAsync("DoctorAccountName");
+            DoctorFullName = await SecureStorage.Default.GetAsync("DoctorFullName");
         }).Wait();
 
         Messages = new ObservableCollection<Message>();
@@ -31,62 +27,21 @@ internal class ChatViewModel : BaseViewModel
             {
                 if (item.Object != null)
                 {
-                    if (!_isConfirmed)
-                    {
-                        if (item.Object.Content == MedLinkConstants.CONFIRM_MESSAGE)
-                        {
-                            Task.Run(async () =>
-                            {
-                                await ConsultationConfirmed();
-                            });
-                        }
-                        else if (item.Object.Content == MedLinkConstants.REJECT_MESSAGE)
-                        {
-                            _abortMessage = "Доктор отклонил ваш запрос, попробуйте еще раз";
-                            OnAbortChat();
-                        }
-                    }
-                    else
-                        Messages.Add(item.Object);
+                    Messages.Add(item.Object);
                 }
             });
-
-        Task.Run(async () =>
-        {
-            DoctorFullName = await SecureStorage.Default.GetAsync("DoctorFullName");
-            await SendConfirmMessage();
-        }).GetAwaiter().OnCompleted(() =>
-        {
-
-        });
 
         SendMessage = new Command(async () =>
         {
             await OnSendMessage();
         });
+
         OpenAudioMessagePage = new Command(ToAudioMessagePage);
         OpenPhotoMessagePage = new Command(PickImage);
         OpenPhotoMessageCommand = new Command<string>(async (imageUrl) => await OnOpenPhotoMessage(imageUrl));
         AbortChatCommand = new Command(OnAbortChat);
 
-        //hubConnection.On<string, string, string>("ReceiveMessage", (senderName, receiverName, jsonMessage) =>
-//        {
-//            try
-//            {
-//                var message = JsonConvert.DeserializeObject<Message>(jsonMessage);
-//                if (!_isTimerRunning)
-//                {
-//                    StartCountDownTimer();
-//                    _isTimerRunning = !_isTimerRunning;
-//                }
-
-        //                SendLocalMessage(message);
-        //            }
-        //            catch
-        //            {
-
-        //            }
-        //        });
+        StartCountDownTimer();
     }
 
     string accessToken;
@@ -96,9 +51,7 @@ internal class ChatViewModel : BaseViewModel
     string cTimer;
     DateTime endTime;
     System.Timers.Timer timer;
-    bool _isTimerRunning;
     FirebaseClient firebaseClient;
-    bool _isConfirmed;
 
     public Command SendMessage { get; }
     public Command OpenAudioMessagePage { get; }
@@ -118,45 +71,31 @@ internal class ChatViewModel : BaseViewModel
         get => _chatTimer;
         set => SetProperty(ref _chatTimer, value);
     }
-    private bool _contentIsVisible;
-    public bool ContentIsVisible
-    {
-        get => _contentIsVisible;
-        set => SetProperty(ref _contentIsVisible, value);
-    }
-    private bool _waitingForDoctor;
-    public bool WaitingForDoctor
-    {
-        get => _waitingForDoctor;
-        set => SetProperty(ref _waitingForDoctor, value);
-    }
+    
     private string _doctorFullName;
     public string DoctorFullName
     {
         get => _doctorFullName;
         set => SetProperty(ref _doctorFullName, value);
     }
-    private double _productPrice;
-    public double ProductPrice
-    {
-        get => _productPrice;
-        set => SetProperty(ref _productPrice, value);
-    }
 
     public ObservableCollection<Message> Messages { get; set; }
 
     void StartCountDownTimer()
     {
-        timer = new System.Timers.Timer();
-        endTime = DateTime.Now.AddMinutes(5);
-        timer.Elapsed += ChatTimerTick;
-        TimeSpan timeSpan = endTime - DateTime.Now;
-        cTimer = timeSpan.ToString("m' Minutes 's' Seconds'");
-        timer.Start();
+        Task.Run(() =>
+        {
+            timer = new System.Timers.Timer();
+            endTime = DateTime.Now.AddMinutes(5);
+            timer.Elapsed += ChatTimerTick;
+            TimeSpan timeSpan = endTime - DateTime.Now;
+            cTimer = timeSpan.ToString("m' Minutes 's' Seconds'");
+            timer.Start();
+        });
     }
 
     void ChatTimerTick(object sender, EventArgs e)
-   {
+    {
         TimeSpan timeSpan = endTime - DateTime.Now;
 
         cTimer = timeSpan.ToString("m':'s' '");
@@ -166,8 +105,15 @@ internal class ChatViewModel : BaseViewModel
             ChatTimer = cTimer;
         });
 
-        if ((timeSpan.TotalMinutes == 0) || (timeSpan.TotalMilliseconds< 1000))
+        if ((timeSpan.TotalMinutes == 0) || (timeSpan.TotalMilliseconds < 1000))
+        {
             timer.Stop();
+            Task.Run(async () =>
+            {
+                DisconnectFirebase();
+                await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
+            });
+        }
     }
 
     async Task OnSendMessage()
@@ -194,36 +140,6 @@ internal class ChatViewModel : BaseViewModel
     {
         if (firebaseClient != null)
             firebaseClient.Dispose();
-    }
-
-    async Task SendConfirmMessage()
-    {
-        try
-        {
-            var message = new Message()
-            {
-                SenderName = _senderName,
-                ReceiverName = _receiverName,
-                Content = MedLinkConstants.CONFIRM_MESSAGE
-            };
-
-            var serializedMessage = JsonConvert.SerializeObject(message);
-            await firebaseClient.Child("Messages").PostAsync(serializedMessage);
-        }
-        catch { }
-    }
-
-    private async Task ConsultationConfirmed()
-    {
-        WaitingForDoctor = false;
-        await Task.Delay(500);
-        ContentIsVisible = true;
-        _isConfirmed = true;
-        if (!_isTimerRunning)
-        {
-            StartCountDownTimer();
-            _isTimerRunning = !_isTimerRunning;
-        }
     }
 
     private void SendLocalMessage(Message message)

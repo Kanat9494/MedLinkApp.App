@@ -141,6 +141,30 @@
                         </Border>
                     </StackLayout>
                 </Border>
+
+                <Border
+                StrokeShape="RoundRectangle 10"
+                Padding="25"
+                Margin="10, 20, 10, 0"
+                StrokeThickness="0">
+                    <StackLayout
+                    Orientation="Horizontal">
+                        <Label
+                        Text="Выйти"
+                        VerticalOptions="Center"
+                        FontSize="20"
+                        FontAttributes="Bold"
+                        FontFamily="RegularFont"/>
+                    </StackLayout>
+
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer
+                            NumberOfTapsRequired="1"
+                            Command="{Binding ExitCommand}"
+                            >
+                        </TapGestureRecognizer>
+                    </Border.GestureRecognizers>
+                </Border>
             </StackLayout>
         </ScrollView>
     </RefreshView>
