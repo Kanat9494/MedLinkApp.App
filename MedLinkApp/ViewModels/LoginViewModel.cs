@@ -6,6 +6,7 @@ internal class LoginViewModel : BaseViewModel
     {
         IsLoading = false;
         LoginCommand = new Command(async () => await OnLogin());
+        OnResetPasswordCommand = new Command(OnResetPassword);
 
         UserName = "test";
         Password = "1234";
@@ -48,6 +49,7 @@ internal class LoginViewModel : BaseViewModel
     }
 
     public Command LoginCommand { get; }
+    public Command OnResetPasswordCommand { get; }
 
     private async Task OnLogin()
     {
@@ -80,5 +82,10 @@ internal class LoginViewModel : BaseViewModel
                 IsLoading = false;
             }
         }
+    }
+
+    private async void OnResetPassword()
+    {
+        await Shell.Current.GoToAsync($"{nameof(ResetPasswordPage)}");
     }
 }
