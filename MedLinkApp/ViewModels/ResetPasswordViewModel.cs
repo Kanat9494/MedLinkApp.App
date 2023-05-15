@@ -29,8 +29,8 @@ internal class ResetPasswordViewModel : BaseViewModel
         get => _isReset;
         set => SetProperty(ref _isReset, value);
     }
-    private int _checkOneTimeCode;
-    public int CheckOneTimeCode
+    private string _checkOneTimeCode;
+    public string CheckOneTimeCode
     {
         get => _checkOneTimeCode;
         set => SetProperty(ref _checkOneTimeCode, value);
@@ -70,7 +70,13 @@ internal class ResetPasswordViewModel : BaseViewModel
 
     private async void OnCheck()
     {
-        if (CheckOneTimeCode != oneTimeCode)
+        if (string.IsNullOrEmpty(CheckOneTimeCode))
+        {
+            await Shell.Current.DisplayAlert("Пустое значение", "Введите одноразовый код", "Ок");
+            return;
+        }
+
+        if (int.Parse(CheckOneTimeCode) != oneTimeCode)
         {
             await Shell.Current.DisplayAlert("Ошибка", "Введенный вами одноразовый код не совпадает, с кодом, отправленным вам", "Ок");
 
