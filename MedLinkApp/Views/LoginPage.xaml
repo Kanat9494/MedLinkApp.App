@@ -95,8 +95,8 @@
                 <Label Text="Запомнить" TextColor="DarkGray" FontSize="Small" VerticalTextAlignment="Center" 
                     HorizontalTextAlignment="Center"
                     FontFamily="RegularFont"/>-->
-                <Label Text="Забыли пароль" TextColor="#1d8348" FontAttributes="Bold" HorizontalOptions="EndAndExpand"
-                           VerticalTextAlignment="Center" HorizontalTextAlignment="Center"
+                <Label Text="Забыли пароль?" TextColor="#1d8348" FontAttributes="Bold" HorizontalOptions="CenterAndExpand"
+                    VerticalTextAlignment="Center" HorizontalTextAlignment="Center"
                     FontFamily="RegularFont">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer
