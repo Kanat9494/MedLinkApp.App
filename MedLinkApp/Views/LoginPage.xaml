@@ -80,6 +80,7 @@
                             Margin="0"/>
                     </Frame>
                     <customControls:CustomEntry 
+                        IsPassword="true"
                         Text="{Binding Password}" 
                         Placeholder="Введите пароль" 
                         TextColor="Black" 

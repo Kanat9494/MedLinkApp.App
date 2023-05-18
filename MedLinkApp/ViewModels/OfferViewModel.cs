@@ -28,7 +28,6 @@ internal class OfferViewModel : BaseViewModel
     }
 
     string _accessToken;
-    string _abortMessage;
     string _senderName;
     string _receiverName;
     int _offerId;
