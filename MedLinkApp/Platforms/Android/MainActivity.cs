@@ -11,16 +11,16 @@ public class MainActivity : MauiAppCompatActivity
     {
         base.OnCreate(savedInstanceState);
 
-        SessionManager.Instance.SessionDuration = TimeSpan.FromSeconds(10);
-        SessionManager.Instance.OnSessionExpired = HandleSessionExpired;
+        //SessionManager.Instance.SessionDuration = TimeSpan.FromSeconds(10);
+        //SessionManager.Instance.OnSessionExpired = HandleSessionExpired;
     }
     public override void OnUserInteraction()
     {
         base.OnUserInteraction();
 
-        SessionManager.Instance.ExtendSession();
+        //SessionManager.Instance.ExtendSession();
     }
 
-    async void HandleSessionExpired(object sender, EventArgs e)
-        => await SessionManager.Instance.LogoutAsync();
+    //async void HandleSessionExpired(object sender, EventArgs e)
+    //    //=> await SessionManager.Instance.LogoutAsync();
 }

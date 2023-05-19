@@ -83,15 +83,12 @@ internal class ChatViewModel : BaseViewModel
 
     void StartCountDownTimer()
     {
-        Task.Run(() =>
-        {
-            timer = new System.Timers.Timer();
-            endTime = DateTime.Now.AddMinutes(5);
-            timer.Elapsed += ChatTimerTick;
-            TimeSpan timeSpan = endTime - DateTime.Now;
-            cTimer = timeSpan.ToString("m' Minutes 's' Seconds'");
-            timer.Start();
-        });
+        timer = new System.Timers.Timer();
+        endTime = DateTime.Now.AddMinutes(5);
+        timer.Elapsed += ChatTimerTick;
+        TimeSpan timeSpan = endTime - DateTime.Now;
+        cTimer = timeSpan.ToString("m' Minutes 's' Seconds'");
+        timer.Start();
     }
 
     void ChatTimerTick(object sender, EventArgs e)
