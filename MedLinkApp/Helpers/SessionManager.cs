@@ -4,7 +4,7 @@ internal class SessionManager
 {
     internal SessionManager()
     {
-        this.SessionDuration = TimeSpan.FromSeconds(5000);
+        this.SessionDuration = TimeSpan.FromSeconds(10);
         this._sessionExpirationTime = DateTime.FromFileTimeUtc(0);
     }
 
@@ -56,4 +56,7 @@ internal class SessionManager
             OnSessionExpired.Invoke(this, null);
         }
     }
+
+    internal async Task LogoutAsync()
+        => await Shell.Current.GoToAsync($"\\{nameof(LoginPage)}");
 }
