@@ -11,12 +11,12 @@ public class MainActivity : MauiAppCompatActivity
     {
         base.OnCreate(savedInstanceState);
 
-        SessionManager.Instance.StartSession();
+        UserActivityTrackService.Instance.StartSession();
     }
     public override void OnUserInteraction()
     {
         base.OnUserInteraction();
 
-        SessionManager.Instance.RestartSession();
+        UserActivityTrackService.Instance.RestartSession();
     }
 }

@@ -1,23 +1,21 @@
-﻿using System.Diagnostics;
+﻿namespace MedLinkApp.Services;
 
-namespace MedLinkApp.Helpers;
-
-internal class SessionManager
+internal class UserActivityTrackService
 {
-    internal SessionManager()
+    internal UserActivityTrackService()
     {
         _sessionExpirationTime = 0;
         cancelTokenSource = new CancellationTokenSource();
         cancelToken = cancelTokenSource.Token;
     }
 
-    static readonly Lazy<SessionManager> lazy = new Lazy<SessionManager>(() => new SessionManager());
-    internal static SessionManager Instance { get => lazy.Value; }
-    bool IsSessionActive { get; set; }
+    static readonly Lazy<UserActivityTrackService> _lazy = new Lazy<UserActivityTrackService>(() => new UserActivityTrackService());
     internal CancellationTokenSource cancelTokenSource;
     internal CancellationToken cancelToken;
-
     int _sessionExpirationTime = 0;
+
+    internal static UserActivityTrackService Instance { get => _lazy.Value; }
+    bool IsSessionActive { get; set; }
 
     internal void StartSession()
     {
