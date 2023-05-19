@@ -1,4 +1,6 @@
-﻿namespace MedLinkApp.Helpers;
+﻿using System.Diagnostics;
+
+namespace MedLinkApp.Helpers;
 
 internal class SessionManager
 {
@@ -30,7 +32,7 @@ internal class SessionManager
 
                 _sessionExpirationTime++;
 
-                if (_sessionExpirationTime > 2)
+                if (_sessionExpirationTime > 3)
                     await StopSession();
 
                 await Task.Delay(5000);
