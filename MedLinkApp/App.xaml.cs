@@ -19,4 +19,18 @@ public partial class App : Application
 #endif
 		});
 	}
+
+	private const int IDLE_TIMEOUT_SECONDS = 5000;
+	private static readonly TimeSpan IdleTimeout = TimeSpan.FromSeconds(IDLE_TIMEOUT_SECONDS);
+	private static bool _isUserActive = true;
+	private static DateTime _lastActivityTime;
+
+    protected override void OnStart()
+    {
+		base.OnStart();
+
+		_lastActivityTime = DateTime.Now;
+
+		App.Current.UserAppThemeChanged += 
+    }
 }
