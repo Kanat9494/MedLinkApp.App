@@ -73,8 +73,8 @@ internal class LoginViewModel : BaseViewModel
                 await SecureStorage.Default.SetAsync("UserName", CurrentUser.UserName);
                 AuthFields._senderName = CurrentUser.UserName;
 
-                IsLoading = false;
                 await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
+                IsLoading = false;
             }
             else
             {

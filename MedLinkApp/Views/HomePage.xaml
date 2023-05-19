@@ -314,6 +314,6 @@
             Grid.RowSpan="5"
             VerticalOptions="CenterAndExpand"
             HorizontalOptions="CenterAndExpand"
-            Color="{x:StaticResource Red50}"/>
+            Color="{x:StaticResource Green50}"/>
     </Grid>
 </ContentPage>
