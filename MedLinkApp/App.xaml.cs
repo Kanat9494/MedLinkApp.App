@@ -19,4 +19,9 @@ public partial class App : Application
 #endif
 		});
 	}
+
+    protected override void OnStart()
+    {
+
+    }
 }

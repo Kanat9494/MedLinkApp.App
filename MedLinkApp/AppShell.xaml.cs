@@ -8,9 +8,61 @@ public partial class AppShell : Shell
 		InitializeComponent();
 
         RegisterRoutingPages();
+
+        _idleTimeoutService = new IdleTimeoutService();
     }
 
-	private void RegisterRoutingPages()
+    private IdleTimeoutService _idleTimeoutService;
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+
+        SubscribeToNavigationEvents();
+        StartIdleTimer();
+    }
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+
+        UnsubscribeFromNavigationEvents();
+        StopIdleTimer();
+    }
+
+    private void SubscribeToNavigationEvents()
+    {
+        Navigating += HandleNavigating;
+        Navigated += HandleNavigated;
+    }
+
+    private void UnsubscribeFromNavigationEvents()
+    {
+        Navigating -= HandleNavigating;
+        Navigated -= HandleNavigated;
+    }
+
+    private void HandleNavigating(object sender, ShellNavigatingEventArgs e)
+    {
+        StopIdleTimer();
+    }
+
+    private void HandleNavigated(object sender, ShellNavigatedEventArgs e)
+    {
+        StartIdleTimer();
+    }
+
+    private void StartIdleTimer()
+    {
+        _idleTimeoutService.StartTimer();
+    }
+
+    private void StopIdleTimer()
+    {
+        _idleTimeoutService.ResetTimer();
+    }
+
+    private void RegisterRoutingPages()
 	{
         Routing.RegisterRoute(nameof(DoctorDetailsPage), typeof(DoctorDetailsPage));
         Routing.RegisterRoute(nameof(ChatPage), typeof(ChatPage));
