@@ -21,11 +21,11 @@
             Padding="0"
             >
             <StackLayout
-                >
+                Margin="0, -2, 0, 0">
                 <Border
                     StrokeThickness="0"
                     StrokeShape="RoundRectangle 0, 0, 10, 10"
-                    BackgroundColor="{x:StaticResource Green50}">
+                    BackgroundColor="{x:StaticResource Green40}">
                     <StackLayout
                         Margin="0">
                         <Border
@@ -33,7 +33,7 @@
                             StrokeShape="RoundRectangle 0, 0, 10, 10">
                             <Image 
                                 Source="{Binding Doctor.ProfileImg}"
-                                HeightRequest="200"
+                                HeightRequest="400"
                                 Aspect="AspectFill"/>
                         </Border>
                     </StackLayout>
