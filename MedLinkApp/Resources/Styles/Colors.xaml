@@ -57,5 +57,14 @@
     <Color x:Key="Green50">#33cc33</Color>
     <Color x:Key="Pink85">#ffb3ff</Color>
     <Color x:Key="Red70">#ff6666</Color>
+    <Color x:Key="Green55">#1aff1a</Color>
+    <Color x:Key="Green40">#00cc00</Color>
+    <Color x:Key="Red60">#ff3333</Color>
+    <Color x:Key="Pink80">#ff99e6</Color>
+    <Color x:Key="DarkPink50">#bf4080</Color>
+    <Color x:Key="Pink100">#AB119D</Color>
+    <Color x:Key="Red100">#ff471a</Color>
+    <Color x:Key="Green35">#00b300</Color>
+
 
 </ResourceDictionary>
