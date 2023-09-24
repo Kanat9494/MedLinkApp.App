@@ -62,47 +62,51 @@ internal class OfferViewModel : BaseViewModel
 
     async Task SetOffer()
     {
-        await Task.Delay(2000);
-
-        var isSaved = await SaveOffer();
-        if (!isSaved)
-        {
-            await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
-        }
-
-        Task setOfferTask = new Task(async () =>
+        try
         {
             await Task.Delay(2000);
 
-            while (true)
+            var isSaved = await SaveOffer();
+            if (!isSaved)
             {
-                if (cancelToken.IsCancellationRequested)
-                    break;
-
-                if (checkOfferCount == 5)
-                    break;
-
-                var offer = await ContentService.Instance(_accessToken).GetItemAsync<Offer>($"api/Offers/GetOffer?receiverName={_senderName}");
-                var isConfirmed = await CheckOffer(offer);
-                if (isConfirmed)
-                {
-                    var message = "Консультация";
-                    await ContentService.Instance(_accessToken).GetItemDataAsync<bool>($"api/Balance/WithdrawalUserBalance?id={_userId}&" +
-                        $"balance={ProductPrice}&description={message}&recipient={_receiverName}");
-
-                    App.Current.Dispatcher.Dispatch(async () =>
-                    {
-                        await Shell.Current.GoToAsync(nameof(ChatPage));
-                    });
-                    break;
-                }
-
-                checkOfferCount++;
-                await Task.Delay(5000);
+                await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
             }
-        }, cancelToken);
 
-        setOfferTask.Start();
+            Task setOfferTask = new Task(async () =>
+            {
+                await Task.Delay(2000);
+
+                while (true)
+                {
+                    if (cancelToken.IsCancellationRequested)
+                        break;
+
+                    if (checkOfferCount == 5)
+                        break;
+
+                    var offer = await ContentService.Instance(_accessToken).GetItemAsync<Offer>($"api/Offers/GetOffer?receiverName={_senderName}");
+                    var isConfirmed = await CheckOffer(offer);
+                    if (isConfirmed)
+                    {
+                        var message = "Консультация";
+                        await ContentService.Instance(_accessToken).GetItemDataAsync<bool>($"api/Balance/WithdrawalUserBalance?id={_userId}&" +
+                            $"balance={ProductPrice}&description={message}&recipient={_receiverName}");
+
+                        App.Current.Dispatcher.Dispatch(async () =>
+                        {
+                            await Shell.Current.GoToAsync(nameof(ChatPage));
+                        });
+                        break;
+                    }
+
+                    checkOfferCount++;
+                    await Task.Delay(5000);
+                }
+            }, cancelToken);
+
+            setOfferTask.Start();
+        }
+        catch { }
     }
 
     async Task<bool> CheckOffer(Offer offer)
@@ -135,29 +139,33 @@ internal class OfferViewModel : BaseViewModel
 
     async Task<bool> SaveOffer()
     {
-        while (true)
+        try
         {
-            var isSaved = await ContentService.Instance(_accessToken).GetItemDataAsync<bool>($"api/Offers/SetOffer?senderName={_senderName}&" +
-                $"receiverName={_receiverName}&productPrice={ProductPrice}");
-
-            if (isSaved)
-                return true;
-
-            if (_saveOfferCount == 5)
+            while (true)
             {
-                App.Current.Dispatcher.Dispatch(async () =>
+                var isSaved = await ContentService.Instance(_accessToken).GetItemDataAsync<bool>($"api/Offers/SetOffer?senderName={_senderName}&" +
+                    $"receiverName={_receiverName}&productPrice={ProductPrice}");
+
+                if (isSaved)
+                    return true;
+
+                if (_saveOfferCount == 5)
                 {
-                    await Shell.Current.DisplayAlert("Непредвиденная ошибка", "Что-то пошло не так, попробуйте снова!", "Ок");
-                });
+                    App.Current.Dispatcher.Dispatch(async () =>
+                    {
+                        await Shell.Current.DisplayAlert("Непредвиденная ошибка", "Что-то пошло не так, попробуйте снова!", "Ок");
+                    });
 
-                cancelTokenSource.Cancel();
-                cancelTokenSource.Dispose();
-                return false;
+                    cancelTokenSource.Cancel();
+                    cancelTokenSource.Dispose();
+                    return false;
+                }
+
+                _saveOfferCount++;
+
+                await Task.Delay(5000);
             }
-
-            _saveOfferCount++;
-
-            await Task.Delay(5000);
         }
+        catch { }
     }
 }
