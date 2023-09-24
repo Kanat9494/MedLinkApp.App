@@ -84,7 +84,7 @@ internal class OfferViewModel : BaseViewModel
                     if (checkOfferCount == 5)
                         break;
 
-                    var offer = await ContentService.Instance(_accessToken).GetItemAsync<Offer>($"api/Offers/GetOffer?receiverName={_senderName}");
+                    var offer = await ContentService.Instance(_accessToken).GetItemAsync<Offer>($"api/Offers/GetOffer?receiverName={_senderName}&senderName={_receiverName}");
                     var isConfirmed = await CheckOffer(offer);
                     if (isConfirmed)
                     {
