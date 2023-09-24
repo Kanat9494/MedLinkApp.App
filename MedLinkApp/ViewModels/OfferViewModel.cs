@@ -166,6 +166,9 @@ internal class OfferViewModel : BaseViewModel
                 await Task.Delay(5000);
             }
         }
-        catch { }
+        catch 
+        {
+            return false;
+        }
     }
 }
