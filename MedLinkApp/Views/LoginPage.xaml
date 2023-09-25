@@ -5,8 +5,14 @@
              Title="LoginPage"
              BackgroundColor="{x:StaticResource White}"
              xmlns:customControls="clr-namespace:MedLinkApp.CustomControls"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     >
-    <Grid>
+    
+    <ContentPage.Behaviors>
+        <toolkit:StatusBarBehavior StatusBarColor="{x:StaticResource Green35}"/>
+    </ContentPage.Behaviors>
+
+    <Grid Margin="0, -2, 0, 0">
         <Grid.RowDefinitions>
             <RowDefinition Height="220"/>
             <RowDefinition Height="*"/>
@@ -14,7 +20,8 @@
         </Grid.RowDefinitions>
 
         <Path Stroke="#fff" Data="m0.30001,0l449,0l0,128.48327c-122.5,64.30167 -332.5,65.89076 -449,7.2429c0,-45.25313 0,-90.47304 0,-135.72617z"  
-              Fill="#2ECC71"/>
+              Fill="#2ECC71"
+             />
 
         <VerticalStackLayout
             VerticalOptions="CenterAndExpand"
@@ -114,7 +121,7 @@
                 Command="{Binding LoginCommand}"/>
 
             <Label
-                Text="Версия 1.0"
+                Text="Версия 1.0.0"
                 Margin="0, 20, 0, 0"
                 HorizontalOptions="Center"
                 FontFamily="RegularFont"
