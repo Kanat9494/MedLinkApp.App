@@ -62,7 +62,7 @@ public class HomeViewModel : INotifyPropertyChanged
     {
         try
         {
-            var response = await ContentService.Instance(accessToken).GetAllDoctors();
+            var response = await ContentService.Instance(accessToken).GetItemsAsync<Doctor>("api/Doctors/GetAllDoctors");
 
             if (response != null )
             {
