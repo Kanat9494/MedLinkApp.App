@@ -40,27 +40,6 @@ public class ContentService
         }
     }
 
-    public async Task<IEnumerable<Doctor>> GetAllDoctors()
-    {
-        using (HttpClient httpClient = new HttpClient())
-        {
-            httpClient.BaseAddress = new Uri(MedLinkConstants.SERVER_ROOT_URL);
-            httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-            httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
-
-            try
-            {
-                var response = await httpClient.GetStringAsync(httpClient.BaseAddress + "api/Doctors/GetAllDoctors");
-                var doctors = JsonConvert.DeserializeObject<IEnumerable<Doctor>>(response);
-
-                return doctors;
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-        }
-    }
 
     public async Task<TResponse> GetItemAsync<TResponse>(string requestUrl) where TResponse : BaseResponse
     {
