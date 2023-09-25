@@ -156,5 +156,25 @@ public class ContentService
         }
     }
 
-    
+    internal async Task<int> PutItemAsync<TRequest>(TRequest request, string url)
+    {
+        using (var httpClient = new HttpClient())
+        {
+            httpClient.BaseAddress = new Uri(MedLinkConstants.SERVER_ROOT_URL);
+            var content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
+
+            try
+            {
+                var response = await httpClient.PutAsync(url, content);
+                var jsonResult = await response.Content.ReadAsStringAsync();
+
+                var result = JsonConvert.DeserializeObject<int>(jsonResult);
+                return result;
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+    }
 }

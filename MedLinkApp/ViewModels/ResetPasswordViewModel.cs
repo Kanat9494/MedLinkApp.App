@@ -90,8 +90,13 @@ internal class ResetPasswordViewModel : BaseViewModel
             return;
         }
 
-        await ContentService.Instance("").GetItemDataAsync<bool>($"api/Authentication/UpdatePassword?userName={UserName}&passwordNew={PasswordNew}" +
-            $"&isUser=true");
+        var userRP = new UserResetPassword
+        {
+            UserName = UserName,
+            PasswordNew = PasswordNew,
+            IsUser = true
+        };
+        await ContentService.Instance("").PutItemAsync(userRP, "api/Authentication/UpdatePassword");
 
         await Shell.Current.DisplayAlert("Отлично", "Ваш пароль успешно изменен на новый", "Ок");
 
