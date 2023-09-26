@@ -34,6 +34,11 @@ public partial class HomePage : ContentPage
                         HorizontalOptions = LayoutOptions.FillAndExpand,
                         VerticalOptions = LayoutOptions.Center,
                         Orientation = StackOrientation.Horizontal,
+
+                        Children =
+                        {
+                            new Label().Text("MedLink").Font(size: 24)
+                        }
                     }.Height(40).Margins(0, 0, 0, 0),
                 }
             }, 0, 0);
