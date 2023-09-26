@@ -27,6 +27,7 @@ global using Firebase.Database.Query;
 global using CommunityToolkit.Maui.Markup;
 global using CommunityToolkit.Mvvm.Input;
 global using System.Windows.Input;
+global using Microsoft.Maui.Controls.Shapes;
 
 
 

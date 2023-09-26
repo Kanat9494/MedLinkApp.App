@@ -4,7 +4,7 @@ internal class HomeViewModel : BaseViewModel
 {
     public HomeViewModel()
     {
-        IsBusy = true;
+        IsLoaded = false;
         Categories = new ObservableCollection<Category>();
         Doctors = new ObservableCollection<Doctor>();
         DoctorTapped = new Command<int>(OnDoctorSelected);
@@ -20,19 +20,19 @@ internal class HomeViewModel : BaseViewModel
             });
         });
 
-        Task.Run(async () =>
-        {
-            accessToken = await SecureStorage.Default.GetAsync("UserAccessToken");
+        //Task.Run(async () =>
+        //{
+        //    accessToken = await SecureStorage.Default.GetAsync("UserAccessToken");
 
-            await LoadCategories();
-            await GetAllDoctors();
-        }).GetAwaiter().OnCompleted(() =>
-        {
-            IsBusy = false;
-        });
+        //    await LoadCategories();
+        //    await GetAllDoctors();
+        //}).GetAwaiter().OnCompleted(() =>
+        //{
+        //    IsLoaded = true;
+        //});
     }
 
-    string accessToken;
+    internal string accessToken;
 
 
     public ICommand RefreshPageCommand { get; }
@@ -71,7 +71,7 @@ internal class HomeViewModel : BaseViewModel
         }
     }
 
-    private async Task GetAllDoctors()
+    internal async Task GetAllDoctors()
     {
         try
         {

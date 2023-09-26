@@ -21,6 +21,12 @@ internal class BaseViewModel : INotifyPropertyChanged
         get => _isBusy;
         set => SetProperty(ref _isBusy, value);
     }
+    private bool _isLoaded;
+    public bool IsLoaded
+    {
+        get => _isLoaded;
+        set => SetProperty(ref _isLoaded, value);
+    }
 
     #region INotifyPropertyChanged
     public event PropertyChangedEventHandler PropertyChanged;

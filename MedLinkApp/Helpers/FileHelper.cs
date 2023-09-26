@@ -49,7 +49,7 @@ internal class FileHelper
         var fileName = "uploaded_image_" + DateTime.UtcNow.ToString("ddMMM_hhmmss") + ".jpeg";
         string filePath = "";
 
-        var fileFullPath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), fileName);
+        var fileFullPath = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), fileName);
 
         await File.WriteAllBytesAsync(fileFullPath, fileData);
 
