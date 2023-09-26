@@ -15,6 +15,13 @@ internal class BaseViewModel : INotifyPropertyChanged
         return true;
     }
 
+    private bool _isBusy;
+    public bool IsBusy
+    {
+        get => _isBusy;
+        set => SetProperty(ref _isBusy, value);
+    }
+
     #region INotifyPropertyChanged
     public event PropertyChangedEventHandler PropertyChanged;
     protected void OnPropertyChanged([CallerMemberName] string propertyName = "")

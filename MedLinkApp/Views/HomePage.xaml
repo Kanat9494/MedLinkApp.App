@@ -14,122 +14,63 @@
     <ContentPage.Behaviors>
         <toolkit:StatusBarBehavior StatusBarColor="{x:StaticResource Green50}"/>
     </ContentPage.Behaviors>
-    
-    <Grid
-        Margin="15, 5"
-        VerticalOptions="FillAndExpand">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="110"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
 
-        <StackLayout
-            Grid.Row="0">
+    <RefreshView
+        IsRefreshing="{Binding IsRefreshing}"
+        Command="{Binding RefreshPageCommand}">
+        <Grid
+            Margin="15, 5"
+            VerticalOptions="FillAndExpand">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="110"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
             <StackLayout
-                HeightRequest="40"
-                HorizontalOptions="FillAndExpand"
-                VerticalOptions="Center"
-                Orientation="Horizontal"
-                Margin="0"
-                >
-                <Label
-                    Text="MedLink  "
-                    FontSize="24"
-                    FontAttributes="Bold,Italic" 
-                    HorizontalOptions="Start"
+                Grid.Row="0">
+                <StackLayout
+                    HeightRequest="40"
+                    HorizontalOptions="FillAndExpand"
                     VerticalOptions="Center"
-                    FontFamily="RegularFont"/>
+                    Orientation="Horizontal"
+                    Margin="0"
+                    >
+                    <Label
+                        Text="MedLink  "
+                        FontSize="24"
+                        FontAttributes="Bold,Italic" 
+                        HorizontalOptions="Start"
+                        VerticalOptions="Center"
+                        FontFamily="RegularFont"/>
 
-                <Image
-                    VerticalOptions="Center"
-                    Source="bell_icon.png"
-                    HeightRequest="25"
-                    WidthRequest="25"
-                    HorizontalOptions="EndAndExpand"
-                    />
-            </StackLayout>
-
-            <Label
-                Text="Ваше здоровье в надежных руках"
-                FontAttributes="Bold"
-                TextColor="{x:StaticResource Green45}"
-                FontFamily="RegularFont"/>
-
-            <!--<StackLayout
-                HeightRequest="40"
-                Margin="0, 10, 0, 0"
-                Orientation="Horizontal"
-                HorizontalOptions="FillAndExpand"
-                Spacing="15">
-                <Border
-                    BackgroundColor="{StaticResource White95}"
-                    StrokeShape="RoundRectangle 10"
-                    StrokeThickness="0"
-                    HorizontalOptions="FillAndExpand">
-                    <customControls:CustomEntry
-                        Margin="15, 0, 0, 0"
-                        Placeholder="Введите для поиска"
-                        VerticalOptions="Fill"
-                        />
-                </Border>
-
-                <Border
-                    StrokeShape="RoundRectangle 10"
-                    Padding="5"
-                    BackgroundColor="{x:StaticResource Yellow65}"
-                    Stroke="Transparent">
                     <Image
-                        Source="search"
+                        VerticalOptions="Center"
+                        Source="bell_icon.png"
                         HeightRequest="25"
                         WidthRequest="25"
+                        HorizontalOptions="EndAndExpand"
                         />
-                </Border>
-            </StackLayout> -->
-        </StackLayout>
+                </StackLayout>
 
-        <!--<Label
-            Text="Категории"
-            FontAttributes="Bold"
-            FontSize="18"
-            Margin="0, 15, 0, 0"
-            Grid.Row="1"
-            FontFamily="RegularFont"/>-->
+                <Label
+                    Text="Ваше здоровье в надежных руках"
+                    FontAttributes="Bold"
+                    TextColor="{x:StaticResource Green45}"
+                    FontFamily="RegularFont"/>
 
-        <!--<customControls:CategoriesControl
-            Grid.Row="2"
-            ItemsSource="{Binding Categories}"/>-->
-        
-        
-        <!--Расскомментировать когда категорий будет много-->
-        <!--<CollectionView
-            ItemsSource="{Binding Source={RelativeSource AncestorType={x:Type viewModels:HomeViewModel}}, Path=Categories}"
-            Grid.Row="2">
-            <CollectionView.ItemsLayout>
-                <LinearItemsLayout Orientation="Horizontal" />
-            </CollectionView.ItemsLayout>
-            <CollectionView.ItemTemplate>
-                <DataTemplate
-                    x:DataType="models:Category">
-                    <StackLayout>
-                        <Border
-                            StrokeThickness="0"
-                            BackgroundColor="{x:StaticResource GreenPrimary}"
-                            StrokeShape="RoundRectangle 10"
-                            Margin="5"
-                            Padding="10">
-                            <Label
-                                Text="{Binding CategoryName}"
-                                FontFamily="RegularFont"/>
-                        </Border>
-                    </StackLayout>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>-->
+                
+            </StackLayout>
 
-        <!--<Label
+            
+            
+            
+
+
+
+                <!--<Label
             Text="Наши доктора"
             FontAttributes="Bold"
             FontSize="18"
@@ -138,7 +79,7 @@
             FontFamily="RegularFont"/>-->
 
 
-        <!--<CollectionView
+                <CollectionView
             ItemsSource="{Binding Doctors}"
             VerticalOptions="FillAndExpand"
             Grid.Row="4"
@@ -226,14 +167,13 @@
                     </StackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
-        </CollectionView>-->
+        </CollectionView>
 
-        <!--<ActivityIndicator 
-            IsVisible="{Binding IsLoading}"
-            IsRunning="{Binding IsLoading}"
-            Grid.RowSpan="5"
-            VerticalOptions="CenterAndExpand"
-            HorizontalOptions="CenterAndExpand"
-            Color="{x:StaticResource Green50}"/>-->
-    </Grid>
+            <ActivityIndicator
+                Grid.RowSpan="5"
+                IsRunning="{Binding IsBusy}"
+                IsVisible="{Binding IsBusy}"
+                />
+        </Grid>
+    </RefreshView>
 </ContentPage>

@@ -1,13 +1,24 @@
 ﻿namespace MedLinkApp.ViewModels;
 
-public class HomeViewModel : INotifyPropertyChanged
+internal class HomeViewModel : BaseViewModel
 {
     public HomeViewModel()
     {
-        IsLoading = true;
+        IsBusy = true;
         Categories = new ObservableCollection<Category>();
         Doctors = new ObservableCollection<Doctor>();
         DoctorTapped = new Command<int>(OnDoctorSelected);
+
+        RefreshPageCommand = new Command(() =>
+        {
+            Task.Run(async () =>
+            {
+                await GetAllDoctors();
+            }).GetAwaiter().OnCompleted(() =>
+            {
+                IsRefreshing = false;
+            });
+        });
 
         Task.Run(async () =>
         {
@@ -17,22 +28,24 @@ public class HomeViewModel : INotifyPropertyChanged
             await GetAllDoctors();
         }).GetAwaiter().OnCompleted(() =>
         {
-            IsLoading = false;
+            IsBusy = false;
         });
     }
 
-    private bool _isLoading;
-    public bool IsLoading
+    string accessToken;
+
+
+    public ICommand RefreshPageCommand { get; }
+
+
+    
+    private bool _isRefreshing;
+    public bool IsRefreshing
     {
-        get => _isLoading;
-        set
-        {
-            _isLoading = value;
-            OnPropertyChanged();
-        }
+        get => _isRefreshing;
+        set => SetProperty(ref _isRefreshing, value);
     }
 
-    string accessToken;
 
     public ObservableCollection<Doctor> Doctors { get; set; }
     public ObservableCollection<Category> Categories { get; set; }
@@ -66,6 +79,7 @@ public class HomeViewModel : INotifyPropertyChanged
 
             if (response != null )
             {
+                Doctors.Clear();
                 foreach (var doctor in response)
                     Doctors.Add(doctor);
             }
@@ -83,11 +97,5 @@ public class HomeViewModel : INotifyPropertyChanged
             return;
 
         await Shell.Current.GoToAsync($"{nameof(DoctorDetailsPage)}?{nameof(DoctorDetailsViewModel.DoctorId)}={doctorId}");
-    }
-
-    public event PropertyChangedEventHandler PropertyChanged;
-    protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }
