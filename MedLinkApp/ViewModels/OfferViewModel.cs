@@ -1,4 +1,6 @@
-﻿namespace MedLinkApp.ViewModels;
+﻿
+
+namespace MedLinkApp.ViewModels;
 
 [QueryProperty(nameof(ProductPrice), "ProductPrice")]
 internal class OfferViewModel : BaseViewModel
@@ -24,7 +26,7 @@ internal class OfferViewModel : BaseViewModel
             await SetOffer();
         });
 
-        CancelCommand = new Command(OnCancel);
+        CancelCommand = new AsyncRelayCommand(OnCancel);
     }
 
     string _accessToken;
@@ -37,7 +39,7 @@ internal class OfferViewModel : BaseViewModel
     CancellationToken cancelToken;
     int _userId;
 
-    public Command CancelCommand { get; }
+    public ICommand CancelCommand { get; }
 
     private bool _waitingForDoctor;
     public bool WaitingForDoctor
@@ -52,7 +54,7 @@ internal class OfferViewModel : BaseViewModel
         set => SetProperty(ref _productPrice, value);
     }
 
-    async void OnCancel()
+    async Task OnCancel()
     {
         cancelTokenSource.Cancel();
         cancelTokenSource.Dispose();
@@ -82,7 +84,7 @@ internal class OfferViewModel : BaseViewModel
                         break;
 
                     if (checkOfferCount == 5)
-                        break;
+                        await OnCancel();
 
                     var offer = await ContentService.Instance(_accessToken).GetItemAsync<Offer>($"api/Offers/GetOffer?receiverName={_senderName}&senderName={_receiverName}");
                     var isConfirmed = await CheckOffer(offer);

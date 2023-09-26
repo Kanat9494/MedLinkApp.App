@@ -25,7 +25,7 @@
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        
+
         <StackLayout
             Grid.Row="0">
             <StackLayout
@@ -87,8 +87,8 @@
                         WidthRequest="25"
                         />
                 </Border>
-            </StackLayout>
-        </StackLayout>-->
+            </StackLayout> -->
+        </StackLayout>
 
         <!--<Label
             Text="Категории"

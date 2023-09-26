@@ -1,4 +1,5 @@
-﻿namespace MedLinkApp;
+﻿
+namespace MedLinkApp;
 
 public static class MauiProgram
 {
@@ -10,7 +11,8 @@ public static class MauiProgram
 			.UseDevExpress()
 			.UseBottomSheet()
 			.UseMauiCommunityToolkit()
-			.ConfigureFonts(fonts =>
+			.UseMauiCommunityToolkitMarkup()
+            .ConfigureFonts(fonts =>
 			{
                 fonts.AddFont("FiraSans-Regular", "RegularFont");
                 fonts.AddFont("FiraSans-Medium.ttf", "MediumFont");
