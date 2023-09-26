@@ -25,7 +25,17 @@ public partial class HomePage : ContentPage
         {
             contentGrid.Add(new StackLayout
             {
-                IsVisible = _viewModel.IsBusy
+                IsVisible = _viewModel.IsBusy,
+
+                Children =
+                {
+                    new StackLayout
+                    {
+                        HorizontalOptions = LayoutOptions.FillAndExpand,
+                        VerticalOptions = LayoutOptions.Center,
+                        Orientation = StackOrientation.Horizontal,
+                    }.Height(40).Margins(0, 0, 0, 0),
+                }
             }, 0, 0);
 
             await Task.Delay(500);
