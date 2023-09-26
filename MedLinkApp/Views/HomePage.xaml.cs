@@ -42,7 +42,7 @@ public partial class HomePage : ContentPage
                             new Border
                             {
                                 Stroke = Colors.Transparent,
-                                Background = Color.FromArgb("#ACACAC"),
+                                Background = Color.FromArgb("#C8C8C8"),
                                 HorizontalOptions = LayoutOptions.FillAndExpand,
                                 StrokeShape = new RoundRectangle
                                 {
@@ -66,9 +66,11 @@ public partial class HomePage : ContentPage
 
             await _viewModel.GetAllDoctors();
 
+            #region content
             _viewModel.IsBusy = false;
             //contentGrid.Add(new Label().Text("Test").Bind(Label.IsVisibleProperty,
             //    static (HomeViewModel vm) => !vm.IsBusy), 0, 0);
+            #endregion
 
         });
     }
