@@ -25,8 +25,6 @@ public partial class HomePage : ContentPage
         {
             contentGrid.Add(new StackLayout
             {
-                IsVisible = _viewModel.IsBusy,
-
                 Children =
                 {
                     new StackLayout
@@ -41,7 +39,7 @@ public partial class HomePage : ContentPage
                         }
                     }.Height(40).Margins(0, 0, 0, 0),
                 }
-            }, 0, 0);
+            }.Bind(StackLayout.IsVisibleProperty, static (HomeViewModel vm) => vm.IsBusy), 0, 0);
 
             await Task.Delay(500);
         });
