@@ -20,7 +20,8 @@
         Command="{Binding RefreshPageCommand}">
         <Grid
             Margin="15, 5"
-            VerticalOptions="FillAndExpand">
+            VerticalOptions="FillAndExpand"
+            x:Name="contentGrid">
             <Grid.RowDefinitions>
                 <RowDefinition Height="110"/>
                 <RowDefinition Height="40"/>
@@ -29,7 +30,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <StackLayout
+            <!--<StackLayout
                 Grid.Row="0">
                 <StackLayout
                     HeightRequest="40"
@@ -62,7 +63,7 @@
                     FontFamily="RegularFont"/>
 
                 
-            </StackLayout>
+            </StackLayout>-->
 
             
             
