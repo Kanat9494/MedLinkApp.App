@@ -49,13 +49,13 @@ public partial class HomePage : ContentPage
                                     CornerRadius = new CornerRadius(6, 6, 6, 6)
                                 },
                                 HeightRequest = 25
-                            }.Margins(5, 0, 0, 10),
+                            }.Margins(5, 0, 10, 0),
 
                             
                         }
                     }.Height(40).Margins(0, 0, 0, 0),
                 }
-            }/*.Bind(StackLayout.IsVisibleProperty, static (HomeViewModel vm) => vm.IsBusy),*/, 0, 0);
+            }/*.Bind(StackLayout.IsVisibleProperty, static (HomeViewModel vm) => vm.IsBusy)*/, 0, 0);
 
 
             #endregion
