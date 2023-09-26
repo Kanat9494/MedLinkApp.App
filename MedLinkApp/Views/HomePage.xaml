@@ -79,7 +79,7 @@
             FontFamily="RegularFont"/>-->
 
 
-                <CollectionView
+                <!--<CollectionView
             ItemsSource="{Binding Doctors}"
             VerticalOptions="FillAndExpand"
             Grid.Row="4"
@@ -167,13 +167,9 @@
                     </StackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
-        </CollectionView>
+        </CollectionView>-->
 
-            <ActivityIndicator
-                Grid.RowSpan="5"
-                IsRunning="{Binding IsBusy}"
-                IsVisible="{Binding IsBusy}"
-                />
+            
         </Grid>
     </RefreshView>
 </ContentPage>
