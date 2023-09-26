@@ -49,7 +49,7 @@ public partial class HomePage : ContentPage
                                     CornerRadius = new CornerRadius(6, 6, 6, 6)
                                 },
                                 HeightRequest = 25
-                            },
+                            }.Margins(5, 0, 0, 10),
 
                             
                         }
