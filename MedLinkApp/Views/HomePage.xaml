@@ -129,16 +129,16 @@
             </CollectionView.ItemTemplate>
         </CollectionView>-->
 
-        <Label
+        <!--<Label
             Text="Наши доктора"
             FontAttributes="Bold"
             FontSize="18"
             Margin="0, 10, 0, 0"
             Grid.Row="3"
-            FontFamily="RegularFont"/>
+            FontFamily="RegularFont"/>-->
 
 
-        <CollectionView
+        <!--<CollectionView
             ItemsSource="{Binding Doctors}"
             VerticalOptions="FillAndExpand"
             Grid.Row="4"
@@ -226,14 +226,14 @@
                     </StackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
-        </CollectionView>
+        </CollectionView>-->
 
-        <ActivityIndicator 
+        <!--<ActivityIndicator 
             IsVisible="{Binding IsLoading}"
             IsRunning="{Binding IsLoading}"
             Grid.RowSpan="5"
             VerticalOptions="CenterAndExpand"
             HorizontalOptions="CenterAndExpand"
-            Color="{x:StaticResource Green50}"/>
+            Color="{x:StaticResource Green50}"/>-->
     </Grid>
 </ContentPage>
