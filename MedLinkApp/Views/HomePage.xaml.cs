@@ -157,6 +157,52 @@ public partial class HomePage : ContentPage
             contentGrid.Add(new Label().Text("Наши доктора").Font(bold: true, size: 18, family: "RegularFont").Margins(10, 10, 10, 0)
                 .Bind(Label.IsVisibleProperty, static (HomeViewModel vm) => !vm.IsBusy), 0, 1);
 
+            contentGrid.Add(new CollectionView
+            {
+                ItemTemplate = new DataTemplate(() =>
+                {
+                    var mainSL = new StackLayout();
+                    var gestureRecognizer = new TapGestureRecognizer();
+                    gestureRecognizer.SetBinding(TapGestureRecognizer.CommandProperty, new Binding("DoctorTapped", source: _viewModel));
+                    gestureRecognizer.SetBinding(TapGestureRecognizer.CommandParameterProperty, "DoctorId");
+                    mainSL.GestureRecognizers.Add(gestureRecognizer);
+
+                    mainSL.Add(new Border
+                    {
+                        Stroke = Colors.Transparent,
+                        StrokeShape = new RoundRectangle
+                        {
+                            CornerRadius = new CornerRadius(10, 10, 10, 10)
+                        },
+                        Content = new StackLayout
+                        {
+                            Orientation = StackOrientation.Horizontal,
+                            Children =
+                            {
+                                new Border
+                                {
+                                    VerticalOptions = LayoutOptions.CenterAndExpand,
+                                    Stroke = Colors.Transparent,
+                                    StrokeShape = new RoundRectangle
+                                    {
+                                        CornerRadius = new CornerRadius(10, 10, 10, 10)
+                                    },
+                                    HorizontalOptions = LayoutOptions.Center,
+                                    Content = new Image
+                                    {
+                                        Aspect = Aspect.AspectFill,
+                                        HorizontalOptions = LayoutOptions.Start
+                                    }.Height(160).Width(130)
+                                }.Width(130).Height(160).Margins(0, 0, 0, 0)
+                            }
+                        }
+                    }.Margins(0, 0, 0, 5).Paddings(0, 0, 0, 0));
+
+                    return mainSL;
+                })
+            }.Margins(10, 10, 10, 0).Bind(CollectionView.ItemsSourceProperty, static (HomeViewModel vm) => vm.Doctors)
+                .Bind(CollectionView.IsVisibleProperty, static (HomeViewModel vm) => !vm.IsBusy), 0, 2);
+
             #endregion
 
         });
