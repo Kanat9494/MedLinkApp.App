@@ -1,5 +1,3 @@
-using Microsoft.Maui.Controls.Shapes;
-
 namespace MedLinkApp.Views;
 
 [XamlCompilation(XamlCompilationOptions.Compile)]
@@ -94,6 +92,11 @@ public partial class HomePage : ContentPage
                 HeightRequest = 20
             }.Margins(5, 0, 0, 0).Width(250), 0, 1);
 
+            contentGrid.Add(new StackLayout
+            {
+
+            });
+
 
             #endregion
 
@@ -111,4 +114,6 @@ public partial class HomePage : ContentPage
 
         });
     }
+
+    private void ListViewSkeleton(Grid)
 }

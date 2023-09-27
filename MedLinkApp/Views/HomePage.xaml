@@ -89,7 +89,6 @@
                 <DataTemplate
                     x:DataType="models:Doctor">
                     <StackLayout>
-                        <BoxView Color="{x:StaticResource GreenPrimary}"  HeightRequest="1" HorizontalOptions="Fill" Margin="0, 5" />
 
                         <Border
                         Stroke="Transparent"
@@ -163,6 +162,8 @@
                                             CommandParameter="{Binding DoctorId}">
                                     </TapGestureRecognizer>
                                 </StackLayout.GestureRecognizers>
+                            <BoxView Color="{x:StaticResource GreenPrimary}"  HeightRequest="1" HorizontalOptions="Fill" Margin="0, 5" />
+            
                             </StackLayout>
                         </Border>
                     </StackLayout>
