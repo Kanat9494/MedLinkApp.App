@@ -80,7 +80,7 @@
             FontFamily="RegularFont"/>-->
 
 
-                <!--<CollectionView
+                <CollectionView
             ItemsSource="{Binding Doctors}"
             VerticalOptions="FillAndExpand"
             Grid.Row="4"
@@ -162,14 +162,14 @@
                                             CommandParameter="{Binding DoctorId}">
                                     </TapGestureRecognizer>
                                 </StackLayout.GestureRecognizers>
-                            <BoxView Color="{x:StaticResource GreenPrimary}"  HeightRequest="1" HorizontalOptions="Fill" Margin="0, 5" />
-            
                             </StackLayout>
                         </Border>
+                        <BoxView Color="{x:StaticResource GreenPrimary}"  HeightRequest="1" HorizontalOptions="Fill" Margin="0, 5" />
+            
                     </StackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
-        </CollectionView>-->
+        </CollectionView>
 
             
         </Grid>

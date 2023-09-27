@@ -115,5 +115,5 @@ public partial class HomePage : ContentPage
         });
     }
 
-    private void ListViewSkeleton(Grid)
+    //private void ListViewSkeleton(Grid)
 }
