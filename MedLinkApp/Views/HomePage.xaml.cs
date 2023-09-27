@@ -84,13 +84,13 @@ public partial class HomePage : ContentPage
             {
                 Stroke = Colors.Transparent,
                 Background = Color.FromArgb("#C8C8C8"),
-                HorizontalOptions = LayoutOptions.StartAndExpand,
+                HorizontalOptions = LayoutOptions.FillAndExpand,
                 StrokeShape = new RoundRectangle
                 {
                     CornerRadius = new CornerRadius(6, 6, 6, 6)
                 },
                 HeightRequest = 20
-            }.Margins(5, 0, 0, 0).Width(250), 0, 1);
+            }.Margins(5, 0, 0, 0), 0, 1);
 
             contentGrid.Add(new StackLayout
             {
@@ -146,7 +146,38 @@ public partial class HomePage : ContentPage
                     VerticalOptions = LayoutOptions.CenterAndExpand,
                     HorizontalOptions = LayoutOptions.Center,
                     Background = Color.FromArgb("#C8C8C8")
-                }.Width(130).Margins(0, 0, 10, 0).Height(160)
+                }.Width(130).Margins(0, 0, 10, 0).Height(160),
+
+                new StackLayout
+                {
+                    HorizontalOptions = LayoutOptions.FillAndExpand,
+                    Children =
+                    {
+                        new Border
+                        {
+                            Stroke = Colors.Transparent,
+                            Background = Color.FromArgb("#C8C8C8"),
+                            StrokeShape = new RoundRectangle
+                            {
+                                CornerRadius = new CornerRadius(10, 10, 10, 10),
+                            },
+                            VerticalOptions = LayoutOptions.CenterAndExpand,
+                            HorizontalOptions = LayoutOptions.FillAndExpand,
+                        }.Height(25),
+                        new Border
+                        {
+                            Stroke = Colors.Transparent,
+                            Background = Color.FromArgb("#C8C8C8"),
+                            StrokeShape = new RoundRectangle
+                            {
+                                CornerRadius = new CornerRadius(10, 10, 10, 10),
+                            },
+                            VerticalOptions = LayoutOptions.CenterAndExpand,
+                            HorizontalOptions = LayoutOptions.FillAndExpand,
+                        }.Height(25),
+                    }
+
+                }.Margins(5, 0, 0, 0)
             }
         }.Margins(0, 0, 0, 8);
     }
