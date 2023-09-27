@@ -9,16 +9,17 @@
             HorizontalOptions="Center"
             VerticalOptions="CenterAndExpand">
         <Frame
-                BackgroundColor="{x:StaticResource GreenPrimary}"
-                Margin="20, 0, 20, 0"
-                BorderColor="Transparent">
+            x:Name="waitingForOfferFrame"  
+            Margin="20, 0, 20, 0"
+            BorderColor="Transparent">
             <StackLayout>
                 <Label
                         HorizontalOptions="CenterAndExpand"
                         Text="Ждем, пока врач не примет ваш вызов..."
                         FontSize="16"
                         FontAttributes="Bold"
-                        LineBreakMode="CharacterWrap"/>
+                        LineBreakMode="CharacterWrap"
+                    TextColor="{x:StaticResource White}"/>
 
                 <ActivityIndicator
                         Grid.RowSpan="1"
