@@ -108,7 +108,7 @@ public partial class HomePage : ContentPage
                         }
                     }
                 }
-            }.Margins(5, 0, 0, 0).Bind(StackLayout.IsVisibleProperty, static (HomeViewModel vm) => vm.IsBusy), 0, 2);
+            }.Margins(10, 0, 0, 0).Bind(StackLayout.IsVisibleProperty, static (HomeViewModel vm) => vm.IsBusy), 0, 2);
 
 
             #endregion
@@ -224,6 +224,6 @@ public partial class HomePage : ContentPage
 
                 }.Margins(0, 0, 0, 0)
             }
-        }.Margins(10, 0, 10, 8);
+        }.Margins(0, 0, 10, 8);
     }
 }
