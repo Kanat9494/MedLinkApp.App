@@ -147,8 +147,8 @@ public partial class HomePage : ContentPage
                     VerticalOptions = LayoutOptions.CenterAndExpand,
                     HorizontalOptions = LayoutOptions.Center,
                     Background = Color.FromArgb("#C8C8C8")
-                }.Width(105).Margins(0, 0, 10, 0).Height(105)
+                }.Width(130).Margins(0, 0, 10, 0).Height(160)
             }
-        }.Margins(0, 0, 8, 0);
+        }.Margins(0, 0, 0, 8);
     }
 }
