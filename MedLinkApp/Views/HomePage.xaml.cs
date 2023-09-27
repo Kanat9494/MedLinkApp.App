@@ -124,24 +124,38 @@ public partial class HomePage : ContentPage
             _viewModel.IsBusy = false;
             contentGrid.Add(new StackLayout
             {
-                HorizontalOptions = LayoutOptions.FillAndExpand,
-                VerticalOptions = LayoutOptions.Center,
-                Orientation = StackOrientation.Horizontal,
                 Children =
                 {
+                    new StackLayout
+                    {
+                        HorizontalOptions = LayoutOptions.FillAndExpand,
+                        VerticalOptions = LayoutOptions.Center,
+                        Orientation = StackOrientation.Horizontal,
+                        Children =
+                        {
+                            new Label
+                            {
+                                HorizontalOptions = LayoutOptions.Start,
+                                VerticalOptions = LayoutOptions.Center
+                            }.Text("MedLink").Font(size: 24, bold: true, italic: true, family: "RegularFont"),
+                            new Image
+                            {
+                                VerticalOptions = LayoutOptions.Center,
+                                Source = "bell_icon.png",
+                                HorizontalOptions = LayoutOptions.EndAndExpand
+                            }.Height(25).Width(25)
+                        }
+                    },
+
                     new Label
                     {
-                        HorizontalOptions = LayoutOptions.Start,
-                        VerticalOptions = LayoutOptions.Center
-                    }.Text("MedLink").Font(size: 24, bold: true, italic: true, family: "RegularFont"),
-                    new Image
-                    {
-                        VerticalOptions = LayoutOptions.Center,
-                        Source = "bell_icon.png",
-                        HorizontalOptions = LayoutOptions.EndAndExpand
-                    }.Height(25).Width(25)
+                        TextColor = Color.FromArgb("#00e600")
+                    }.Text("Ваше здоровье в надежных руках").Font(bold: true, family: "RegularFont")
                 }
-            }.Margins(10, 0, 10, 0).Bind(StackLayout.IsVisibleProperty, static (HomeViewModel vm) => !vm.IsBusy), 0, 0);
+            }.Margins(10, 10, 10, 0).Bind(StackLayout.IsVisibleProperty, static (HomeViewModel vm) => !vm.IsBusy), 0, 0);
+
+            contentGrid.Add(new Label().Text("Наши доктора").Font(bold: true, size: 18, family: "RegularFont").Margins(10, 10, 10, 0)
+                .Bind(Label.IsVisibleProperty, static (HomeViewModel vm) => !vm.IsBusy), 0, 1);
 
             #endregion
 
