@@ -1,0 +1,211 @@
+﻿Чат для firebase
+internal class ChatViewModel : BaseViewModel
+{
+    public ChatViewModel()
+    {
+        _abortMessage = "Вы отмененили";
+        firebaseClient = new FirebaseClient("https://medlinkchat-default-rtdb.europe-west1.firebasedatabase.app/");
+
+        Task.Run(async () =>
+        {
+            accessToken = await SecureStorage.Default.GetAsync("UserAccessToken");
+            _senderName = await SecureStorage.Default.GetAsync("UserName");
+            _receiverName = await SecureStorage.Default.GetAsync("DoctorAccountName");
+            DoctorFullName = await SecureStorage.Default.GetAsync("DoctorFullName");
+        }).Wait();
+
+        Messages = new ObservableCollection<Message>();
+
+        var collectionOfMessages = firebaseClient
+            .Child("Messages")
+            .OrderByPriority()
+            .LimitToLast(1)
+            .AsObservable<Message>()
+            .Where(m => m.Object.ReceiverName == _senderName && m.Object.SenderName == _receiverName)
+            .Subscribe((item) =>
+            {
+                if (item.Object != null)
+                {
+                    Messages.Add(item.Object);
+                }
+            });
+
+        SendMessage = new Command(async () =>
+        {
+            await OnSendMessage();
+        });
+
+        OpenAudioMessagePage = new Command(ToAudioMessagePage);
+        OpenPhotoMessagePage = new Command(PickImage);
+        OpenPhotoMessageCommand = new Command<string>(async (imageUrl) => await OnOpenPhotoMessage(imageUrl));
+        AbortChatCommand = new Command(OnAbortChat);
+
+        StartCountDownTimer();
+    }
+
+    
+
+    private string _sendingMessage;
+    public string SendingMessage
+    {
+        get => _sendingMessage;
+        set => SetProperty(ref _sendingMessage, value);
+    }
+    private string _chatTimer;
+    public string ChatTimer
+    {
+        get => _chatTimer;
+        set => SetProperty(ref _chatTimer, value);
+    }
+
+    private string _doctorFullName;
+    public string DoctorFullName
+    {
+        get => _doctorFullName;
+        set => SetProperty(ref _doctorFullName, value);
+    }
+
+    public ObservableCollection<Message> Messages { get; set; }
+
+    void StartCountDownTimer()
+    {
+        timer = new System.Timers.Timer();
+        endTime = DateTime.Now.AddMinutes(5);
+        timer.Elapsed += ChatTimerTick;
+        TimeSpan timeSpan = endTime - DateTime.Now;
+        cTimer = timeSpan.ToString("m' Minutes 's' Seconds'");
+        timer.Start();
+    }
+
+    void ChatTimerTick(object sender, EventArgs e)
+    {
+        TimeSpan timeSpan = endTime - DateTime.Now;
+
+        cTimer = timeSpan.ToString("m':'s' '");
+
+        App.Current.Dispatcher.Dispatch(() =>
+        {
+            ChatTimer = cTimer;
+        });
+
+        if ((timeSpan.TotalMinutes == 0) || (timeSpan.TotalMilliseconds < 1000))
+        {
+            timer.Stop();
+            Task.Run(async () =>
+            {
+                DisconnectFirebase();
+                await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
+            });
+        }
+    }
+
+    async Task OnSendMessage()
+    {
+        try
+        {
+            var message = new Message()
+            {
+                SenderName = _senderName,
+                ReceiverName = _receiverName,
+                Content = SendingMessage,
+            };
+
+            var serializedMessage = JsonConvert.SerializeObject(message);
+
+            await firebaseClient.Child("Messages").PostAsync(serializedMessage);
+
+            SendLocalMessage(message);
+        }
+        catch (Exception ex) { }
+    }
+
+    void DisconnectFirebase()
+    {
+        if (firebaseClient != null)
+            firebaseClient.Dispose();
+    }
+
+    private void SendLocalMessage(Message message)
+    {
+        if (string.IsNullOrEmpty(message.Content))
+            return;
+
+        #region сохранение фото в локальном хранилище
+        //if (message.ImageUrl != null)
+        //{
+        //    Task.Run(async () =>
+        //    {
+        //        var imabeBytes = await FileHelper.DownloadImageBytesAsync(message.ImageUrl);
+        //        if (imabeBytes != null)
+        //        {
+        //            var c = await FileHelper.SaveFileAsync(imabeBytes);
+        //            message.ImageUrl = c;
+        //        }
+        //    }).Wait();
+        //}
+        #endregion
+
+        Messages.Add(message);
+
+        SendingMessage = string.Empty;
+    }
+
+    private async void ToAudioMessagePage()
+        => await Shell.Current.GoToAsync(nameof(AudioMessagePage));
+
+    private async void OnAbortChat()
+    {
+        await Shell.Current.DisplayAlert("Отмена", _abortMessage, "Ок");
+        DisconnectFirebase();
+        await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
+    }
+
+    private async Task OnOpenPhotoMessage(string imageUrl)
+        => await Shell.Current.GoToAsync($"{nameof(ImageBrowsePage)}?{nameof(ImageBrowseViewModel.ImageUrl)}={imageUrl}");
+
+    #region SendImage
+    async void PickImage()
+    {
+        var result = await FilePicker.PickAsync(new PickOptions
+        {
+            PickerTitle = "Выберите изображение",
+            FileTypes = FilePickerFileType.Images
+        });
+
+        if (result == null)
+            return;
+
+        var stream = await result.OpenReadAsync();
+
+        var imageBytes = FileHelper.StreamTyByte(stream);
+        string accessToken = await SecureStorage.Default.GetAsync("UserAccessToken");
+
+        var imageUrl = MedLinkConstants.FILE_BASE_PATH + "/" + await FileService.UploadFile(imageBytes, accessToken);
+
+        //await OnSendMessage("test", "tomy", "тестовый месседж", $"{MedLinkConstants.FILE_BASE_PATH}/{filePath}");
+        await SendImageMessage(imageUrl);
+    }
+
+    async Task SendImageMessage(string imageUrl)
+    {
+        try
+        {
+            var message = new Message()
+            {
+                SenderName = _senderName,
+                ReceiverName = _receiverName,
+                Content = "Фото",
+                ImageUrl = imageUrl
+            };
+            var serializedMessage = JsonConvert.SerializeObject(message);
+            await firebaseClient.Child("Messages").PostAsync(serializedMessage);
+
+            SendLocalMessage(message);
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+    #endregion
+}
