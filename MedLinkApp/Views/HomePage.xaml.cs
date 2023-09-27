@@ -82,6 +82,18 @@ public partial class HomePage : ContentPage
                 }
             }/*.Bind(StackLayout.IsVisibleProperty, static (HomeViewModel vm) => vm.IsBusy)*/, 0, 0);
 
+            contentGrid.Add(new Border
+            {
+                Stroke = Colors.Transparent,
+                Background = Color.FromArgb("#C8C8C8"),
+                HorizontalOptions = LayoutOptions.StartAndExpand,
+                StrokeShape = new RoundRectangle
+                {
+                    CornerRadius = new CornerRadius(6, 6, 6, 6)
+                },
+                HeightRequest = 20
+            }.Margins(5, 0, 0, 0).Width(250), 0, 1);
+
 
             #endregion
 

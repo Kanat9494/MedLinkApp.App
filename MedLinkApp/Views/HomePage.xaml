@@ -23,10 +23,10 @@
             VerticalOptions="FillAndExpand"
             x:Name="contentGrid">
             <Grid.RowDefinitions>
-                <RowDefinition Height="110"/>
-                <RowDefinition Height="40"/>
+                <RowDefinition Height="60"/>
                 <RowDefinition Height="50"/>
-                <RowDefinition Height="50"/>
+                <!--<RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>-->
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
