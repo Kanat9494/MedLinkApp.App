@@ -167,7 +167,7 @@
                 </Border>
 
                 <Label
-                    Text="Версия 1.0.30"
+                    Text="Версия 1.0.31"
                     Margin="0, 20, 0, 0"
                     HorizontalOptions="Center"
                     FontFamily="RegularFont"

@@ -134,8 +134,14 @@ public partial class HomePage : ContentPage
                         HorizontalOptions = LayoutOptions.Start,
                         VerticalOptions = LayoutOptions.Center
                     }.Text("MedLink").Font(size: 24, bold: true, italic: true, family: "RegularFont"),
+                    new Image
+                    {
+                        VerticalOptions = LayoutOptions.Center,
+                        Source = "bell_icon.png",
+                        HorizontalOptions = LayoutOptions.EndAndExpand
+                    }.Height(25).Width(25)
                 }
-            }.Margins(10, 0, 0, 0).Bind(StackLayout.IsVisibleProperty, static (HomeViewModel vm) => !vm.IsBusy), 0, 0);
+            }.Margins(10, 0, 10, 0).Bind(StackLayout.IsVisibleProperty, static (HomeViewModel vm) => !vm.IsBusy), 0, 0);
 
             #endregion
 
