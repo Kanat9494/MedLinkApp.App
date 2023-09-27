@@ -78,7 +78,7 @@ public partial class HomePage : ContentPage
                         HeightRequest = 20
                     }.Margins(10, 0, 10, 0).Width(300),
                 }
-            }/*.Bind(StackLayout.IsVisibleProperty, static (HomeViewModel vm) => vm.IsBusy)*/, 0, 0);
+            }.Bind(StackLayout.IsVisibleProperty, static (HomeViewModel vm) => vm.IsBusy), 0, 0);
 
             contentGrid.Add(new Border
             {
@@ -90,7 +90,7 @@ public partial class HomePage : ContentPage
                     CornerRadius = new CornerRadius(6, 6, 6, 6)
                 },
                 HeightRequest = 20
-            }.Margins(10, 0, 0, 0).Width(220), 0, 1);
+            }.Margins(10, 0, 0, 0).Width(220).Bind(Border.IsVisibleProperty, static (HomeViewModel vm) => vm.IsBusy), 0, 1);
 
             contentGrid.Add(new StackLayout
             {
@@ -108,21 +108,23 @@ public partial class HomePage : ContentPage
                         }
                     }
                 }
-            }.Margins(5, 0, 0, 0), 0, 2);
+            }.Margins(5, 0, 0, 0).Bind(StackLayout.IsVisibleProperty, static (HomeViewModel vm) => vm.IsBusy), 0, 2);
 
 
             #endregion
 
-            await Task.Delay(500);
+            await Task.Delay(2000);
             _viewModel.accessToken = await SecureStorage.Default.GetAsync("UserAccessToken");
 
 
             await _viewModel.GetAllDoctors();
 
             #region content
+
             _viewModel.IsBusy = false;
-            //contentGrid.Add(new Label().Text("Test").Bind(Label.IsVisibleProperty,
-            //    static (HomeViewModel vm) => !vm.IsBusy), 0, 0);
+            contentGrid.Add(new Label().Text("Test").Bind(Label.IsVisibleProperty,
+                static (HomeViewModel vm) => !vm.IsBusy), 0, 0);
+
             #endregion
 
         });
