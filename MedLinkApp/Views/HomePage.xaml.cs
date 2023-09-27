@@ -49,7 +49,7 @@ public partial class HomePage : ContentPage
                                     CornerRadius = new CornerRadius(6, 6, 6, 6)
                                 },
                                 HeightRequest = 25
-                            }.Margins(5, 0, 10, 0),
+                            }.Margins(0, 0, 10, 0),
 
                             new Border
                             {
@@ -64,7 +64,7 @@ public partial class HomePage : ContentPage
                             }.Height(25).Width(25).Margins(0, 0, 10, 0),
                             
                         }
-                    }.Height(40).Margins(0, 0, 0, 0),
+                    }.Height(40).Margins(10, 0, 0, 0),
 
                     new Border
                     {
@@ -76,7 +76,7 @@ public partial class HomePage : ContentPage
                             CornerRadius = new CornerRadius(6, 6, 6, 6)
                         },
                         HeightRequest = 20
-                    }.Margins(5, 0, 10, 0).Width(300),
+                    }.Margins(10, 0, 10, 0).Width(300),
                 }
             }/*.Bind(StackLayout.IsVisibleProperty, static (HomeViewModel vm) => vm.IsBusy)*/, 0, 0);
 
@@ -84,13 +84,13 @@ public partial class HomePage : ContentPage
             {
                 Stroke = Colors.Transparent,
                 Background = Color.FromArgb("#C8C8C8"),
-                HorizontalOptions = LayoutOptions.FillAndExpand,
+                HorizontalOptions = LayoutOptions.StartAndExpand,
                 StrokeShape = new RoundRectangle
                 {
                     CornerRadius = new CornerRadius(6, 6, 6, 6)
                 },
                 HeightRequest = 20
-            }.Margins(5, 0, 0, 0), 0, 1);
+            }.Margins(10, 0, 0, 0).Width(220), 0, 1);
 
             contentGrid.Add(new StackLayout
             {
@@ -159,7 +159,7 @@ public partial class HomePage : ContentPage
                             Background = Color.FromArgb("#C8C8C8"),
                             StrokeShape = new RoundRectangle
                             {
-                                CornerRadius = new CornerRadius(10, 10, 10, 10),
+                                CornerRadius = new CornerRadius(6, 6, 6, 6),
                             },
                             VerticalOptions = LayoutOptions.CenterAndExpand,
                             HorizontalOptions = LayoutOptions.FillAndExpand,
@@ -170,15 +170,26 @@ public partial class HomePage : ContentPage
                             Background = Color.FromArgb("#C8C8C8"),
                             StrokeShape = new RoundRectangle
                             {
-                                CornerRadius = new CornerRadius(10, 10, 10, 10),
+                                CornerRadius = new CornerRadius(6, 6, 6, 6),
+                            },
+                            VerticalOptions = LayoutOptions.CenterAndExpand,
+                            HorizontalOptions = LayoutOptions.FillAndExpand,
+                        }.Height(25),
+                        new Border
+                        {
+                            Stroke = Colors.Transparent,
+                            Background = Color.FromArgb("#C8C8C8"),
+                            StrokeShape = new RoundRectangle
+                            {
+                                CornerRadius = new CornerRadius(6, 6, 6, 6),
                             },
                             VerticalOptions = LayoutOptions.CenterAndExpand,
                             HorizontalOptions = LayoutOptions.FillAndExpand,
                         }.Height(25),
                     }
 
-                }.Margins(5, 0, 0, 0)
+                }.Margins(0, 0, 0, 0)
             }
-        }.Margins(0, 0, 0, 8);
+        }.Margins(10, 0, 10, 8);
     }
 }
