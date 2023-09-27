@@ -296,6 +296,17 @@ public partial class HomePage : ContentPage
                             VerticalOptions = LayoutOptions.CenterAndExpand,
                             HorizontalOptions = LayoutOptions.FillAndExpand,
                         }.Height(25),
+                        new Border
+                        {
+                            Stroke = Colors.Transparent,
+                            Background = Color.FromArgb("#C8C8C8"),
+                            StrokeShape = new RoundRectangle
+                            {
+                                CornerRadius = new CornerRadius(6, 6, 6, 6),
+                            },
+                            VerticalOptions = LayoutOptions.CenterAndExpand,
+                            HorizontalOptions = LayoutOptions.FillAndExpand,
+                        }.Height(25),
                     }
 
                 }.Margins(0, 0, 0, 0)
