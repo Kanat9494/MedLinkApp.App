@@ -193,7 +193,37 @@ public partial class HomePage : ContentPage
                                         Aspect = Aspect.AspectFill,
                                         HorizontalOptions = LayoutOptions.Start
                                     }.Height(160).Width(130).Bind(Image.SourceProperty, "ProfileImg")
-                                }.Width(130).Height(160).Margins(0, 0, 0, 0)
+                                }.Width(130).Height(160).Margins(0, 0, 10, 0),
+
+                                new StackLayout
+                                {
+                                    Children =
+                                    {
+                                        new Label
+                                        {
+                                            LineBreakMode = LineBreakMode.TailTruncation,
+                                            VerticalOptions = LayoutOptions.CenterAndExpand
+                                        }.Font(size: 17, bold: true, family: "RegularFont").Margins(0, 0, 0, 0)
+                                            .Bind(Label.TextProperty, "FullName"),
+
+                                        new Label
+                                        {
+                                            VerticalOptions = LayoutOptions.CenterAndExpand
+                                        }.Bind(Label.TextProperty, "WorkExperience", stringFormat: "Стаж работы: {0:F2}").Margins(0, 0, 0, 0).Font(family: "RegularFont"),
+
+                                        new Label
+                                        {
+                                            VerticalOptions = LayoutOptions.CenterAndExpand,
+                                            TextColor = Color.FromArgb("#00e600"),
+                                        }.Bind(Label.TextProperty, "IsOnline").Margins(0, 0, 0, 0).Font(family: "RegularFont"),
+
+                                        new Label
+                                        {
+                                            VerticalOptions = LayoutOptions.CenterAndExpand,
+                                            TextColor = Color.FromArgb("#ff0000"),
+                                        }.Bind(Label.TextProperty, "Specialization").Margins(0, 0, 0, 0).Font(family: "RegularFont")
+                                    }
+                                }.Margins(5, 0, 0, 0)
                             }
                         }
                     }.Margins(0, 0, 0, 5).Paddings(0, 0, 0, 0));
