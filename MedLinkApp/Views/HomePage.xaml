@@ -80,7 +80,7 @@
             FontFamily="RegularFont"/>-->
 
 
-                <CollectionView
+                <!--<CollectionView
             ItemsSource="{Binding Doctors}"
             VerticalOptions="FillAndExpand"
             Grid.Row="4"
@@ -169,7 +169,7 @@
                     </StackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
-        </CollectionView>
+        </CollectionView>-->
 
             
         </Grid>
