@@ -30,45 +30,6 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <!--<StackLayout
-                Grid.Row="0">
-                <StackLayout
-                    HeightRequest="40"
-                    HorizontalOptions="FillAndExpand"
-                    VerticalOptions="Center"
-                    Orientation="Horizontal"
-                    Margin="0"
-                    >
-                    <Label
-                        Text="MedLink  "
-                        FontSize="24"
-                        FontAttributes="Bold,Italic" 
-                        HorizontalOptions="Start"
-                        VerticalOptions="Center"
-                        FontFamily="RegularFont"/>
-
-                    <Image
-                        VerticalOptions="Center"
-                        Source="bell_icon.png"
-                        HeightRequest="25"
-                        WidthRequest="25"
-                        HorizontalOptions="EndAndExpand"
-                        />
-                </StackLayout>
-
-                <Label
-                    Text="Ваше здоровье в надежных руках"
-                    FontAttributes="Bold"
-                    TextColor="{x:StaticResource Green45}"
-                    FontFamily="RegularFont"/>
-
-                
-            </StackLayout>-->
-
-            
-            
-            
-
 
 
                 <!--<Label
