@@ -122,8 +122,20 @@ public partial class HomePage : ContentPage
             #region content
 
             _viewModel.IsBusy = false;
-            contentGrid.Add(new Label().Text("Test").Bind(Label.IsVisibleProperty,
-                static (HomeViewModel vm) => !vm.IsBusy), 0, 0);
+            contentGrid.Add(new StackLayout
+            {
+                HorizontalOptions = LayoutOptions.FillAndExpand,
+                VerticalOptions = LayoutOptions.Center,
+                Orientation = StackOrientation.Horizontal,
+                Children =
+                {
+                    new Label
+                    {
+                        HorizontalOptions = LayoutOptions.Start,
+                        VerticalOptions = LayoutOptions.Center
+                    }.Text("MedLink").Font(size: 24, bold: true, italic: true, family: "RegularFont"),
+                }
+            }.Margins(10, 0, 0, 0).Bind(StackLayout.IsVisibleProperty, static (HomeViewModel vm) => !vm.IsBusy), 0, 0);
 
             #endregion
 
