@@ -192,7 +192,7 @@ public partial class HomePage : ContentPage
                                     {
                                         Aspect = Aspect.AspectFill,
                                         HorizontalOptions = LayoutOptions.Start
-                                    }.Height(160).Width(130)
+                                    }.Height(160).Width(130).Bind(Image.SourceProperty, "ProfileImg")
                                 }.Width(130).Height(160).Margins(0, 0, 0, 0)
                             }
                         }
