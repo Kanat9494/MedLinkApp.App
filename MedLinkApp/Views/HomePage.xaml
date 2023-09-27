@@ -83,7 +83,7 @@
                 <!--<CollectionView
             ItemsSource="{Binding Doctors}"
             VerticalOptions="FillAndExpand"
-            Grid.Row="4"
+            Grid.Row="2"
             >
             <CollectionView.ItemTemplate>
                 <DataTemplate

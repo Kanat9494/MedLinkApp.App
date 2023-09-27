@@ -94,8 +94,22 @@ public partial class HomePage : ContentPage
 
             contentGrid.Add(new StackLayout
             {
+                Children =
+                {
+                   new StackLayout
+                    {
+                        Orientation = StackOrientation.Vertical,
 
-            });
+                        Children =
+                        {
+                            ListViewSkeleton(),
+                            ListViewSkeleton(),
+                            ListViewSkeleton(),
+                            ListViewSkeleton(),
+                        }
+                    }
+                }
+            }.Margins(5, 0, 0, 0), 0, 2);
 
 
             #endregion
@@ -115,5 +129,26 @@ public partial class HomePage : ContentPage
         });
     }
 
-    //private void ListViewSkeleton(Grid)
+    private StackLayout ListViewSkeleton()
+    {
+        return new StackLayout
+        {
+            Orientation = StackOrientation.Horizontal,
+
+            Children =
+            {
+                new Border
+                {
+                    Stroke = Colors.Transparent,
+                    StrokeShape = new RoundRectangle
+                    {
+                        CornerRadius = new CornerRadius(10, 10, 10, 10),
+                    },
+                    VerticalOptions = LayoutOptions.CenterAndExpand,
+                    HorizontalOptions = LayoutOptions.Center,
+                    Background = Color.FromArgb("#C8C8C8")
+                }.Width(105).Margins(0, 0, 10, 0).Height(105)
+            }
+        }.Margins(0, 0, 8, 0);
+    }
 }
