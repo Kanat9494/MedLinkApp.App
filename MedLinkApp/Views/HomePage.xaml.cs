@@ -105,7 +105,6 @@ public partial class HomePage : ContentPage
                             ListViewSkeleton(),
                             ListViewSkeleton(),
                             ListViewSkeleton(),
-                            ListViewSkeleton(),
                         }
                     }
                 }
