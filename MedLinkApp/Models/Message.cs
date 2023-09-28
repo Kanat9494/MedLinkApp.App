@@ -1,6 +1,6 @@
 ﻿namespace MedLinkApp.Models;
 
-internal class Message
+internal class Message : BaseResponse
 {
     public int MessageId { get; set; }
     public string SenderName { get; set; }

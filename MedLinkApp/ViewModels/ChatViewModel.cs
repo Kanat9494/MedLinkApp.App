@@ -116,7 +116,8 @@ internal class ChatViewModel : BaseViewModel
                     if (_cancelToken.IsCancellationRequested)
                         break;
 
-
+                    var message = await GetMessage(receiverName: _senderName, senderName: _receiverName);
+                    SendLocalMessage(message);
                     await Task.Delay(5000);
                 }
             }, _cancelToken);
@@ -130,9 +131,10 @@ internal class ChatViewModel : BaseViewModel
         }
     }
 
-    async Task<Message> GetMessage()
+    async Task<Message> GetMessage(string receiverName, string senderName)
     {
-
+        var message = await ContentService.Instance(_accessToken).GetItemAsync<Message>($"api/Messages/ReadMessage?receiverName={receiverName}&senderName={senderName}");
+        return message;
     }
 
     void DisconnectFromChat()
