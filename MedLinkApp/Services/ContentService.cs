@@ -180,4 +180,24 @@ public class ContentService
             catch { return 0; }
         }
     }
+
+    internal async Task<int> DeleteItemAsync(string url)
+    {
+        using (var httpClient = new HttpClient())
+        {
+            httpClient.BaseAddress = new Uri(MedLinkConstants.SERVER_ROOT_URL);
+            httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            httpClient.DefaultRequestHeaders.Add("Authorization", "Bearer " + accessToken);
+
+            try
+            {
+                var response = await httpClient.DeleteAsync(url);
+                var jsonResult = await response.Content.ReadAsStringAsync();
+
+                var result = JsonConvert.DeserializeObject<int>(jsonResult);
+                return result;
+            }
+            catch { return 0; }
+        }
+    }
 }

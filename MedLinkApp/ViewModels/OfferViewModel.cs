@@ -32,7 +32,6 @@ internal class OfferViewModel : BaseViewModel
     string _accessToken;
     string _senderName;
     string _receiverName;
-    int _offerId;
     short checkOfferCount;
     short _saveOfferCount;
     CancellationTokenSource cancelTokenSource;
@@ -53,11 +52,19 @@ internal class OfferViewModel : BaseViewModel
         get => _productPrice;
         set => SetProperty(ref _productPrice, value);
     }
+    private int _offerId;
+    public int OfferId
+    {
+        get => _offerId;
+        set => SetProperty(ref _offerId, value);
+    }
 
     async Task OnCancel()
     {
         cancelTokenSource.Cancel();
         cancelTokenSource.Dispose();
+
+        await DeleteOffer(OfferId);
 
         await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
     }
@@ -86,7 +93,7 @@ internal class OfferViewModel : BaseViewModel
                     if (checkOfferCount == 5)
                         await OnCancel();
 
-                    var offer = await ContentService.Instance(_accessToken).GetItemAsync<Offer>($"api/Offers/GetOffer?receiverName={_senderName}&senderName={_receiverName}");
+                    var offer = await ContentService.Instance(_accessToken).GetItemAsync<Offer>($"api/Offers/GetOffer?receiverName={_senderName}");
                     var isConfirmed = await CheckOffer(offer);
                     if (isConfirmed)
                     {
@@ -117,18 +124,18 @@ internal class OfferViewModel : BaseViewModel
         {
             if (offer.StatusCode == 200)
             {
-                if (offer.Status == 1)
+                if (offer.IsConfirmed == 1)
                 {
-                    _offerId = offer.OfferId;
 
-                    await ContentService.Instance(_accessToken).GetItemDataAsync<bool>($"api/Offers/DeleteOffer?offerId={_offerId}");
+                    await DeleteOffer(offer.OfferId);
 
                     cancelTokenSource.Cancel();
                     cancelTokenSource.Dispose();
                     return true;
                 }
 
-                await ContentService.Instance(_accessToken).GetItemDataAsync<bool>($"api/Offers/DeleteOffer?offerId={_offerId}");
+                await DeleteOffer(offer.OfferId);
+
 
                 return false;
             }
@@ -145,11 +152,20 @@ internal class OfferViewModel : BaseViewModel
         {
             while (true)
             {
-                var isSaved = await ContentService.Instance(_accessToken).GetItemDataAsync<bool>($"api/Offers/SetOffer?senderName={_senderName}&" +
-                    $"receiverName={_receiverName}&productPrice={ProductPrice}");
+                var offer = new Offer
+                {
+                    SenderName = _senderName,
+                    ReceiverName = _receiverName,
+                    ProductPrice = _productPrice,
+                    IsConfirmed = 1
+                };
+                OfferId = await ContentService.Instance(_accessToken).PostItemAsync(offer, "api/Offers/SetOffer");
 
-                if (isSaved)
+                if (OfferId > 0)
+                {
                     return true;
+                }
+                
 
                 if (_saveOfferCount == 5)
                 {
@@ -172,5 +188,11 @@ internal class OfferViewModel : BaseViewModel
         {
             return false;
         }
+    }
+
+    private async Task DeleteOffer(int? offerId)
+    {
+        if (offerId != null && offerId > 0)
+            await ContentService.Instance(_accessToken).DeleteItemAsync($"api/Offers/DeleteOffer?offerId={offerId}");
     }
 }
