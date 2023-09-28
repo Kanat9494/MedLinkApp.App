@@ -98,6 +98,7 @@ internal class OfferViewModel : BaseViewModel
                     if (isConfirmed)
                     {
                         var message = "Консультация";
+                        await DeleteOffer(OfferId);
                         await ContentService.Instance(_accessToken).GetItemDataAsync<bool>($"api/Balance/WithdrawalUserBalance?id={_userId}&" +
                             $"balance={ProductPrice}&description={message}&recipient={_receiverName}");
 
