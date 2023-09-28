@@ -69,7 +69,7 @@ internal class ChatViewModel : BaseViewModel
             timer.Stop();
             Task.Run(async () =>
             {
-                //DisconnectFirebase();
+                DisconnectFirebase();
                 await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
             });
         }
