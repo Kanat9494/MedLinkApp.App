@@ -86,7 +86,7 @@ internal class ChatViewModel : BaseViewModel
                 Content = SendingMessage
             };
 
-            var serializedMessage = JsonConvert.SerializeObject(message);
+            await ContentService.Instance(_accessToken).PostItemAsync<Message>(message, "api/Messages/SendMessage");
         }
         catch (Exception ex) { }
     }
