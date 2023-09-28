@@ -4,7 +4,13 @@ internal class ChatViewModel : BaseViewModel
 {
     public ChatViewModel()
     {
+        _cancelTokenSource = new CancellationTokenSource();
+        _cancelToken = _cancelTokenSource.Token;
 
+        Task.Run(async () =>
+        {
+            await ConnectToChat();
+        });
     }
 
     string _accessToken;
@@ -15,6 +21,8 @@ internal class ChatViewModel : BaseViewModel
     DateTime endTime;
     System.Timers.Timer timer;
     FirebaseClient _firebaseClient;
+    CancellationTokenSource _cancelTokenSource;
+    CancellationToken _cancelToken;
 
     public ObservableCollection<Message> Messages { get; set; }
 
@@ -69,7 +77,7 @@ internal class ChatViewModel : BaseViewModel
             timer.Stop();
             Task.Run(async () =>
             {
-                DisconnectFirebase();
+                DisconnectFromChat();
                 await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
             });
         }
@@ -87,8 +95,50 @@ internal class ChatViewModel : BaseViewModel
             };
 
             await ContentService.Instance(_accessToken).PostItemAsync<Message>(message, "api/Messages/SendMessage");
+
+            SendLocalMessage(message);
         }
         catch (Exception ex) { }
+    }
+
+    async Task ConnectToChat()
+    {
+        try
+        {
+            await Task.Delay(2000);
+
+            Task connectToChatTask = new Task(async () =>
+            {
+                await Task.Delay(2000);
+
+                while (true)
+                {
+                    if (_cancelToken.IsCancellationRequested)
+                        break;
+
+
+                    await Task.Delay(5000);
+                }
+            }, _cancelToken);
+
+            connectToChatTask.Start();
+        }
+        catch
+        {
+            _cancelTokenSource.Cancel();
+            _cancelTokenSource.Dispose();
+        }
+    }
+
+    async Task<Message> GetMessage()
+    {
+
+    }
+
+    void DisconnectFromChat()
+    {
+        _cancelTokenSource.Cancel();
+        _cancelTokenSource.Dispose();
     }
 }
 

@@ -2,6 +2,7 @@
 
 internal class Message
 {
+    public int MessageId { get; set; }
     public string SenderName { get; set; }
     public string ReceiverName { get; set; }
     public string Content { get; set; }

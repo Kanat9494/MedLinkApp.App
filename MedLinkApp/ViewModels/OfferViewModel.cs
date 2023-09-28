@@ -116,7 +116,11 @@ internal class OfferViewModel : BaseViewModel
 
             setOfferTask.Start();
         }
-        catch { }
+        catch 
+        {
+            cancelTokenSource.Cancel();
+            cancelTokenSource.Dispose();
+        }
     }
 
     async Task<bool> CheckOffer(Offer offer)
