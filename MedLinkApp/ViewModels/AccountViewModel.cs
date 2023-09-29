@@ -77,6 +77,6 @@ internal class AccountViewModel : BaseViewModel
 
     private async Task OnSetup()
     {
-        await Shell.Current.GoToAsync($"{nameof(SetupPage)}?{nameof(SetupViewModel.UserId)}={_userId}");
+        await Shell.Current.GoToAsync($"{nameof(SettingsPage)}?{nameof(SettingsViewModel.UserId)}={_userId}");
     }
 }

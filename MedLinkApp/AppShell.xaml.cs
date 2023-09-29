@@ -19,7 +19,7 @@ public partial class AppShell : Shell
         Routing.RegisterRoute(nameof(ImageBrowsePage), typeof(ImageBrowsePage));
         Routing.RegisterRoute(nameof(OfferPage), typeof(OfferPage));
         Routing.RegisterRoute(nameof(ResetPasswordPage), typeof(ResetPasswordPage));
-        Routing.RegisterRoute(nameof(SetupPage), typeof(SetupPage));
+        Routing.RegisterRoute(nameof(SettingsPage), typeof(SettingsPage));
 
     }
 }
