@@ -143,18 +143,55 @@
                 </Border>
 
                 <Border
-                StrokeShape="RoundRectangle 10"
-                Padding="25"
-                Margin="10, 20, 10, 0"
-                StrokeThickness="0">
+                    StrokeShape="RoundRectangle 10"
+                    Padding="25"
+                    Margin="10, 20, 10, 0"
+                    StrokeThickness="0">
                     <StackLayout
-                    Orientation="Horizontal">
+                        Orientation="Horizontal">
                         <Label
-                        Text="Выйти"
-                        VerticalOptions="Center"
-                        FontSize="20"
-                        FontAttributes="Bold"
-                        FontFamily="RegularFont"/>
+                            Text="Выйти"
+                            VerticalOptions="Center"
+                            FontSize="20"
+                            FontAttributes="Bold"
+                            FontFamily="RegularFont"/>
+
+                        <Border
+                            HorizontalOptions="EndAndExpand"
+                            HeightRequest="40"
+                            WidthRequest="40"
+                            StrokeThickness="0"
+                            BackgroundColor="{x:StaticResource White95}"
+                            Padding="10"
+                            StrokeShape="RoundRectangle 40">
+                            <Image
+                                Source="next_icon.png"
+                                />
+                        </Border>
+                    </StackLayout>
+
+                    <Border.GestureRecognizers>
+                        <TapGestureRecognizer
+                            NumberOfTapsRequired="1"
+                            Command="{Binding ExitCommand}"
+                            >
+                        </TapGestureRecognizer>
+                    </Border.GestureRecognizers>
+                </Border>
+
+                <Border
+                    StrokeShape="RoundRectangle 10"
+                    Padding="25"
+                    Margin="10, 20, 10, 0"
+                    StrokeThickness="0">
+                    <StackLayout
+                        Orientation="Horizontal">
+                        <Label
+                            Text="Выйти"
+                            VerticalOptions="Center"
+                            FontSize="20"
+                            FontAttributes="Bold"
+                            FontFamily="RegularFont"/>
 
                         <Border
                             HorizontalOptions="EndAndExpand"
@@ -180,7 +217,7 @@
                 </Border>
 
                 <Label
-                    Text="Версия 1.0.52"
+                    Text="Версия 1.0.53"
                     Margin="0, 20, 0, 0"
                     HorizontalOptions="Center"
                     FontFamily="RegularFont"
