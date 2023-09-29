@@ -150,7 +150,7 @@
                     <StackLayout
                         Orientation="Horizontal">
                         <Label
-                            Text="Выйти"
+                            Text="Настройки"
                             VerticalOptions="Center"
                             FontSize="20"
                             FontAttributes="Bold"
@@ -217,7 +217,7 @@
                 </Border>
 
                 <Label
-                    Text="Версия 1.0.53"
+                    Text="Версия 1.0.54"
                     Margin="0, 20, 0, 0"
                     HorizontalOptions="Center"
                     FontFamily="RegularFont"
