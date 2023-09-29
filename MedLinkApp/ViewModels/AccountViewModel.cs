@@ -17,6 +17,7 @@ internal class AccountViewModel : BaseViewModel
         });
 
         ExitCommand = new Command(OnExit);
+        SetupCommand = new AsyncRelayCommand(OnSetup);
 
         Task.Run(async () =>
         {
@@ -29,6 +30,8 @@ internal class AccountViewModel : BaseViewModel
 
     public Command RefreshAccountInfo { get; }
     public Command ExitCommand { get; }
+    public ICommand SetupCommand { get; }
+
 
     private bool _isRefreshing;
     public bool IsRefreshing
@@ -71,4 +74,9 @@ internal class AccountViewModel : BaseViewModel
 
     void OnExit()
         => System.Diagnostics.Process.GetCurrentProcess().Kill();
+
+    private async Task OnSetup()
+    {
+        await Shell.Current.GoToAsync($"{nameof(SetupPage)}?{nameof(SetupViewModel.UserId)}={_userId}");
+    }
 }
