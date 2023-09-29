@@ -132,14 +132,14 @@ internal class OfferViewModel : BaseViewModel
                 if (offer.IsConfirmed == 1)
                 {
 
-                    //await DeleteOffer(offer.OfferId);
+                    await DeleteOffer(offer.OfferId);
 
                     cancelTokenSource.Cancel();
                     cancelTokenSource.Dispose();
                     return true;
                 }
 
-                //await DeleteOffer(offer.OfferId);
+                await DeleteOffer(offer.OfferId);
 
 
                 return false;

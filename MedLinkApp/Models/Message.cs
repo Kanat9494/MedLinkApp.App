@@ -8,4 +8,5 @@ internal class Message : BaseResponse
     public string Content { get; set; }
     public string AudioUrl { get; set; }
     public string ImageUrl { get; set; }
+    public byte IsRead { get; set; }
 }
