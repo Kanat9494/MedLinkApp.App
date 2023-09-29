@@ -6,11 +6,27 @@ internal class ChatViewModel : BaseViewModel
     {
         _cancelTokenSource = new CancellationTokenSource();
         _cancelToken = _cancelTokenSource.Token;
+        _abortMessage = "Вы отменили";
+
 
         Task.Run(async () =>
         {
+            _accessToken = await SecureStorage.Default.GetAsync("UserAccessToken");
+            _senderName = await SecureStorage.Default.GetAsync("UserName");
+            _receiverName = await SecureStorage.Default.GetAsync("DoctorAccountName");
+            DoctorFullName = await SecureStorage.Default.GetAsync("DoctorFullName");
             await ConnectToChat();
-        });
+        }).Wait();
+
+        Messages = new ObservableCollection<Message>();
+
+        SendMessage = new AsyncRelayCommand(OnSendMessage);
+        OpenAuidioMessagePage = new AsyncRelayCommand(ToAudioMessagePage);
+        OpenPhotoMessagePage = new AsyncRelayCommand(PickImage);
+        OpenPhotoMessageCommand = new AsyncRelayCommand<string>(OnOpenPhotoMessage);
+        AbortChatCommand = new AsyncRelayCommand(OnAbortChat);
+
+        StartCountDownTimer();
     }
 
     string _accessToken;
@@ -142,6 +158,89 @@ internal class ChatViewModel : BaseViewModel
         _cancelTokenSource.Cancel();
         _cancelTokenSource.Dispose();
     }
+
+    private void SendLocalMessage(Message message)
+    {
+        if (string.IsNullOrEmpty(message.Content))
+            return;
+
+        #region сохранение фото в локальном хранилище
+        //if (message.ImageUrl != null)
+        //{
+        //    Task.Run(async () =>
+        //    {
+        //        var imabeBytes = await FileHelper.DownloadImageBytesAsync(message.ImageUrl);
+        //        if (imabeBytes != null)
+        //        {
+        //            var c = await FileHelper.SaveFileAsync(imabeBytes);
+        //            message.ImageUrl = c;
+        //        }
+        //    }).Wait();
+        //}
+        #endregion
+
+        Messages.Add(message);
+        SendingMessage = string.Empty;
+    }
+
+    private async Task ToAudioMessagePage()
+        => await Shell.Current.GoToAsync(nameof(AudioMessagePage));
+
+    private async Task OnAbortChat()
+    {
+        await Shell.Current.DisplayAlert("Отмена", _abortMessage, "Ок");
+        DisconnectFromChat();
+        await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
+    }
+
+    private async Task OnOpenPhotoMessage(string imageUrl)
+        => await Shell.Current.GoToAsync($"{nameof(ImageBrowsePage)}?{nameof(ImageBrowseViewModel.ImageUrl)}={imageUrl}");
+
+    #region SendImage
+    async Task PickImage()
+    {
+        var result = await FilePicker.PickAsync(new PickOptions
+        {
+            PickerTitle = "Выберите изображение",
+            FileTypes = FilePickerFileType.Images
+        });
+
+        if (result == null)
+            return;
+
+        var stream = await result.OpenReadAsync();
+
+        var imageBytes = FileHelper.StreamTyByte(stream);
+        string accessToken = await SecureStorage.Default.GetAsync("UserAccessToken");
+
+        var imageUrl = MedLinkConstants.FILE_BASE_PATH + "/" + await FileService.UploadFile(imageBytes, accessToken);
+
+        //await OnSendMessage("test", "tomy", "тестовый месседж", $"{MedLinkConstants.FILE_BASE_PATH}/{filePath}");
+        await SendImageMessage(imageUrl);
+    }
+
+    private async Task SendImageMessage(string imageUrl)
+    {
+        try
+        {
+            var message = new Message
+            {
+                SenderName = _senderName,
+                ReceiverName = _receiverName,
+                Content = "Фото",
+                ImageUrl = imageUrl
+            };
+
+            await ContentService.Instance(_accessToken).PostItemAsync<Message>(message, "api/Messages/SendMessage");
+
+            SendLocalMessage(message);
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+    #endregion
 }
 
 
@@ -217,7 +316,7 @@ internal class ChatViewModel : BaseViewModel
 //        get => _chatTimer;
 //        set => SetProperty(ref _chatTimer, value);
 //    }
-    
+
 //    private string _doctorFullName;
 //    public string DoctorFullName
 //    {
