@@ -28,7 +28,12 @@ public partial class SettingsPage : ContentPage
                     {
                         HorizontalOptions = LayoutOptions.StartAndExpand,
                         TextColor = Colors.Purple
-                    }.Font(size: 19)
+                    }.Font(size: 19).Text("Ночной режим"),
+                    new CheckBox
+                    {
+                        HorizontalOptions = LayoutOptions.EndAndExpand,
+                        Color = Colors.Purple
+                    }.Bind(CheckBox.IsCheckedProperty, static (SettingsViewModel vm) => vm.IsNightTheme)
                 }
             }.Margins(10, 10, 10, 10));
 

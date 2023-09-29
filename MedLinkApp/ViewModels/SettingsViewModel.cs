@@ -13,6 +13,13 @@ internal class SettingsViewModel : BaseViewModel, IQueryAttributable
         get => _userId;
         set => SetProperty(ref _userId, value);
     }
+    private bool _isNightTheme;
+    public bool IsNightTheme
+    {
+        get => _isNightTheme;
+        set => SetProperty(ref _isNightTheme, value);
+    }
+
 
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
