@@ -155,6 +155,19 @@
                         FontSize="20"
                         FontAttributes="Bold"
                         FontFamily="RegularFont"/>
+
+                        <Border
+                            HorizontalOptions="EndAndExpand"
+                            HeightRequest="40"
+                            WidthRequest="40"
+                            StrokeThickness="0"
+                            BackgroundColor="{x:StaticResource White95}"
+                            Padding="10"
+                            StrokeShape="RoundRectangle 40">
+                            <Image
+                                Source="next_icon.png"
+                                />
+                        </Border>
                     </StackLayout>
 
                     <Border.GestureRecognizers>
@@ -167,7 +180,7 @@
                 </Border>
 
                 <Label
-                    Text="Версия 1.0.51"
+                    Text="Версия 1.0.52"
                     Margin="0, 20, 0, 0"
                     HorizontalOptions="Center"
                     FontFamily="RegularFont"
