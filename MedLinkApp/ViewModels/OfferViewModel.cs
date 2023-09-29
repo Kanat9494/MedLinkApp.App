@@ -64,7 +64,7 @@ internal class OfferViewModel : BaseViewModel
         cancelTokenSource.Cancel();
         cancelTokenSource.Dispose();
 
-        await DeleteOffer(OfferId);
+        //await DeleteOffer(OfferId);
 
         await Shell.Current.GoToAsync($"//{nameof(HomePage)}");
     }
@@ -98,7 +98,7 @@ internal class OfferViewModel : BaseViewModel
                     if (isConfirmed)
                     {
                         var message = "Консультация";
-                        await DeleteOffer(OfferId);
+                        //await DeleteOffer(OfferId);
                         await ContentService.Instance(_accessToken).GetItemDataAsync<bool>($"api/Balance/WithdrawalUserBalance?id={_userId}&" +
                             $"balance={ProductPrice}&description={message}&recipient={_receiverName}");
 
@@ -132,14 +132,14 @@ internal class OfferViewModel : BaseViewModel
                 if (offer.IsConfirmed == 1)
                 {
 
-                    await DeleteOffer(offer.OfferId);
+                    //await DeleteOffer(offer.OfferId);
 
                     cancelTokenSource.Cancel();
                     cancelTokenSource.Dispose();
                     return true;
                 }
 
-                await DeleteOffer(offer.OfferId);
+                //await DeleteOffer(offer.OfferId);
 
 
                 return false;
