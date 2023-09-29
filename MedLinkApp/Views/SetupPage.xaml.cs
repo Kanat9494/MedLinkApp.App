@@ -19,7 +19,15 @@ public partial class SetupPage : ContentPage
 		{
 			await Task.Delay(1000);
 
-			contentSL.Add(new Label().Bind(Label.TextProperty, static (SetupViewModel vm) => vm.UserId));
+            contentSL.Add(new StackLayout
+			{
+				Orientation = StackOrientation.Horizontal,
+				Children =
+				{
+					new Label().Text("Test")
+				}
+			}.Margins(10, 10, 10, 10));
+
 		});
 	}
 }
