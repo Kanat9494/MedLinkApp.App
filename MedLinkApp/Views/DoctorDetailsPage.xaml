@@ -25,7 +25,7 @@
                 <Border
                     StrokeThickness="0"
                     StrokeShape="RoundRectangle 0, 0, 10, 10"
-                    BackgroundColor="{x:StaticResource Green40}">
+                    BackgroundColor="{x:StaticResource Green35}">
                     <StackLayout
                         Margin="0">
                         <Border

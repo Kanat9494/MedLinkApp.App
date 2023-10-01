@@ -6,7 +6,7 @@
     xmlns:local="clr-namespace:MedLinkApp"
     xmlns:views="clr-namespace:MedLinkApp.Views"
     Shell.FlyoutBehavior="Disabled"
-    Shell.BackgroundColor="{x:StaticResource Green40}">
+    Shell.BackgroundColor="{x:StaticResource Green35}">
 
     <ShellContent
         Shell.NavBarIsVisible="False"

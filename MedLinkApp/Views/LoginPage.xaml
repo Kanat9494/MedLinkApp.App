@@ -9,7 +9,7 @@
     >
     
     <ContentPage.Behaviors>
-        <toolkit:StatusBarBehavior StatusBarColor="{x:StaticResource Green35}"/>
+        <toolkit:StatusBarBehavior StatusBarColor="{x:StaticResource Green25}"/>
     </ContentPage.Behaviors>
 
     <Grid Margin="0, -2, 0, 0">

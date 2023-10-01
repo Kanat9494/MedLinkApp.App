@@ -149,7 +149,7 @@ public partial class HomePage : ContentPage
 
                     new Label
                     {
-                        TextColor = Color.FromArgb("#00e600")
+                        TextColor = Color.FromArgb("#00b300")
                     }.Text("Ваше здоровье в надежных руках").Font(bold: true, family: "RegularFont")
                 }
             }.Margins(10, 10, 10, 0).Bind(StackLayout.IsVisibleProperty, static (HomeViewModel vm) => !vm.IsBusy), 0, 0);
@@ -214,7 +214,7 @@ public partial class HomePage : ContentPage
                                         new Label
                                         {
                                             VerticalOptions = LayoutOptions.CenterAndExpand,
-                                            TextColor = Color.FromArgb("#00e600"),
+                                            TextColor = Color.FromArgb("#00b300"),
                                         }.Bind(Label.TextProperty, "IsOnline").Margins(0, 0, 0, 0).Font(family: "RegularFont"),
 
                                         new Label

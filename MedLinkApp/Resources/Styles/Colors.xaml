@@ -65,6 +65,12 @@
     <Color x:Key="Pink100">#AB119D</Color>
     <Color x:Key="Red100">#ff471a</Color>
     <Color x:Key="Green35">#00b300</Color>
+    <Color x:Key="Green30">#009900</Color>
+
+    <Color x:Key="Green25">#008000</Color>
+
+
+
 
 
 </ResourceDictionary>
