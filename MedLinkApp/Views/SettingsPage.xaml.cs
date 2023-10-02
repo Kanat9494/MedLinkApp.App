@@ -45,8 +45,144 @@ public partial class SettingsPage : ContentPage
 
             contentSL.Add(CreateBoxView());
 
-            contentSL.Add(new Label().Text("Test"));
+            contentSL.Add(new StackLayout
+            {
+                Orientation = StackOrientation.Horizontal,
+                Children =
+                {
+                    new Label
+                    {
+                        HorizontalOptions = LayoutOptions.StartAndExpand,
+                        TextColor = Colors.Purple,
+                        VerticalOptions = LayoutOptions.Center
+                    }.Font(size: 19).Text("Ночной режим"),
+                    new Switch
+                    {
+                        HorizontalOptions = LayoutOptions.EndAndExpand,
+                        VerticalOptions = LayoutOptions.Center
+                    }.Bind(Switch.IsToggledProperty, static (SettingsViewModel vm) => vm.IsNightTheme)
+                }
+            }.Margins(10, 10, 10, 10));
 
+            contentSL.Add(CreateBoxView());
+
+            await Task.Delay(1000);
+
+            contentSL.Add(new StackLayout
+            {
+                Orientation = StackOrientation.Horizontal,
+                Children =
+                {
+                    new Label
+                    {
+                        HorizontalOptions = LayoutOptions.StartAndExpand,
+                        TextColor = Colors.Purple,
+                        VerticalOptions = LayoutOptions.Center
+                    }.Font(size: 19).Text("Ночной режим"),
+                    new Switch
+                    {
+                        HorizontalOptions = LayoutOptions.EndAndExpand,
+                        VerticalOptions = LayoutOptions.Center
+                    }.Bind(Switch.IsToggledProperty, static (SettingsViewModel vm) => vm.IsNightTheme)
+                }
+            }.Margins(10, 10, 10, 10));
+
+            contentSL.Add(CreateBoxView());
+
+            contentSL.Add(new StackLayout
+            {
+                Orientation = StackOrientation.Horizontal,
+                Children =
+                {
+                    new Label
+                    {
+                        HorizontalOptions = LayoutOptions.StartAndExpand,
+                        TextColor = Colors.Purple,
+                        VerticalOptions = LayoutOptions.Center
+                    }.Font(size: 19).Text("Ночной режим"),
+                    new Switch
+                    {
+                        HorizontalOptions = LayoutOptions.EndAndExpand,
+                        VerticalOptions = LayoutOptions.Center
+                    }.Bind(Switch.IsToggledProperty, static (SettingsViewModel vm) => vm.IsNightTheme)
+                }
+            }.Margins(10, 10, 10, 10));
+
+            contentSL.Add(CreateBoxView());
+
+            await Task.Delay(1000);
+
+
+            contentSL.Add(new StackLayout
+            {
+                Orientation = StackOrientation.Horizontal,
+                Children =
+                {
+                    new Label
+                    {
+                        HorizontalOptions = LayoutOptions.StartAndExpand,
+                        TextColor = Colors.Purple,
+                        VerticalOptions = LayoutOptions.Center
+                    }.Font(size: 19).Text("Ночной режим"),
+                    new Switch
+                    {
+                        HorizontalOptions = LayoutOptions.EndAndExpand,
+                        VerticalOptions = LayoutOptions.Center
+                    }.Bind(Switch.IsToggledProperty, static (SettingsViewModel vm) => vm.IsNightTheme)
+                }
+            }.Margins(10, 10, 10, 10));
+
+            contentSL.Add(CreateBoxView());
+
+            contentSL.Add(new StackLayout
+            {
+                Orientation = StackOrientation.Horizontal,
+                Children =
+                {
+                    new Label
+                    {
+                        HorizontalOptions = LayoutOptions.StartAndExpand,
+                        TextColor = Colors.Purple,
+                        VerticalOptions = LayoutOptions.Center
+                    }.Font(size: 19).Text("Ночной режим"),
+                    new Switch
+                    {
+                        HorizontalOptions = LayoutOptions.EndAndExpand,
+                        VerticalOptions = LayoutOptions.Center
+                    }.Bind(Switch.IsToggledProperty, static (SettingsViewModel vm) => vm.IsNightTheme)
+                }
+            }.Margins(10, 10, 10, 10));
+
+            contentSL.Add(CreateBoxView());
+
+            for(int i = 0; i < 10; i++)
+            {
+                if (i % 2 == 0)
+                    await Task.Delay(1000);
+                else
+                {
+                    contentSL.Add(new StackLayout
+                    {
+                        Orientation = StackOrientation.Horizontal,
+                        Children =
+                {
+                    new Label
+                    {
+                        HorizontalOptions = LayoutOptions.StartAndExpand,
+                        TextColor = Colors.Purple,
+                        VerticalOptions = LayoutOptions.Center
+                    }.Font(size: 19).Text("Ночной режим"),
+                    new Switch
+                    {
+                        HorizontalOptions = LayoutOptions.EndAndExpand,
+                        VerticalOptions = LayoutOptions.Center
+                    }.Bind(Switch.IsToggledProperty, static (SettingsViewModel vm) => vm.IsNightTheme)
+                }
+                    }.Margins(10, 10, 10, 10));
+
+                    contentSL.Add(CreateBoxView());
+                }
+            }
 
         });
     }
