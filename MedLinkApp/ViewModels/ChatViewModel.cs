@@ -163,6 +163,14 @@ internal class ChatViewModel : BaseViewModel
     {
         if (string.IsNullOrEmpty(message.Content))
             return;
+        else if (message.Content.Equals(MedLinkConstants.PHOTO_MESSAGE))
+        {
+            message.Content = "";
+            Messages.Add(message);
+            SendingMessage = string.Empty;
+            return;
+        }
+
 
         #region сохранение фото в локальном хранилище
         //if (message.ImageUrl != null)
@@ -210,16 +218,17 @@ internal class ChatViewModel : BaseViewModel
 
         var stream = await result.OpenReadAsync();
 
+        var imagePath = result.FullPath;
         var imageBytes = FileHelper.StreamTyByte(stream);
         string accessToken = await SecureStorage.Default.GetAsync("UserAccessToken");
 
-        var imageUrl = MedLinkConstants.FILE_BASE_PATH + "/" + await FileService.UploadFile(imageBytes, accessToken);
+        //var imageUrl = MedLinkConstants.FILE_BASE_PATH + "/" + await FileService.UploadFile(imageBytes, accessToken);
 
         //await OnSendMessage("test", "tomy", "тестовый месседж", $"{MedLinkConstants.FILE_BASE_PATH}/{filePath}");
-        await SendImageMessage(imageUrl);
+        await SendImageMessage(imagePath, imageBytes);
     }
 
-    private async Task SendImageMessage(string imageUrl)
+    private async Task SendImageMessage(string imagePath, byte[] imageData)
     {
         try
         {
@@ -227,8 +236,9 @@ internal class ChatViewModel : BaseViewModel
             {
                 SenderName = _senderName,
                 ReceiverName = _receiverName,
-                Content = "Фото",
-                ImageUrl = imageUrl
+                Content = MedLinkConstants.PHOTO_MESSAGE,
+                ImageData = imageData,
+                ImageUrl = imagePath
             };
 
             await ContentService.Instance(_accessToken).PostItemAsync<Message>(message, "api/Messages/SendMessage");
