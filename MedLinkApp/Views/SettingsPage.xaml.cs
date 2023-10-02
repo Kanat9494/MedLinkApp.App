@@ -43,6 +43,20 @@ public partial class SettingsPage : ContentPage
                 }
             }.Margins(10, 10, 10, 10));
 
+            contentSL.Add(CreateBoxView());
+
+            contentSL.Add(new Label().Text("Test"));
+
+
         });
+    }
+
+    BoxView CreateBoxView()
+    {
+        return new BoxView
+        {
+            HorizontalOptions = LayoutOptions.FillAndExpand,
+            Color = Colors.Purple
+        }.Margins(0, 0, 0, 10).Height(1);
     }
 }
