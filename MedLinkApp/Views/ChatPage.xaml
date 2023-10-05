@@ -45,7 +45,7 @@
                             <Image.GestureRecognizers>
                                 <TapGestureRecognizer
                                             NumberOfTapsRequired="1"
-                                            Command="{Binding OpenPhotoMessageCommand}"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:ChatViewModel}}, Path=OpenPhotoMessageCommand}"
                                             CommandParameter="{Binding ImageUrl}">
                                 </TapGestureRecognizer>
                             </Image.GestureRecognizers>
@@ -80,7 +80,6 @@
                             FontFamily="RegularFont"/>
                         <Image
                             Source="{Binding ImageUrl}"
-                            WidthRequest="200"
                             >
                             <Image.GestureRecognizers>
                                 <TapGestureRecognizer
