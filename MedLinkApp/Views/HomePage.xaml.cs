@@ -113,11 +113,11 @@ public partial class HomePage : ContentPage
 
             #endregion
 
-            await Task.Delay(2000);
             _viewModel.accessToken = await SecureStorage.Default.GetAsync("UserAccessToken");
 
 
             await _viewModel.GetAllDoctors();
+            await Task.Delay(2000);
 
             #region content
 
